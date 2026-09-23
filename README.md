@@ -21,7 +21,7 @@ quantum-physics-lab/
 
 | Module | Status | Physics | Qubits |
 |---|---|---|---|
-| _(none yet)_ | | | |
+| [Schwinger model](modules/schwinger_model/README.md) | simulator done, hardware run pending | pair production from the vacuum (lattice QED) | 4 |
 
 Each module directory contains:
 - A `README.md` explaining the physics in plain language, the Hamiltonian, and how it maps onto qubits
