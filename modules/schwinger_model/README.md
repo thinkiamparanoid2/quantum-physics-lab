@@ -51,6 +51,25 @@ This follows the construction from [Muschik et al., *New J. Phys.* 19, 103020 (2
 the theory behind the first experimental realization on a 4-qubit trapped-ion computer in
 [Martinez et al., *Nature* 534, 516 (2016)](https://doi.org/10.1038/nature18318).
 
+## Real-time animation (PennyLane)
+
+[`animate.py`](animate.py) is a standalone, download-and-run visualization built on
+PennyLane instead of Qiskit: a live matplotlib window showing the particle-number density
+at each site rising and falling as pairs are created and reabsorbed, plus the running
+total. It also saves a GIF.
+
+```bash
+pip install -r ../../requirements.txt
+python animate.py                                          # defaults, live window + GIF
+python animate.py --sites 6 --mass 0.3 --coupling 1.0 --time 8 --frames 80
+python animate.py --no-show                                 # save the GIF only, no window
+```
+
+This is a second, independent implementation of the same physics — built directly in
+PennyLane's operator language rather than converting the Qiskit version — so its agreement
+with the Qiskit Hamiltonian (checked in `tests/test_schwinger_model_pennylane.py`) is a real
+cross-validation, not just a restatement of the same code.
+
 ## Correctness check
 
 [`tests/test_schwinger_model.py`](../../tests/test_schwinger_model.py):
@@ -59,8 +78,18 @@ the theory behind the first experimental realization on a 4-qubit trapped-ion co
 - The particle-number operator has eigenvalues exactly {0, 1}, and the bare vacuum has zero
   particles everywhere
 
+[`tests/test_schwinger_model_pennylane.py`](../../tests/test_schwinger_model_pennylane.py):
+the PennyLane Hamiltonian and the Qiskit Hamiltonian agree exactly (up to the constant
+identity term PennyLane drops, since it only contributes an unobservable global phase).
+
 [`run.py`](run.py) additionally compares the Trotterized-circuit evolution against exact
 matrix-exponential evolution (`engine.exact_evolve`) and plots both.
+
+**A note on framework conventions:** Qiskit's `SparsePauliOp.to_matrix()` and PennyLane's
+`qml.matrix(..., wire_order=...)` disagree on which qubit is "most significant" in the
+matrix representation — this bit us once (see `test_schwinger_model_pennylane.py`) before
+reversing the wire order fixed it. Worth knowing if you ever compare the two frameworks
+directly elsewhere in this repo.
 
 ## What to expect
 
