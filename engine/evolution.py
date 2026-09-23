@@ -40,7 +40,13 @@ def trotter_circuit(
 
     circuit = QuantumCircuit(hamiltonian.num_qubits)
     circuit.append(evolution_gate, range(hamiltonian.num_qubits))
-    return circuit
+
+    # IMPORTANT: PauliEvolutionGate.to_matrix() returns the *exact* matrix exponential,
+    # so Statevector.evolve()/Operator() on the un-decomposed circuit silently bypasses
+    # the Trotter approximation entirely. Decomposing once expands it into the actual
+    # basis-gate sequence the synthesis method produces, which is what carries the
+    # Trotter error (and what would actually run on hardware).
+    return circuit.decompose()
 
 
 def trotter_steps_circuit(

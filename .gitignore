@@ -12,3 +12,4 @@ qiskit-ibm.json
 
 # large hardware-run artifacts (keep plots/summaries, not raw job dumps)
 hardware_runs/**/raw/
+.venv/
