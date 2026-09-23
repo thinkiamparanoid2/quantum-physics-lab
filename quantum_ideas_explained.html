@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Physics Lab — Project Guide</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --bg-main: #090d16;
+      --bg-card: #111827;
+      --bg-card-sub: #172033;
+      --border-color: #1f2d47;
+      --text-main: #f3f4f6;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    @keyframes pulse-glow { 0%,100%{opacity:.6; transform: scale(1);} 50%{opacity:1; transform: scale(1.03);} }
+    @keyframes spin-slow { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    .anim-pulse { animation: pulse-glow 2.5s ease-in-out infinite; }
+    .anim-float { animation: float 3s ease-in-out infinite; }
+    .anim-spin { animation: spin-slow 12s linear infinite; }
+
+    .idea-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    }
+    .idea-card:hover {
+      border-color: #38bdf860;
+      box-shadow: 0 8px 30px -4px rgba(56, 189, 248, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .nav-pill {
+      background: #111827aa;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+    .nav-pill:hover {
+      background: #1e293b;
+      color: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+    }
+
+    .viz-box {
+      background: #0d1322;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.6);
+    }
+
+    .tag-easy { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+    .tag-medium { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+    .tag-hard { background: rgba(251, 113, 133, 0.15); color: #fb7185; border: 1px solid rgba(251, 113, 133, 0.3); }
+    .tag-qubits { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    
+    .callout-box {
+      background: var(--bg-card-sub);
+      border-left: 3px solid var(--accent-cyan);
+    }
+    .warning-box {
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+    }
+    .success-box {
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+    .math-formula {
+      font-family: "Cambria Math", "Times New Roman", serif;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-black pb-20">
+
+  <!-- HERO SECTION -->
+  <div class="relative overflow-hidden border-b border-[#1f2d47] bg-gradient-to-b from-[#0f172a] via-[#090d16] to-[#090d16]">
+    <div class="absolute inset-0 bg-[radial-gradient(#38bdf815_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+    
+    <div class="max-w-5xl mx-auto px-6 pt-16 pb-12 text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-6 bg-cyan-950/60 border border-cyan-500/30 text-cyan-300">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+        Interactive Portfolio Guide
+      </div>
+      
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-200 to-purple-400">
+        Quantum Physics Lab
+      </h1>
+      <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-medium mb-3">
+        13 Quantum Simulation Project Ideas Explained Simply
+      </p>
+      <p class="text-sm text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        Step-by-step physical intuition, real-world analogies, and live interactive visual models.
+      </p>
+    </div>
+
+    <!-- Floating Atoms Decoration -->
+    <div class="absolute top-8 left-10 text-3xl anim-float opacity-20 pointer-events-none">⚛️</div>
+    <div class="absolute top-24 right-14 text-2xl anim-float opacity-20 pointer-events-none" style="animation-delay:1s;">🌌</div>
+    <div class="absolute bottom-6 left-1/4 text-2xl anim-float opacity-15 pointer-events-none" style="animation-delay:1.5s;">🔬</div>
+  </div>
+
+  <!-- STICKY NAVBAR -->
+  <div class="sticky top-0 z-50 border-b border-[#1f2d47] bg-[#090d16]/90 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-4 py-2.5 flex flex-wrap gap-1.5 justify-center items-center">
+      <a href="#umbrella" class="nav-pill text-xs px-3 py-1.5 rounded-full font-medium">🏗️ Structure</a>
+      <a href="#idea1" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#1 Tunneling</a>
+      <a href="#idea2" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#2 Neutrino</a>
+      <a href="#idea3" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#3 Spin Chain</a>
+      <a href="#idea4" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#4 Schwinger</a>
+      <a href="#idea5" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#5 Black Hole</a>
+      <a href="#idea6" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#6 Deuteron</a>
+      <a href="#idea7" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#7 Time Crystal</a>
+      <a href="#idea8" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#8 Photosynthesis</a>
+      <a href="#idea9" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#9 Universe</a>
+      <a href="#idea10" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#10 Toric Code</a>
+      <a href="#idea11" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#11 Chaos</a>
+      <a href="#idea12" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#12 Trotter</a>
+      <a href="#idea13" class="nav-pill text-xs px-2.5 py-1.5 rounded-full font-medium">#13 Sound</a>
+      <a href="#paths" class="nav-pill text-xs px-3 py-1.5 rounded-full font-medium text-cyan-400 border-cyan-500/40">🗺️ Paths</a>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto px-6 py-8 space-y-12">
+
+    <!-- ===== THE BIG PICTURE ===== -->
+    <section id="umbrella">
+      <div class="idea-card rounded-2xl p-6 sm:p-8">
+        <h2 class="text-2xl font-bold mb-2 text-cyan-300 flex items-center gap-2">
+          <span>🏗️</span> The Big Picture: "Quantum Physics Lab"
+        </h2>
+        <p class="text-sm text-slate-300 mb-6">
+          All 13 ideas can live inside one clean software architecture — like a physics museum sharing a common simulation engine.
+        </p>
+
+        <div class="viz-box mb-6">
+          <div class="text-center text-xs font-semibold mb-4 text-cyan-400 tracking-wider uppercase">Unified Repository Architecture</div>
+          <div class="flex flex-col items-center gap-3">
+            <div class="px-5 py-2.5 rounded-xl font-mono text-sm font-bold bg-cyan-950 text-cyan-200 border border-cyan-500/50 shadow-lg shadow-cyan-950/50">
+              📁 quantum-physics-lab/
+            </div>
+            <div class="flex flex-wrap justify-center gap-3 mt-1 w-full">
+              <div class="flex-1 min-w-[140px] p-3 rounded-xl text-xs font-mono bg-[#172033] border border-[#243048] text-center">
+                <div class="text-cyan-400 font-bold mb-1">⚙️ engine/</div>
+                <div class="text-slate-400">Trotter, noise, shared math</div>
+              </div>
+              <div class="flex-1 min-w-[140px] p-3 rounded-xl text-xs font-mono bg-[#172033] border border-[#243048] text-center">
+                <div class="text-purple-400 font-bold mb-1">🧩 modules/</div>
+                <div class="text-slate-400">13 physics scenarios</div>
+              </div>
+              <div class="flex-1 min-w-[140px] p-3 rounded-xl text-xs font-mono bg-[#172033] border border-[#243048] text-center">
+                <div class="text-emerald-400 font-bold mb-1">🖥️ hardware_runs/</div>
+                <div class="text-slate-400">IBM Quantum runs + ZNE</div>
+              </div>
+              <div class="flex-1 min-w-[140px] p-3 rounded-xl text-xs font-mono bg-[#172033] border border-[#243048] text-center">
+                <div class="text-amber-400 font-bold mb-1">🌐 app/</div>
+                <div class="text-slate-400">Streamlit dashboard</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="p-4 rounded-xl bg-[#172033] border border-[#243048]">
+            <div class="font-semibold text-cyan-300 mb-1.5 flex items-center gap-2">
+              <span>🔄</span> The Shared Engine Recipe
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              Every quantum simulation follows the universal cycle: 
+              <strong class="text-cyan-200">Prepare State</strong> &rarr; 
+              <strong class="text-purple-200">Apply <i>e</i><sup>-iHt</sup> (Trotter Evolution)</strong> &rarr; 
+              <strong class="text-emerald-200">Measure Observables</strong>.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-[#172033] border border-[#243048]">
+            <div class="font-semibold text-emerald-300 mb-1.5 flex items-center gap-2">
+              <span>✅</span> What Makes Each Module Stand Out
+            </div>
+            <ul class="text-slate-300 text-xs space-y-1 list-disc pl-4">
+              <li>Exact classical benchmark (proves math is correct)</li>
+              <li>Real IBM quantum backend run with noise mitigation</li>
+              <li>Interactive slider for user experimentation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 1: QUANTUM TUNNELING ===== -->
+    <section id="idea1" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">01.</span> Quantum Tunneling / Wavepacket Simulator
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-easy text-xs font-semibold px-2.5 py-0.5 rounded-full">★★ Easy</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">5–8 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Throw a tennis ball at a brick wall: it bounces back every time. In the quantum world, if the wall is thin enough, the ball's probability wave leaks through — appearing on the other side without breaking the wall! <strong>This powers the Sun's nuclear fusion and scanning tunneling microscopes (STMs).</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Live Wavepacket Split Animation</div>
+          <canvas id="tunnelCanvas" width="600" height="180" class="w-full rounded-lg" style="max-height:180px;"></canvas>
+          <div class="flex justify-center gap-6 mt-3 text-xs text-slate-400">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span> Incident Wave</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-amber-500/50 border border-amber-400 inline-block"></span> Energy Barrier</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-cyan-400/50 inline-block"></span> Tunneled Wave (~30%)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Quantum Technique: Split-Operator Method</div>
+          <ol class="list-decimal pl-4 space-y-1 text-slate-300">
+            <li>Discretize 1D space into 2<sup><i>n</i></sup> grid points using <i>n</i> qubits.</li>
+            <li>Apply potential energy <i>V</i>(<i>x</i>) as phase rotations in position space.</li>
+            <li>Apply <strong>QFT (Quantum Fourier Transform)</strong> &rarr; switch to momentum space.</li>
+            <li>Apply kinetic energy <i>p</i><sup>2</sup>/2<i>m</i> phases &rarr; inverse QFT back to position.</li>
+          </ol>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">💡 Portfolio Highlight</div>
+          <p class="text-slate-300 text-xs leading-relaxed mb-2">
+            The QFT is used as an intuitive physical tool (converting position to momentum like an optical prism), rather than just an abstract algorithm.
+          </p>
+          <div class="warning-box p-2.5 rounded-lg text-xs text-amber-200">
+            ⚠️ <strong>Hardware Limit:</strong> QFT circuits are deep and accumulate noise rapidly. Run 1–2 time steps on real IBM chips.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 2: NEUTRINO OSCILLATIONS ===== -->
+    <section id="idea2" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">02.</span> Neutrino Oscillation Simulator
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-easy text-xs font-semibold px-2.5 py-0.5 rounded-full">★★ Basic</span>
+            <span class="tag-hard text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★★ Collective</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">1–16 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Imagine a chameleon that changes color in a steady rhythm as it walks: green &rarr; blue &rarr; red &rarr; green. Neutrinos do this with their quantum flavors (&nu;<sub>e</sub>, &nu;<sub>&mu;</sub>, &nu;<sub>&tau;</sub>). This won the <strong>2015 Nobel Prize</strong> because it proved neutrinos have mass.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Flavor Probability vs. Distance Traveled</div>
+          <div id="neutrinoViz" class="flex items-end justify-center gap-1" style="height:120px;"></div>
+          <div class="flex justify-center gap-5 mt-3 text-xs text-slate-400">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span> &nu;<sub>e</sub> (Electron)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span> &nu;<sub>&mu;</sub> (Muon)</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block"></span> &nu;<sub>&tau;</sub> (Tau)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 How It Works</div>
+          <ul class="list-disc pl-4 space-y-1 text-slate-300">
+            <li><strong>2 Flavors:</strong> 1 qubit (|0⟩ = &nu;<sub>e</sub>, |1⟩ = &nu;<sub>&mu;</sub>). Evolution is a single-qubit <i>R</i><sub>y</sub>(&theta;) rotation.</li>
+            <li><strong>3 Flavors:</strong> 2 qubits (using 3 of the 4 computational states).</li>
+            <li><strong>Collective (Supernova):</strong> 4–16 qubits with all-to-all neutrino entanglement — active research territory!</li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">💡 Portfolio Advantage</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            The basic version runs with exceptional fidelity on real IBM hardware because circuits require minimal gate depth. You can expand it to the <strong>MSW effect</strong> (neutrinos passing through Earth/Sun matter).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 3: SPIN CHAINS ===== -->
+    <section id="idea3" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">03.</span> Quantum Magnetism / Spin Chain Dynamics
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-medium text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★ Medium</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">6–16 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            A row of compass needles where each needle pulls on its neighbors. Flip the middle needle: a wave of magnetic disturbance spreads left and right like ripples in water. This is the <strong>"Hello World" of quantum many-body physics</strong>.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Excitation Spreading ("Lieb-Robinson Light Cone")</div>
+          <div class="flex flex-col items-center gap-1.5" id="spinChainViz"></div>
+          <div class="flex justify-center gap-5 mt-3 text-xs text-slate-400">
+            <span>⬆️ Ground state (|0⟩)</span>
+            <span class="text-cyan-300 font-semibold">⬇️ Excited state (|1⟩)</span>
+            <span>Time flows down ↓</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Quantum Technique</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Simulate 1D transverse-field Ising or Heisenberg models:
+            <span class="block my-2 p-2 rounded bg-[#172033] border border-[#243048] text-center font-mono text-cyan-300 text-xs">
+              <i>H</i> = -<i>J</i> &sum; &sigma;<sub><i>i</i></sub><sup><i>z</i></sup> &sigma;<sub><i>i</i>+1</sub><sup><i>z</i></sup> - <i>h</i> &sum; &sigma;<sub><i>i</i></sub><sup><i>x</i></sup>
+            </span>
+            Trotterize into layers of 2-qubit <i>ZZ</i>(&theta;) interactions and single-qubit <i>RX</i>(&theta;) rotations.
+          </p>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">💡 Core Engine Backbone</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            This module maps 1:1 onto IBM's heavy-hex qubit topologies. Mastering this unlocks Project #7 (Time Crystals), #11 (Chaos), and #12 (Trotter study).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 4: SCHWINGER MODEL ===== -->
+    <section id="idea4" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">04.</span> Pair Production from the Vacuum (Schwinger Model)
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-hard text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★★ Hard</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">4–12 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            "Empty" space isn't empty. When an intense electric field stresses the vacuum, matter and antimatter pairs (<i>e</i><sup>-</sup> and <i>e</i><sup>+</sup>) are ripped out of nothingness! You simulate this landmark quantum electrodynamics process.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Lattice Gauge Vacuum Breakdown</div>
+          <div class="flex flex-col items-center gap-3">
+            <div class="flex items-center gap-2 text-xs">
+              <span class="w-12 text-right text-slate-400 font-mono">t=0</span>
+              <div class="flex gap-1.5">
+                <span class="w-7 h-7 rounded bg-[#172033] border border-[#243048] flex items-center justify-center text-slate-500 font-mono">0</span>
+                <span class="w-7 h-7 rounded bg-[#172033] border border-[#243048] flex items-center justify-center text-slate-500 font-mono">0</span>
+                <span class="w-7 h-7 rounded bg-[#172033] border border-[#243048] flex items-center justify-center text-slate-500 font-mono">0</span>
+                <span class="w-7 h-7 rounded bg-[#172033] border border-[#243048] flex items-center justify-center text-slate-500 font-mono">0</span>
+              </div>
+              <span class="text-slate-400">Empty Vacuum (|0000⟩)</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="w-12 text-right text-slate-400 font-mono">t=1</span>
+              <div class="flex gap-1.5">
+                <span class="w-7 h-7 rounded bg-cyan-950 border border-cyan-400 text-cyan-300 flex items-center justify-center font-bold anim-pulse font-mono">e⁻</span>
+                <span class="w-7 h-7 rounded bg-rose-950 border border-rose-400 text-rose-300 flex items-center justify-center font-bold anim-pulse font-mono">e⁺</span>
+                <span class="w-7 h-7 rounded bg-[#172033] border border-[#243048] flex items-center justify-center text-slate-500 font-mono">0</span>
+                <span class="w-7 h-7 rounded bg-[#172033] border border-[#243048] flex items-center justify-center text-slate-500 font-mono">0</span>
+              </div>
+              <span class="text-cyan-300 font-medium">⚡ Pair Created (|1100⟩)</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="w-12 text-right text-slate-400 font-mono">t=2</span>
+              <div class="flex gap-1.5">
+                <span class="w-7 h-7 rounded bg-cyan-950 border border-cyan-400 text-cyan-300 flex items-center justify-center font-bold font-mono">e⁻</span>
+                <span class="w-7 h-7 rounded bg-rose-950 border border-rose-400 text-rose-300 flex items-center justify-center font-bold font-mono">e⁺</span>
+                <span class="w-7 h-7 rounded bg-cyan-950 border border-cyan-400 text-cyan-300 flex items-center justify-center font-bold font-mono">e⁻</span>
+                <span class="w-7 h-7 rounded bg-rose-950 border border-rose-400 text-rose-300 flex items-center justify-center font-bold font-mono">e⁺</span>
+              </div>
+              <span class="text-purple-300 font-medium">⚡⚡ String Breaking (|1111⟩)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Key Technique: Jordan-Wigner Transformation</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Fermions (matter particles) anticommute. Jordan-Wigner maps fermionic creation/annihilation operators (<i>c</i><sub><i>i</i></sub><sup>&dagger;</sup>, <i>c</i><sub><i>i</i></sub>) to Pauli spin strings on qubits.
+          </p>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🏆 Flagship Value</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Reproduces the famous 2016 Nature paper (Martinez et al., Innsbruck). "Simulating matter created from the vacuum on a quantum chip" is an undeniable resume hook.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 5: BLACK HOLE SCRAMBLING ===== -->
+    <section id="idea5" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">05.</span> Black Hole Information Scrambling
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-hard text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★★ Hard</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">3–7 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Drop sugar into hot coffee: it dissolves and disperses across all liquid degrees of freedom almost instantly. Black holes are nature's fastest scramblers. The Hayden-Preskill protocol proves you can recover the input by measuring the emitted Hawking radiation!
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Hayden-Preskill Scrambling & Quantum Teleportation</div>
+          <div class="flex flex-wrap items-center justify-center gap-3 py-2">
+            <div class="flex flex-col items-center">
+              <span class="text-[10px] text-slate-400 mb-1 font-mono">Injected Qubit</span>
+              <div class="w-10 h-10 rounded-full bg-cyan-950 border border-cyan-400 flex items-center justify-center text-cyan-300 font-bold text-xs">|&psi;⟩</div>
+            </div>
+            <span class="text-slate-500 font-mono">&rarr;</span>
+            <div class="flex flex-col items-center">
+              <span class="text-[10px] text-slate-400 mb-1 font-mono">Scrambler (<i>U</i><sub>BH</sub>)</span>
+              <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-purple-900 via-indigo-900 to-cyan-900 border border-purple-400 flex items-center justify-center anim-spin">
+                <span class="text-base">🌀</span>
+              </div>
+            </div>
+            <span class="text-slate-500 font-mono">&rarr;</span>
+            <div class="flex flex-col items-center">
+              <span class="text-[10px] text-slate-400 mb-1 font-mono">Entangled Radiation</span>
+              <div class="flex gap-1">
+                <span class="w-5 h-5 rounded bg-purple-950 border border-purple-500/50"></span>
+                <span class="w-5 h-5 rounded bg-purple-950 border border-purple-500/50"></span>
+                <span class="w-5 h-5 rounded bg-purple-950 border border-purple-500/50"></span>
+              </div>
+            </div>
+            <span class="text-slate-500 font-mono">&rarr;</span>
+            <div class="flex flex-col items-center">
+              <span class="text-[10px] text-emerald-400 mb-1 font-mono">Recovered</span>
+              <div class="w-10 h-10 rounded-full bg-emerald-950 border border-emerald-400 flex items-center justify-center text-emerald-300 font-bold text-xs">✓ |&psi;⟩</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Quantum Measure: OTOCs</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Out-of-time-order correlators ⟨<i>W</i><sup>&dagger;</sup>(<i>t</i>) <i>V</i><sup>&dagger;</sup>(0) <i>W</i>(<i>t</i>) <i>V</i>(0)⟩ distinguish true quantum scrambling from simple local decoherence.
+          </p>
+        </div>
+        <div>
+          <div class="warning-box p-3 rounded-xl text-xs text-amber-200">
+            ⚠️ <strong>Professional Tip:</strong> Frame this accurately as "toy model information scrambling" — avoid sensationalist hype terms.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 6: DEUTERON BINDING ===== -->
+    <section id="idea6" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">06.</span> Nuclear Physics on the Cloud: Deuteron Binding Energy
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-easy text-xs font-semibold px-2.5 py-0.5 rounded-full">★★ Easy</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">2–3 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            The deuteron is the simplest atomic nucleus: 1 proton + 1 neutron. How strong is the nuclear glue binding them together? (~2.22 MeV). Using VQE, a 2-qubit circuit calculates this fundamental constant on real quantum hardware with near-perfect accuracy.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Variational Quantum Eigensolver (VQE) Closed Loop</div>
+          <div class="flex flex-wrap items-center justify-center gap-4 py-2 text-xs">
+            <div class="p-3 rounded-xl bg-[#172033] border border-[#243048] text-center min-w-[130px]">
+              <div class="text-base mb-0.5">🖥️</div>
+              <div class="font-semibold text-slate-200">Classical Optimizer</div>
+              <div class="text-[10px] text-slate-400">COBYLA / Adam updates &theta;</div>
+            </div>
+            <div class="text-center font-mono text-[11px] text-cyan-300">
+              &theta; (Parameters) ──▶<br>
+              ◀── ⟨<i>H</i>⟩ (Energy)
+            </div>
+            <div class="p-3 rounded-xl bg-cyan-950/60 border border-cyan-500/40 text-center min-w-[130px]">
+              <div class="text-base mb-0.5">⚛️</div>
+              <div class="font-semibold text-cyan-300">Quantum Processor</div>
+              <div class="text-[10px] text-cyan-400/80">Measures ⟨&psi;(&theta;)|<i>H</i>|&psi;(&theta;)⟩</div>
+            </div>
+          </div>
+          <div class="text-center text-[11px] text-emerald-400 font-mono mt-2">
+            Target Ground Energy: <i>E</i><sub>0</sub> &approx; -2.22 MeV
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Why It's Exceptional</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Reproduces Dumitrescu et al. (PRL 2018). Unlike the generic <i>H</i><sub>2</sub> VQE tutorial everyone copies, this is genuine nuclear physics with Pioneers-level history.
+          </p>
+        </div>
+        <div>
+          <div class="success-box p-3 rounded-xl text-xs text-emerald-200">
+            🏅 <strong>Recommended Quick-Win:</strong> Runs with high fidelity on IBM's free cloud backends in under 10 minutes.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 7: TIME CRYSTALS ===== -->
+    <section id="idea7" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">07.</span> Discrete Time Crystal
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-medium text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★ Medium</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">8–20 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            A diamond repeats in <em>space</em>. A time crystal repeats in <em>time</em>. Push a playground swing once every second, but the swing moves at twice the period (once every 2 seconds) and stubbornly resists timing imperfections!
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Subharmonic Period-Doubling (2<i>T</i>) Signature</div>
+          <div id="timeCrystalViz" class="flex items-end justify-center gap-1" style="height:120px;"></div>
+          <div class="flex justify-center gap-6 mt-3 text-xs text-slate-400">
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-cyan-400 inline-block"></span> Drive Pulse (Period <i>T</i>)</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-amber-400 inline-block"></span> Spin Response (Period 2<i>T</i>)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 How It Works</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Apply periodic Floquet drives: imperfect &pi;-pulses (<i>R</i><sub><i>x</i></sub>) + disordered Ising interactions (<i>ZZ</i>). Many-body localization prevents heating and locks the subharmonic response.
+          </p>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">💡 Google Quantum Landmark</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Demonstrated on Google's Sycamore chip in 2021. Reuses your spin-chain engine directly as Module #2.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 8: PHOTOSYNTHESIS ===== -->
+    <section id="idea8" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">08.</span> Noise as a Feature: Photosynthetic Energy Transfer
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-hard text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★★ Hard</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">3–8 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            In a maze, zero randomness gets you trapped in dead ends (destructive interference). Too much randomness leaves you stumbling in circles (decoherence). A <strong>moderate amount of noise</strong> helps solar energy reach the reaction center with nearly 100% efficiency.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Environment-Assisted Quantum Transport (ENAQT)</div>
+          <canvas id="noiseCanvas" width="500" height="170" class="w-full rounded-lg" style="max-height:170px;"></canvas>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Paradigm Shift</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Instead of fighting quantum hardware noise, you utilize the chip's natural dephasing noise as the biological environment bath to demonstrate the transport sweet spot.
+          </p>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">💡 Interview Talking Point</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Bridges quantum open systems theory, quantum biology (FMO complex), and real quantum hardware imperfections.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 9: EXPANDING UNIVERSE ===== -->
+    <section id="idea9" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">09.</span> Particle Creation in an Expanding Universe
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-hard text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★★ Hard</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">2–10 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Stretch a rubber membrane violently: the rapid stretching creates waves and vibrations. In the inflationary early universe, the rapid expansion of spacetime itself created real particles from quantum vacuum fluctuations!
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Cosmological Particle Generation (Bogoliubov Transformation)</div>
+          <div class="flex items-center justify-center gap-6 py-3">
+            <div class="flex flex-col items-center">
+              <span class="text-[11px] text-slate-400 mb-1">Early Space (Compact)</span>
+              <div class="w-14 h-14 rounded-full border border-dashed border-cyan-400/60 bg-cyan-950/30 flex items-center justify-center text-slate-400 text-xs">Vacuum</div>
+            </div>
+            <span class="text-purple-400 text-lg font-mono">── Inflation ──▶</span>
+            <div class="flex flex-col items-center">
+              <span class="text-[11px] text-purple-300 mb-1">Expanded Spacetime</span>
+              <div class="w-24 h-24 rounded-full border border-purple-500/80 bg-purple-950/20 flex items-center justify-center relative">
+                <span class="absolute top-3 left-5 text-xs text-cyan-300 anim-pulse">●</span>
+                <span class="absolute bottom-4 right-6 text-xs text-rose-300 anim-pulse">●</span>
+                <span class="text-[11px] text-purple-200 font-medium">Matter Created!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Technique</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Time-dependent Hamiltonian simulation where coupling parameters scale with cosmological scale factor <i>a</i>(<i>t</i>).
+          </p>
+        </div>
+        <div>
+          <div class="warning-box p-3 rounded-xl text-xs text-amber-200">
+            ⚠️ <strong>Advanced Project:</strong> Requires paper analysis (Parker 1968 effect). Save for after mastering simpler modules.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 10: TORIC CODE ===== -->
+    <section id="idea10" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">10.</span> Anyons & Topological Order: The Toric Code
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-hard text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★★ Hard</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">8–20 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            In 2D, exotic quasi-particles called <strong>anyons</strong> exist. When you wind one anyon around another, the wave function remembers the topological braid path! This is the bedrock of fault-tolerant quantum error correction (Surface Codes).
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Toric Code Lattice & Anyon Braiding</div>
+          <svg width="280" height="150" viewBox="0 0 280 150" class="mx-auto">
+            <line x1="40" y1="35" x2="240" y2="35" stroke="#1f2d47" stroke-width="2"/>
+            <line x1="40" y1="75" x2="240" y2="75" stroke="#1f2d47" stroke-width="2"/>
+            <line x1="40" y1="115" x2="240" y2="115" stroke="#1f2d47" stroke-width="2"/>
+            <line x1="50" y1="20" x2="50" y2="130" stroke="#1f2d47" stroke-width="2"/>
+            <line x1="110" y1="20" x2="110" y2="130" stroke="#1f2d47" stroke-width="2"/>
+            <line x1="170" y1="20" x2="170" y2="130" stroke="#1f2d47" stroke-width="2"/>
+            <line x1="230" y1="20" x2="230" y2="130" stroke="#1f2d47" stroke-width="2"/>
+            <!-- Qubits on vertices/edges -->
+            <circle cx="80" cy="35" r="4" fill="#38bdf8" opacity="0.6"/>
+            <circle cx="140" cy="35" r="4" fill="#38bdf8" opacity="0.6"/>
+            <circle cx="200" cy="35" r="4" fill="#38bdf8" opacity="0.6"/>
+            <circle cx="80" cy="75" r="4" fill="#38bdf8" opacity="0.6"/>
+            <circle cx="140" cy="75" r="4" fill="#38bdf8" opacity="0.6"/>
+            <circle cx="200" cy="75" r="4" fill="#38bdf8" opacity="0.6"/>
+            <!-- Anyons -->
+            <circle cx="80" cy="75" r="11" fill="#38bdf830" stroke="#38bdf8" stroke-width="2"/>
+            <text x="80" y="79" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="bold">e</text>
+            <circle cx="170" cy="75" r="11" fill="#fb718530" stroke="#fb7185" stroke-width="2"/>
+            <text x="170" y="79" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="bold">m</text>
+            <!-- Braid Path -->
+            <path d="M 80 75 Q 80 20 125 20 Q 170 20 170 50 Q 170 100 125 100 Q 80 100 80 75" fill="none" stroke="#c084fc" stroke-width="2" stroke-dasharray="4,3"/>
+            <text x="125" y="16" text-anchor="middle" fill="#c084fc" font-size="9">Braiding Loop</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 What You Build</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Prepare stabilizer ground states (<i>A</i><sub><i>v</i></sub> = &prod; <i>X</i>, <i>B</i><sub><i>p</i></sub> = &prod; <i>Z</i>), create electric/magnetic anyon pairs, braid them, and detect topological phase shift.
+          </p>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">💼 Quantum Industry Relevance</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            This is the foundational math behind error-corrected logical qubits used by Google, Quantinuum, and IBM.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 11: KICKED TOP ===== -->
+    <section id="idea11" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">11.</span> Quantum Chaos: The Kicked Top
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-medium text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★ Medium</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">3–10 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            A spinning top kicked periodically can spin predictably or wobble into pure chaos. How does chaos reveal itself in quantum mechanics? <strong>Chaotic regions generate entanglement drastically faster than orderly ones!</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Poincaré Phase Space: Regular Islands vs. Chaotic Sea</div>
+          <canvas id="chaosCanvas" width="500" height="180" class="w-full rounded-lg" style="max-height:180px;"></canvas>
+          <div class="flex justify-center gap-6 mt-3 text-xs text-slate-400">
+            <span class="text-emerald-400">🟢 Regular Island (Slow Entanglement)</span>
+            <span class="text-rose-400">🔴 Chaotic Sea (Fast Entanglement Growth)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Simulation Model</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Floquet operator: 
+            <span class="block my-2 p-2 rounded bg-[#172033] border border-[#243048] text-center font-mono text-cyan-300 text-xs">
+              <i>U</i> = exp(-<i>i</i> (<i>k</i> / 2<i>j</i>) <i>J</i><sub><i>z</i></sub><sup>2</sup>) &middot; exp(-<i>i p J</i><sub><i>y</i></sub>)
+            </span>
+            Measure linear entropy and von Neumann entanglement entropy over time.
+          </p>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🎨 Visual Showcase</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Side-by-side comparison of classical phase portraits with quantum Husimi Q-functions makes for an unforgettable presentation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 12: TROTTER STUDY ===== -->
+    <section id="idea12" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">12.</span> The Trotter vs. Noise Trade-Off Study
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-medium text-xs font-semibold px-2.5 py-0.5 rounded-full">★★★ Medium</span>
+            <span class="tag-qubits text-xs font-semibold px-2.5 py-0.5 rounded-full">4–10 Qubits</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            More simulation steps make the algorithm mathematically accurate, but add more physical gates which collect hardware noise! There is an optimal <strong>"sweet spot" step count</strong>. This is a scientific research experiment, not just a demo.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-2">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Total Simulation Error (The U-Shaped Curve)</div>
+          <canvas id="trotterCanvas" width="500" height="180" class="w-full rounded-lg" style="max-height:180px;"></canvas>
+        </div>
+      </div>
+
+      <div class="p-6 sm:p-8 pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🔬 Experimental Method</div>
+          <ol class="list-decimal pl-4 space-y-1 text-slate-300">
+            <li>Run on ideal simulator &rarr; measures algorithmic Trotter error <i>O</i>(&Delta;<i>t</i><sup>2</sup>).</li>
+            <li>Run on noisy simulator &rarr; adds gate infidelity.</li>
+            <li>Run on IBM Quantum backend &rarr; finds real-world minimum error point.</li>
+          </ol>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-200 mb-1.5">🎓 Research Credibility</div>
+          <p class="text-slate-300 text-xs leading-relaxed">
+            Shows recruiters you understand the real physical trade-offs in modern NISQ-era quantum computing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IDEA 13: SONIFICATION ===== -->
+    <section id="idea13" class="idea-card rounded-2xl overflow-hidden">
+      <div class="p-6 sm:p-8 pb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">13.</span> Quantum Sonification: Hearing Quantum Dynamics
+          </h2>
+          <div class="flex gap-2">
+            <span class="tag-easy text-xs font-semibold px-2.5 py-0.5 rounded-full">★★ Easy Add-On</span>
+          </div>
+        </div>
+
+        <div class="callout-box p-4 rounded-xl mb-4">
+          <div class="font-semibold text-xs text-cyan-300 mb-1 uppercase tracking-wider">☕ Coffee Analogy</div>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Translate simulation states into sound frequencies: measurement probabilities become pitches, entanglement becomes harmony/dissonance, and time crystals become rhythmic pulses!
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 sm:px-8 pb-4">
+        <div class="viz-box">
+          <div class="text-xs font-semibold text-center mb-3 text-cyan-400">Physics &rarr; Audio Synthesizer Mapping</div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-[#172033] border border-[#243048] text-center">
+              <div class="text-xl mb-1">📊 &rarr; 🎵</div>
+              <div class="font-semibold text-cyan-300">Probability</div>
+              <div class="text-[10px] text-slate-400">Musical Pitch (Hz)</div>
+            </div>
+            <div class="p-3 rounded-xl bg-[#172033] border border-[#243048] text-center">
+              <div class="text-xl mb-1">🔗 &rarr; 🎶</div>
+              <div class="font-semibold text-purple-300">Entanglement</div>
+              <div class="text-[10px] text-slate-400">Chord Harmony</div>
+            </div>
+            <div class="p-3 rounded-xl bg-[#172033] border border-[#243048] text-center">
+              <div class="text-xl mb-1">💎 &rarr; 🥁</div>
+              <div class="font-semibold text-amber-300">Time Crystal</div>
+              <div class="text-[10px] text-slate-400">Subharmonic Beat</div>
+            </div>
+            <div class="p-3 rounded-xl bg-[#172033] border border-[#243048] text-center">
+              <div class="text-xl mb-1">🌊 &rarr; 🔊</div>
+              <div class="font-semibold text-emerald-300">Tunneling</div>
+              <div class="text-[10px] text-slate-400">Volume Pan Shift</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SUGGESTED LEARNING PATHS ===== -->
+    <section id="paths">
+      <div class="idea-card rounded-2xl p-6 sm:p-8">
+        <h2 class="text-2xl font-bold mb-6 text-cyan-300 flex items-center gap-2">
+          <span>🗺️</span> Recommended Learning Pathways
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Path A -->
+          <div class="p-5 rounded-xl bg-[#172033] border border-[#243048]">
+            <div class="font-bold text-cyan-300 mb-2 flex items-center gap-1.5">
+              <span>🔭</span> Path A: "The Particle Physicist"
+            </div>
+            <div class="flex items-center gap-1.5 flex-wrap text-xs font-mono my-3">
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-cyan-300 border border-cyan-500/30">#1 Tunneling</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-cyan-300 border border-cyan-500/30">#2 Neutrinos</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-cyan-300 border border-cyan-500/30">#6 Deuteron</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-purple-300 border border-purple-500/30">#4 Schwinger</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Narrative arc from single-particle quantum mechanics to nuclear binding, culminating in full quantum field theory pair production.
+            </p>
+          </div>
+
+          <!-- Path B -->
+          <div class="p-5 rounded-xl bg-[#172033] border border-[#243048]">
+            <div class="font-bold text-purple-300 mb-2 flex items-center gap-1.5">
+              <span>🧲</span> Path B: "Exotic Quantum Matter"
+            </div>
+            <div class="flex items-center gap-1.5 flex-wrap text-xs font-mono my-3">
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-purple-300 border border-purple-500/30">#3 Spin Chain</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-purple-300 border border-purple-500/30">#7 Time Crystal</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-purple-300 border border-purple-500/30">#10 Toric Code</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Tailored for quantum computing hardware companies (IBM, Google, QuEra) focusing on topological order and many-body phases.
+            </p>
+          </div>
+
+          <!-- Path C -->
+          <div class="p-5 rounded-xl bg-[#172033] border border-[#243048]">
+            <div class="font-bold text-rose-300 mb-2 flex items-center gap-1.5">
+              <span>🌌</span> Path C: "Cosmology & Black Holes"
+            </div>
+            <div class="flex items-center gap-1.5 flex-wrap text-xs font-mono my-3">
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-rose-300 border border-rose-500/30">#3 Spin Chain</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-rose-300 border border-rose-500/30">#11 Chaos</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-rose-300 border border-rose-500/30">#5 Black Hole</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-rose-300 border border-rose-500/30">#9 Universe</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Tackles quantum gravity questions, information scrambling, and cosmic particle generation.
+            </p>
+          </div>
+
+          <!-- Path D -->
+          <div class="p-5 rounded-xl bg-[#172033] border border-[#243048]">
+            <div class="font-bold text-emerald-300 mb-2 flex items-center gap-1.5">
+              <span>🔧</span> Path D: "The Hardware Realist"
+            </div>
+            <div class="flex items-center gap-1.5 flex-wrap text-xs font-mono my-3">
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-emerald-300 border border-emerald-500/30">#6 Deuteron</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-emerald-300 border border-emerald-500/30">#3 Spin Chain</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-emerald-300 border border-emerald-500/30">#12 Trotter Study</span>
+              <span class="text-slate-500">&rarr;</span>
+              <span class="px-2 py-1 rounded bg-[#0d1322] text-emerald-300 border border-emerald-500/30">#8 Photosynthesis</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Focuses on physical fidelity on today's noisy quantum hardware and turning noise into a feature.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="text-center text-xs text-slate-500 pt-6">
+      Project Portfolio Guide · Based on <a href="file:///e:/QC-project/quantum-project-ideas.md" class="text-cyan-400 hover:underline">quantum-project-ideas.md</a>
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT FOR DARK-THEME CANVASES & VIZ -->
+  <script>
+    // --- 1. TUNNELING CANVAS ---
+    (function() {
+      const c = document.getElementById('tunnelCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      let t = 0;
+
+      function render() {
+        const W = c.width, H = c.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // Barrier (glow amber)
+        const bx = W * 0.44, bw = W * 0.08;
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
+        ctx.fillRect(bx, 10, bw, H - 20);
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(bx, 10, bw, H - 20);
+
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Potential Barrier', bx + bw/2, 28);
+
+        // Center dashed baseline
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(0, H/2);
+        ctx.lineTo(W, H/2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Incident Wavepacket
+        const cx1 = W * 0.15 + (t % 240) * 0.8;
+        const amplitude = 48;
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        for (let x = 0; x < bx; x++) {
+          const dx = x - cx1;
+          const env = Math.exp(-dx*dx / 1800) * amplitude;
+          const wave = Math.cos(dx * 0.16 - t * 0.08);
+          const y = H/2 - env * wave;
+          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Tunneled Wavepacket
+        const cx2 = bx + bw + 20 + ((t + 40) % 240) * 0.5;
+        ctx.strokeStyle = '#818cf8';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = '#818cf8';
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        for (let x = bx + bw; x < W; x++) {
+          const dx = x - cx2;
+          const env = Math.exp(-dx*dx / 1400) * (amplitude * 0.35);
+          const wave = Math.cos(dx * 0.16 - t * 0.08);
+          const y = H/2 - env * wave;
+          x === bx + bw ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        t++;
+        requestAnimationFrame(render);
+      }
+      render();
+    })();
+
+    // --- 2. NEUTRINO BARS ---
+    (function() {
+      const container = document.getElementById('neutrinoViz');
+      if (!container) return;
+      const N = 36;
+      for (let i = 0; i < N; i++) {
+        const bar = document.createElement('div');
+        bar.style.width = '7px';
+        bar.style.borderRadius = '3px 3px 0 0';
+
+        const x = (i / N) * Math.PI * 4;
+        const eProb = Math.pow(Math.cos(x), 2);
+        const muProb = Math.pow(Math.sin(x) * Math.cos(x * 0.7), 2);
+        const tauProb = Math.max(0, 1 - eProb - muProb);
+
+        const max = Math.max(eProb, muProb, tauProb);
+        bar.style.height = `${20 + max * 80}px`;
+
+        if (eProb >= muProb && eProb >= tauProb) {
+          bar.style.background = '#34d399';
+          bar.style.boxShadow = '0 0 6px rgba(52, 211, 153, 0.4)';
+        } else if (muProb >= tauProb) {
+          bar.style.background = '#38bdf8';
+          bar.style.boxShadow = '0 0 6px rgba(56, 189, 248, 0.4)';
+        } else {
+          bar.style.background = '#fb7185';
+          bar.style.boxShadow = '0 0 6px rgba(251, 113, 133, 0.4)';
+        }
+        container.appendChild(bar);
+      }
+    })();
+
+    // --- 3. SPIN CHAIN VIZ ---
+    (function() {
+      const container = document.getElementById('spinChainViz');
+      if (!container) return;
+      const N = 11, T = 5;
+
+      for (let t = 0; t < T; t++) {
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-1.5';
+
+        const label = document.createElement('span');
+        label.className = 'text-[11px] font-mono text-slate-400 w-7 text-right';
+        label.textContent = 't=' + t;
+        row.appendChild(label);
+
+        for (let s = 0; s < N; s++) {
+          const cell = document.createElement('div');
+          cell.style.width = '26px';
+          cell.style.height = '26px';
+          cell.style.borderRadius = '6px';
+          cell.style.display = 'flex';
+          cell.style.alignItems = 'center';
+          cell.style.justifyContent = 'center';
+          cell.style.fontSize = '12px';
+
+          const center = Math.floor(N / 2);
+          const dist = Math.abs(s - center);
+
+          if (dist <= t) {
+            cell.style.background = 'rgba(56, 189, 248, 0.25)';
+            cell.style.border = '1px solid #38bdf8';
+            cell.style.color = '#38bdf8';
+            cell.style.boxShadow = '0 0 8px rgba(56, 189, 248, 0.3)';
+            cell.textContent = '⬇';
+          } else {
+            cell.style.background = '#172033';
+            cell.style.border = '1px solid #243048';
+            cell.style.color = '#64748b';
+            cell.textContent = '⬆';
+          }
+          row.appendChild(cell);
+        }
+        container.appendChild(row);
+      }
+    })();
+
+    // --- 7. TIME CRYSTAL ---
+    (function() {
+      const container = document.getElementById('timeCrystalViz');
+      if (!container) return;
+      const N = 38;
+
+      for (let i = 0; i < N; i++) {
+        const bar = document.createElement('div');
+        bar.style.width = '7px';
+        bar.style.borderRadius = '3px 3px 0 0';
+        const x = (i / N) * Math.PI * 6;
+
+        const drive = Math.sin(x);
+        const response = Math.sin(x / 2);
+
+        if (i < N / 2) {
+          bar.style.height = `${24 + Math.abs(drive) * 60}px`;
+          bar.style.background = '#38bdf8';
+          bar.style.boxShadow = '0 0 5px rgba(56, 189, 248, 0.3)';
+        } else {
+          bar.style.height = `${24 + Math.abs(response) * 80}px`;
+          bar.style.background = '#fbbf24';
+          bar.style.boxShadow = '0 0 6px rgba(251, 191, 36, 0.4)';
+        }
+        container.appendChild(bar);
+      }
+    })();
+
+    // --- 8. NOISE CANVAS (PHOTOSYNTHESIS) ---
+    (function() {
+      const c = document.getElementById('noiseCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      const W = c.width, H = c.height;
+      const pad = 42;
+      const plotW = W - pad - 20;
+      const plotH = H - pad - 20;
+
+      // Axes
+      ctx.strokeStyle = '#243048';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, 10);
+      ctx.lineTo(pad, H - pad);
+      ctx.lineTo(W - 10, H - pad);
+      ctx.stroke();
+
+      // Axis Labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Noise / Decoherence Strength →', W/2, H - 12);
+      ctx.save();
+      ctx.translate(14, H/2);
+      ctx.rotate(-Math.PI/2);
+      ctx.fillText('Efficiency (%) →', 0, 0);
+      ctx.restore();
+
+      // Bell Curve
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#34d399';
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      for (let i = 0; i <= 100; i++) {
+        const x = pad + (i / 100) * plotW;
+        const t = i / 100;
+        const eff = Math.exp(-Math.pow((t - 0.45) * 3.2, 2));
+        const y = (H - pad) - eff * plotH;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Optimal Point
+      const optX = pad + 0.45 * plotW;
+      const optY = (H - pad) - plotH;
+      ctx.beginPath();
+      ctx.arc(optX, optY, 6, 0, Math.PI * 2);
+      ctx.fillStyle = '#34d399';
+      ctx.fill();
+
+      ctx.fillStyle = '#34d399';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText('⭐ Peak Efficiency (ENAQT)', optX, optY - 12);
+    })();
+
+    // --- 11. CHAOS CANVAS ---
+    (function() {
+      const c = document.getElementById('chaosCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      const W = c.width, H = c.height;
+
+      // Background
+      ctx.fillStyle = '#0a0f1d';
+      ctx.fillRect(0, 0, W, H);
+
+      // Chaotic dots
+      const rng = (s) => { s = Math.sin(s) * 43758.5453; return s - Math.floor(s); };
+      ctx.fillStyle = '#fb7185';
+      for (let i = 0; i < 900; i++) {
+        const x = rng(i * 1.3) * W;
+        const y = rng(i * 2.7 + 0.3) * H;
+        ctx.globalAlpha = 0.22;
+        ctx.fillRect(x, y, 2, 2);
+      }
+      ctx.globalAlpha = 1;
+
+      // Regular Islands
+      const islands = [
+        {cx: W*0.28, cy: H*0.42, rx: 55, ry: 38},
+        {cx: W*0.72, cy: H*0.58, rx: 45, ry: 30},
+      ];
+
+      islands.forEach(isl => {
+        ctx.fillStyle = '#06281e';
+        ctx.beginPath();
+        ctx.ellipse(isl.cx, isl.cy, isl.rx, isl.ry, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let r = 1; r <= 4; r++) {
+          ctx.strokeStyle = '#34d399';
+          ctx.lineWidth = 1.4;
+          ctx.globalAlpha = 0.3 + r * 0.18;
+          ctx.beginPath();
+          ctx.ellipse(isl.cx, isl.cy, isl.rx * r/4, isl.ry * r/4, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      });
+      ctx.globalAlpha = 1;
+
+      ctx.fillStyle = '#34d399';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Regular Island', W*0.28, H*0.42 + 4);
+      ctx.fillStyle = '#fb7185';
+      ctx.fillText('Chaotic Sea', W*0.82, 24);
+    })();
+
+    // --- 12. TROTTER U-SHAPED CURVE ---
+    (function() {
+      const c = document.getElementById('trotterCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      const W = c.width, H = c.height;
+      const pad = 45;
+      const plotW = W - pad - 20;
+      const plotH = H - pad - 20;
+
+      // Axes
+      ctx.strokeStyle = '#243048';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, 10);
+      ctx.lineTo(pad, H - pad);
+      ctx.lineTo(W - 10, H - pad);
+      ctx.stroke();
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Number of Trotter Steps (Gate Depth) →', W/2, H - 10);
+      ctx.save();
+      ctx.translate(14, H/2);
+      ctx.rotate(-Math.PI/2);
+      ctx.fillText('Total Error →', 0, 0);
+      ctx.restore();
+
+      // Math error (dashed cyan)
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 1.8;
+      ctx.setLineDash([5, 3]);
+      ctx.beginPath();
+      for (let i = 0; i <= 100; i++) {
+        const x = pad + (i / 100) * plotW;
+        const t = (i + 6) / 100;
+        const err = 0.75 / (t * 3.2);
+        const y = (H - pad) - Math.min(err, 1) * plotH;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Hardware noise error (dashed rose)
+      ctx.strokeStyle = '#fb7185';
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      for (let i = 0; i <= 100; i++) {
+        const x = pad + (i / 100) * plotW;
+        const t = i / 100;
+        const err = t * t * 0.92;
+        const y = (H - pad) - err * plotH;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Combined Total Error (Solid Purple Glow)
+      ctx.strokeStyle = '#c084fc';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#c084fc';
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      let minY = Infinity, minX = 0;
+      for (let i = 0; i <= 100; i++) {
+        const x = pad + (i / 100) * plotW;
+        const t = (i + 6) / 100;
+        const mathErr = 0.75 / (t * 3.2);
+        const noiseErr = (i/100) * (i/100) * 0.92;
+        const total = Math.min(mathErr, 1) * 0.45 + noiseErr * 0.55;
+        const y = (H - pad) - total * plotH;
+        if (total < minY) { minY = total; minX = i; }
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Minimum Star
+      const starX = pad + (minX / 100) * plotW;
+      const starY = (H - pad) - minY * plotH;
+      ctx.beginPath();
+      ctx.arc(starX, starY, 6, 0, Math.PI * 2);
+      ctx.fillStyle = '#fbbf24';
+      ctx.fill();
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.fillText('⭐ Optimal Step Count', starX + 8, starY - 10);
+
+      // Legend
+      ctx.font = '9px sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText('Algorithmic error (Trotter) ↓', W - 15, 20);
+      ctx.fillStyle = '#fb7185';
+      ctx.fillText('Hardware noise error ↑', W - 15, 34);
+      ctx.fillStyle = '#c084fc';
+      ctx.fillText('Total physical error (U-curve)', W - 15, 48);
+    })();
+  </script>
+</body>
+</html>
