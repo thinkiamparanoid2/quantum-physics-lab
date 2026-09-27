@@ -107,7 +107,7 @@ export const TOPICS = [
     summary: 'Decide whether a function is constant or balanced with a single question.',
     level: 'Intermediate',
     minutes: 8,
-    status: 'soon',
+    status: 'live',
     icon: 'M8 12 H40 M8 24 H18 M30 24 H40 M18 18 H30 V30 H18 Z M8 36 H40',
   },
   {
@@ -117,7 +117,7 @@ export const TOPICS = [
     summary: 'Read out a hidden string of bits in one query instead of one per bit.',
     level: 'Intermediate',
     minutes: 7,
-    status: 'soon',
+    status: 'live',
     icon: 'M8 14 H16 M20 14 H28 M32 14 H40 M8 24 H40 M12 32 V38 M24 32 V38 M36 32 V38',
   },
   {
@@ -137,7 +137,7 @@ export const TOPICS = [
     summary: 'Turn a number into a pattern of phases: clock hands spinning at different speeds.',
     level: 'Advanced',
     minutes: 10,
-    status: 'soon',
+    status: 'live',
     icon: 'M24 8a16 16 0 1 0 0.01 0 M24 24 L24 12 M24 24 L33 28',
   },
   {
@@ -147,7 +147,7 @@ export const TOPICS = [
     summary: 'Measure an unknown phase to many bits of precision: the engine inside Shor.',
     level: 'Advanced',
     minutes: 10,
-    status: 'soon',
+    status: 'live',
     icon: 'M6 38 L14 30 L20 34 L26 12 L32 34 L38 30 L42 34',
   },
   {
@@ -157,7 +157,7 @@ export const TOPICS = [
     summary: 'Factor 15 by finding the period of a function with quantum interference.',
     level: 'Advanced',
     minutes: 12,
-    status: 'soon',
+    status: 'live',
     icon: 'M10 38 V22 M18 38 V10 M26 38 V22 M34 38 V10 M42 38 V22 M6 38 H44',
   },
   {

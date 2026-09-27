@@ -12,6 +12,7 @@
 //   reroll?: false to hide "Measure again" when the lesson's measurements are deterministic,
 // }
 
+import { registerProbs } from '../lib/algorithms.js';
 import { blochVector } from '../lib/bloch.js';
 import { probabilities, runOps, seededRandom } from '../lib/circuit.js';
 import { formatState } from '../lib/format.js';
@@ -40,8 +41,15 @@ export function runCircuitLesson(def) {
   const hash = new URLSearchParams(location.hash.slice(1));
   for (const p of def.params ?? []) {
     if (!hash.has(p.id)) continue;
-    const v = p.type === 'select' ? hash.get(p.id) : Number(hash.get(p.id));
-    if (p.type === 'select' ? p.options.some((o) => String(o.value) === v) : Number.isFinite(v)) params[p.id] = v;
+    const raw = hash.get(p.id);
+    if (p.type === 'bits') {
+      if (/^[01]+$/.test(raw) && raw.length === String(p.value).length) params[p.id] = raw;
+    } else if (p.type === 'select') {
+      const match = p.options.find((o) => String(o.value) === raw);
+      if (match) params[p.id] = match.value;
+    } else if (Number.isFinite(Number(raw))) {
+      params[p.id] = Number(raw);
+    }
   }
   let seed = Number(hash.get('seed')) >>> 0 || (Math.random() * 2 ** 32) >>> 0;
   let steps = def.build(params);
@@ -96,10 +104,11 @@ export function runCircuitLesson(def) {
 
   let sampler = null;
   if (def.sampler) {
-    const c = card(stage, 'Measure every qubit', 'samples the state at the current step');
+    const s = typeof def.sampler === 'object' ? def.sampler : {};
+    const c = card(stage, s.title ?? 'Measure every qubit', s.legend ?? 'samples the state at the current step');
     const box = document.createElement('div');
     c.append(box);
-    sampler = new Sampler(box);
+    sampler = new Sampler(box, { labelFor: s.label, numeric: Boolean(s.qubits) });
   }
 
   const customViews = (def.views ?? []).map((v) => {
@@ -113,13 +122,13 @@ export function runCircuitLesson(def) {
     canvas.className = 'chart';
     canvas.style.height = `${v.height ?? 240}px`;
     c.append(canvas);
-    let caption = null;
+    let captionEl = null;
     if (v.caption) {
-      caption = document.createElement('p');
-      caption.className = 'hint';
-      c.append(caption);
+      captionEl = document.createElement('p');
+      captionEl.className = 'hint';
+      c.append(captionEl);
     }
-    return { ...v, canvas, caption };
+    return { ...v, canvas, captionEl };
   });
 
   // ----- try-it controls -----
@@ -131,7 +140,25 @@ export function runCircuitLesson(def) {
     for (const p of def.params ?? []) {
       const group = document.createElement('div');
       group.className = 'param-group';
-      if (p.type === 'select') {
+      if (p.type === 'bits') {
+        group.innerHTML = `<span class="label">${p.label}</span><div class="bit-toggles" role="group" aria-label="${p.label}"></div>`;
+        const box = group.querySelector('.bit-toggles');
+        const paint = () => {
+          box.innerHTML = String(params[p.id])
+            .split('')
+            .map((c, i) => `<button type="button" data-i="${i}" aria-pressed="${c === '1'}">${c}</button>`)
+            .join('');
+        };
+        paint();
+        box.addEventListener('click', (e) => {
+          const b = e.target.closest('[data-i]');
+          if (!b) return;
+          const bits = String(params[p.id]).split('');
+          bits[Number(b.dataset.i)] = bits[Number(b.dataset.i)] === '1' ? '0' : '1';
+          setParam(p.id, bits.join(''));
+          paint();
+        });
+      } else if (p.type === 'select') {
         group.innerHTML = `<label class="field"><span class="label">${p.label}</span><select>${p.options
           .map((o) => `<option value="${o.value}">${o.label}</option>`)
           .join('')}</select></label>`;
@@ -181,10 +208,22 @@ export function runCircuitLesson(def) {
     render();
   }
 
+  // Index where the circuit's closing measurements begin.
+  function finalMeasureStart(ops) {
+    let k = ops.length;
+    while (k > 0 && ops[k - 1].gate === 'MEASURE') k--;
+    return k;
+  }
+
+  // preProbs: the distribution the closing measurements sample from. After they have run, the
+  // state has collapsed to one outcome, but the sampler and charts should still show the odds.
   function compute(i) {
     const s = steps[i];
     const run = runOps(n, s.ops, s.until, seededRandom(seed));
-    return { ...run, probs: probabilities(run.state) };
+    const probs = probabilities(run.state);
+    const fs = finalMeasureStart(s.ops);
+    const preProbs = s.until > fs ? probabilities(runOps(n, s.ops, fs, seededRandom(seed)).state) : probs;
+    return { ...run, probs, preProbs };
   }
 
   function writeHash() {
@@ -233,7 +272,7 @@ export function runCircuitLesson(def) {
     const target = compute(index);
     const state = displayedState(target);
     shown = { re: Float64Array.from(state.re), im: Float64Array.from(state.im) };
-    const ctx = { state: target.state, bits: target.bits, probs: target.probs, params, step, index, n, theme: th, shownState: state };
+    const ctx = { state: target.state, bits: target.bits, probs: target.probs, preProbs: target.preProbs, params, step, index, n, theme: th, shownState: state };
 
     lesson.render(
       steps.map((s, i) => ({ title: s.title, html: i === index ? (typeof s.html === 'function' ? s.html(ctx) : s.html) : '' })),
@@ -282,7 +321,10 @@ export function runCircuitLesson(def) {
       view.draw(th);
     });
     if (sampler) {
-      sampler.setDistribution(target.probs, n, `${index}|${version}|${seed}`);
+      const qubits = def.sampler.qubits;
+      const probs = qubits ? registerProbs(target.preProbs, typeof qubits === 'function' ? qubits(params) : qubits) : target.preProbs;
+      const k = Math.round(Math.log2(probs.length));
+      sampler.setDistribution(probs, k, `${index}|${version}|${seed}`);
       sampler.draw(th);
     }
     for (const v of customViews) {
@@ -291,7 +333,7 @@ export function runCircuitLesson(def) {
         continue;
       }
       v.draw(v.canvas, ctx);
-      if (v.caption) v.caption.innerHTML = typeof v.caption === 'function' ? v.caption(ctx) : v.caption;
+      if (v.captionEl) v.captionEl.innerHTML = typeof v.caption === 'function' ? v.caption(ctx) : v.caption;
     }
     if (anim) requestAnimationFrame(render);
   }
