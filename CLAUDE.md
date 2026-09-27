@@ -1,5 +1,8 @@
 # Quantum Physics Lab
 
+**New to this repo? Read [`PROJECT.md`](PROJECT.md) first**: it is the full handoff (what exists,
+architecture, how everything is checked, open decisions, how to work with the owner).
+
 Two halves in one repo:
 
 - **Python lab** (`engine/`, `modules/`, `tests/`): Qiskit/PennyLane simulations, validated against
@@ -25,6 +28,16 @@ Two halves in one repo:
   simulating it, or the "Trotterized" result silently equals exact evolution (see `engine/evolution.py`).
 - Every physics result needs an independent check (hand derivation, a second framework, or
   exact diagonalization). Don't claim quantum advantage anywhere: at these sizes a laptop is faster.
+- **Lesson-frame ids are reserved.** The generated lesson page owns `lesson-head`, `steps`, `count`,
+  `back`, `next`, `try-slot`, `stage`, `caption`, `next-lesson`; reusing one silently breaks a
+  control (it happened to BB84). `web/tests/pages.test.js` checks this and duplicate ids.
+- **After adding a lesson** run `node web/tools/set-status.mjs live <slug>` and
+  `node web/tools/make-pages.mjs`; verify with headless Edge screenshots (absolute output path) and
+  remember headless Edge and a hidden Browser pane don't run `requestAnimationFrame` animations.
+- **Line-ending noise**: regenerated pages may differ only in CRLF/LF. Check with
+  `git diff --ignore-cr-at-eol` and discard rather than commit.
+- **Open decisions belong to the owner**: no LICENSE until they confirm (MIT suggested); Vercel
+  deployment (Root Directory `web`) is postponed until they ask.
 
 ## Git workflow
 

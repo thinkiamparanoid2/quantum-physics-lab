@@ -1,11 +1,12 @@
-# Hamiltonian Playground
+# Quantum Physics Lab: the website
 
-Type a Hamiltonian, pick a starting state, and watch it evolve in real time: exact quantum
-dynamics side by side with the Trotterized circuit a quantum computer would run, plus the
-error between them and the circuit's CNOT cost.
+39 interactive lessons and tools, from the photoelectric effect to Shor's nine-qubit code. Every
+lesson steps through an idea with a live visual, a Try-it panel, a Present mode for projectors and
+a shareable link.
 
-Everything runs in the visitor's browser (plain HTML/CSS/JavaScript, no build step, no
-server), so it can be hosted anywhere static files can.
+Everything runs in the visitor's browser (plain HTML/CSS/JavaScript ES modules, no build step, no
+framework, no server), so it can be hosted anywhere static files can. For the full project
+briefing see [`../PROJECT.md`](../PROJECT.md).
 
 ## Run locally
 
@@ -19,8 +20,10 @@ Then open http://localhost:8765.
 
 ## Tests
 
-The engine is checked against independent Python references: dense numpy/scipy matrices
-for generic Hamiltonians, and the repo's validated Qiskit Hamiltonian for the Schwinger model.
+72 tests in `tests/*.test.js` (`node --test`, no dependencies) check the physics against
+independent results: exact formulas, a second numerical method, or Python references (dense
+numpy/scipy matrices and the repo's validated Qiskit Schwinger Hamiltonian, stored in
+`tests/reference.json`). `tests/pages.test.js` also guards against id clashes with the lesson frame.
 
 ```bash
 python web/tests/make_reference.py   # regenerate tests/reference.json (needs the repo's .venv)
@@ -82,20 +85,25 @@ web/
 ├── <topic>/              one folder per lesson: app.js (+ index.html)
 ├── sandbox/              circuit sandbox: drag gates, live state, presets, shareable links
 ├── schrodinger/          Schrödinger playground: type or draw V(x), levels, packets
+├── playground/           Hamiltonian Playground: Pauli-sum Hamiltonians, exact vs Trotter
 ├── tools/make-pages.mjs  writes each lesson's index.html from the catalog
+├── tools/set-status.mjs  marks catalog topics live or soon
 └── tests/                Node tests + Python reference generator
 ```
 
 ### Adding a lesson
 
-1. Add or update its entry in `lib/catalog.js` (set `status: 'live'` when it's ready).
-2. Write `web/<slug>/app.js`. Circuit-based lessons call `runCircuitLesson({...})` from
-   `ui/circuit-lesson.js` with their steps; custom lessons use `mountLesson` directly.
-3. Run `node web/tools/make-pages.mjs` to generate `web/<slug>/index.html`.
-4. Add tests for any new physics in `web/tests/`.
+1. Add its entry in `lib/catalog.js` with `status: 'soon'`.
+2. Put the physics in `lib/` and test it in `tests/` against something independent.
+3. Write `web/<slug>/app.js`. Circuit-based lessons call `runCircuitLesson({...})` from
+   `ui/circuit-lesson.js` with their steps; custom lessons use `mountLesson` directly. Never reuse
+   the frame's ids (`count`, `steps`, `back`, `next`, `caption`, `stage`, `try-slot`, ...).
+4. Run `node web/tools/set-status.mjs live <slug>` and `node web/tools/make-pages.mjs`.
+5. Check a few steps visually, in both themes, and at phone width (recipes in `PROJECT.md`).
 
 ## Conventions and limits
 
 - Qubit 0 is written first in Pauli strings and kets (`ZXI` is Z on qubit 0, |01⟩ has qubit 1 set). Qiskit uses the opposite order.
+- Wave, spin and approximation code uses ħ = m = 1; hydrogen uses atomic units; spectral wavelengths are vacuum values.
 - Up to 10 qubits, which is small enough that a laptop computes everything exactly. This is a learning tool, not a demonstration of quantum advantage.
-- The Trotter circuit shown is noiseless. The CNOT count is a rough compile estimate, a CNOT ladder per Pauli rotation.
+- In the Hamiltonian Playground the Trotter circuit is noiseless, and the CNOT count is a rough compile estimate (a CNOT ladder per Pauli rotation).
