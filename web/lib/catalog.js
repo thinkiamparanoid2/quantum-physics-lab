@@ -77,7 +77,7 @@ export const TOPICS = [
     summary: 'Send an unknown qubit using one Bell pair and two classical bits.',
     level: 'Intermediate',
     minutes: 10,
-    status: 'soon',
+    status: 'live',
     icon: 'M10 24a6 6 0 1 0 0.01 0 M38 24a6 6 0 1 0 0.01 0 M18 24 H30 M26 20 L30 24 L26 28',
   },
   {
@@ -87,7 +87,7 @@ export const TOPICS = [
     summary: 'Send two classical bits by sending one qubit, with a shared Bell pair.',
     level: 'Intermediate',
     minutes: 7,
-    status: 'soon',
+    status: 'live',
     icon: 'M8 16 H22 M8 24 H22 M22 20 H40 M36 16 L40 20 L36 24 M8 32 H22',
   },
   {
@@ -97,7 +97,7 @@ export const TOPICS = [
     summary: 'Share a secret key, and catch any eavesdropper by the errors they leave behind.',
     level: 'Intermediate',
     minutes: 10,
-    status: 'soon',
+    status: 'live',
     icon: 'M14 22 V16 a10 10 0 0 1 20 0 V22 M10 22 H38 V40 H10 Z M24 29 V33',
   },
   {

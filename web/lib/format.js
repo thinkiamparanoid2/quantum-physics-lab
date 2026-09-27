@@ -83,8 +83,10 @@ export function formatState(re, im, n, { maxTerms = 8 } = {}) {
 }
 
 export function percent(p) {
-  if (p > 0.9995 && p < 1) return '>99.9%';
-  if (p > 0 && p < 0.0005) return '<0.1%';
+  if (p > 1 - 1e-9) return '100%';
+  if (p < 1e-9) return '0%';
+  if (p > 0.9995) return '>99.9%';
+  if (p < 0.0005) return '<0.1%';
   const v = p * 100;
   return `${v < 10 && v % 1 !== 0 ? v.toFixed(1) : Math.round(v)}%`;
 }

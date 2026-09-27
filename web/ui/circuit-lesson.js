@@ -8,7 +8,8 @@
 //   params?: [{ id, label, type: 'range' | 'select', min, max, step, value, options, format }],
 //   build(params) -> [{ title, html: string | (ctx) => string, ops, until, highlight? }],
 //   bloch?: true | [qubits], sampler?: boolean, dials?: boolean (default true),
-//   views?: [{ title, legend?, caption?, height?, draw(canvas, ctx) }],
+//   views?: [{ title, legend?, caption?, height?, draw(canvas, ctx) } | { title, legend?, mount(el) -> { draw(ctx) } }],
+//   reroll?: false to hide "Measure again" when the lesson's measurements are deterministic,
 // }
 
 import { blochVector } from '../lib/bloch.js';
@@ -103,6 +104,11 @@ export function runCircuitLesson(def) {
 
   const customViews = (def.views ?? []).map((v) => {
     const c = card(stage, v.title, v.legend ?? '');
+    if (v.mount) {
+      const box = document.createElement('div');
+      c.append(box);
+      return { ...v, instance: v.mount(box) };
+    }
     const canvas = document.createElement('canvas');
     canvas.className = 'chart';
     canvas.style.height = `${v.height ?? 240}px`;
@@ -117,7 +123,7 @@ export function runCircuitLesson(def) {
   });
 
   // ----- try-it controls -----
-  const hasMeasurement = () => steps.some((s) => s.ops.some((op) => op.gate === 'MEASURE'));
+  const hasMeasurement = () => def.reroll !== false && steps.some((s) => s.ops.some((op) => op.gate === 'MEASURE'));
   if (def.params?.length || hasMeasurement()) {
     const tc = document.createElement('div');
     tc.className = 'panel try-card';
@@ -280,6 +286,10 @@ export function runCircuitLesson(def) {
       sampler.draw(th);
     }
     for (const v of customViews) {
+      if (v.instance) {
+        v.instance.draw(ctx);
+        continue;
+      }
       v.draw(v.canvas, ctx);
       if (v.caption) v.caption.innerHTML = typeof v.caption === 'function' ? v.caption(ctx) : v.caption;
     }

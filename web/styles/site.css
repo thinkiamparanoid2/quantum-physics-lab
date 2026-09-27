@@ -1686,6 +1686,110 @@ body.present .present-exit {
   }
 }
 
+/* BB84 photon table */
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.bb84-table {
+  border-collapse: separate;
+  border-spacing: 3px;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+.bb84-table th {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface-solid);
+  text-align: left;
+  font: 600 12.5px var(--font-sans);
+  color: var(--muted);
+  padding: 4px 12px 4px 2px;
+  white-space: nowrap;
+}
+
+.bb84-table td {
+  width: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  height: 30px;
+  text-align: center;
+  border-radius: 7px;
+  background: var(--surface-2);
+  white-space: nowrap;
+}
+
+.bb84-table td.badbit {
+  font-size: 11px;
+}
+
+.bb84-table tr.head td {
+  background: none;
+  color: var(--faint);
+  font-size: 11px;
+}
+
+.bb84-table td.photon {
+  font-size: 17px;
+  color: var(--accent-2);
+}
+
+.bb84-table td.eve,
+.bb84-table td.photon.eve {
+  color: var(--marked);
+}
+
+.bb84-table td.eve-miss {
+  color: var(--marked);
+  box-shadow: inset 0 0 0 1.5px var(--marked);
+}
+
+.bb84-table td.agree {
+  color: var(--accent-2);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent-2) 60%, transparent);
+}
+
+.bb84-table td.keybit {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+  font-weight: 600;
+}
+
+.bb84-table td.badbit {
+  background: color-mix(in srgb, var(--amp-neg) 35%, transparent);
+  font-weight: 600;
+}
+
+.bb84-table td.dim {
+  opacity: 0.35;
+}
+
+.key-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.key-line .label {
+  width: 44px;
+  margin: 0;
+}
+
+.key-bits {
+  font-family: var(--mono);
+  font-size: 18px;
+  letter-spacing: 0.18em;
+  word-break: break-all;
+}
+
+.bit-error {
+  color: var(--amp-neg);
+  font-weight: 700;
+}
+
 /* ---------- Hamiltonian Playground (tool layout) ---------- */
 
 .layout {
