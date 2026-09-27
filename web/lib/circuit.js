@@ -14,6 +14,32 @@ export const GATES = {
   T: { re: [1, 0, 0, R], im: [0, 0, 0, R] },
 };
 
+GATES.SDG = { re: [1, 0, 0, 0], im: [0, 0, 0, -1] };
+GATES.TDG = { re: [1, 0, 0, R], im: [0, 0, 0, -R] };
+
+// Rotations by angle t about the x, y and z axes of the Bloch sphere, and the phase gate P(t).
+export function rx(t) {
+  const c = Math.cos(t / 2);
+  const s = Math.sin(t / 2);
+  return { re: [c, 0, 0, c], im: [0, -s, -s, 0] };
+}
+
+export function ry(t) {
+  const c = Math.cos(t / 2);
+  const s = Math.sin(t / 2);
+  return { re: [c, -s, s, c], im: [0, 0, 0, 0] };
+}
+
+export function rz(t) {
+  const c = Math.cos(t / 2);
+  const s = Math.sin(t / 2);
+  return { re: [c, 0, 0, c], im: [-s, 0, 0, s] };
+}
+
+export function phase(t) {
+  return { re: [1, 0, 0, Math.cos(t)], im: [0, 0, 0, Math.sin(t)] };
+}
+
 export function zeroState(n) {
   const dim = 1 << n;
   const re = new Float64Array(dim);
