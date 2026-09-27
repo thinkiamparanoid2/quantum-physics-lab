@@ -13,6 +13,9 @@
   --trotter: #e8590c;
   --cursor: #9aa0aa;
   --error: #c92a2a;
+  --amp-pos: #3b5bdb;
+  --amp-neg: #e03131;
+  --marked: #d9480f;
   --heat-0: #f1f0ea;
   --heat-50: #7b93e6;
   --heat-100: #1c2f7a;
@@ -36,6 +39,9 @@
     --trotter: #ff922b;
     --cursor: #6b717c;
     --error: #ff8787;
+    --amp-pos: #748ffc;
+    --amp-neg: #ff6b6b;
+    --marked: #ffa94d;
     --heat-0: #1c1f28;
     --heat-50: #4a62c4;
     --heat-100: #d3dcff;
@@ -96,6 +102,231 @@ code {
 
 a {
   color: var(--accent);
+}
+
+/* Topic pages */
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.topic {
+  display: grid;
+  gap: 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 12px 20px 20px;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+  position: sticky;
+  top: 12px;
+  z-index: 2;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.step-label {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-left: 6px;
+}
+
+.stepper .keys {
+  margin: 0 0 0 auto;
+}
+
+.topic-main {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.chart.xl {
+  height: 360px;
+  cursor: pointer;
+}
+
+.chart.square {
+  height: 320px;
+}
+
+.narrative {
+  padding: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.narrative h2 {
+  font-size: 19px;
+}
+
+.narrative p {
+  margin: 8px 0;
+}
+
+.narrative .warn {
+  color: var(--marked);
+}
+
+.measure-box {
+  margin: 14px 0 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.measure-box p {
+  font-size: 14px;
+  min-height: 1.5em;
+}
+
+.hit {
+  color: var(--marked);
+  font-weight: 600;
+}
+
+.mono {
+  font-family: var(--mono);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.facts dt {
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.key.block.negative {
+  background: var(--amp-neg);
+}
+
+.key.outline.marked {
+  border-color: var(--marked);
+}
+
+.key.dashed {
+  border-top: 2px dashed var(--text);
+}
+
+.circuit-scroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.circuit {
+  display: block;
+  font: 13px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.circuit .wire {
+  stroke: var(--axis);
+  stroke-width: 1.5;
+}
+
+.circuit .wire-label {
+  fill: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.circuit .group-label {
+  fill: var(--muted);
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.circuit .col {
+  cursor: pointer;
+  outline: none;
+}
+
+.circuit .col rect {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.circuit .col.oracle rect {
+  stroke: var(--marked);
+}
+
+.circuit .col.todo {
+  opacity: 0.4;
+}
+
+.circuit .col.current rect {
+  fill: var(--accent);
+}
+
+.circuit .col.current.oracle rect {
+  fill: var(--marked);
+}
+
+.circuit .col:hover rect,
+.circuit .col:focus-visible rect {
+  stroke-width: 3;
+}
+
+.circuit .block-label {
+  fill: var(--text);
+  text-anchor: middle;
+  font-weight: 600;
+}
+
+.circuit .col.current .block-label {
+  fill: var(--accent-text);
+}
+
+.circuit .meter {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1.5;
+}
+
+.circuit .cursor {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+
+@media (max-width: 1000px) {
+  .topic-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .topic {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .stepper .keys {
+    display: none;
+  }
 }
 
 /* Landing page */

@@ -44,10 +44,15 @@ web/
 ├── styles/site.css   shared design tokens and components (light/dark)
 ├── lib/              pure logic, no DOM, tested in Node
 │   ├── pauli.js        parses Pauli sums like 0.5*Z0 Z1 + X2 or ZZI - 0.3*XIX
-│   └── dynamics.js     statevector engine: exact evolution and 1st/2nd-order Trotter
-├── ui/               canvas components shared by topics
-│   └── charts.js       line chart, space-time heatmap, bar chart
+│   ├── dynamics.js     Hamiltonian dynamics: exact evolution and 1st/2nd-order Trotter
+│   ├── circuit.js      gate-level statevector engine (H, X, Y, Z, S, T, controls, phase flips)
+│   └── grover.js       Grover's search built from real gates, plus its closed-form results
+├── ui/               components shared by topics
+│   ├── charts.js       line chart, space-time heatmap, bar chart, axis helpers
+│   ├── amplitude-bars.js  signed amplitude bars with average line and marked states
+│   └── circuit-strip.js   clickable step-through circuit diagram (SVG)
 ├── playground/       Hamiltonian Playground (index.html, app.js, presets.js)
+├── grover/           Grover's search (index.html, app.js, plane.js)
 └── tests/            Node tests + Python reference generator
 ```
 

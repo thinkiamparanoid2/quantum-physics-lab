@@ -314,7 +314,7 @@ function init() {
   });
   ui.heatSource.addEventListener('change', render);
   document.addEventListener('keydown', (e) => {
-    if (e.code !== 'Space' || e.target.closest('input, textarea, select, button')) return;
+    if (e.code !== 'Space' || (e.target instanceof Element && e.target.closest('input, textarea, select, button'))) return;
     e.preventDefault();
     setPlaying(!playing);
   });
