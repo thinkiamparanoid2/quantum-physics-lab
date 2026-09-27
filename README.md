@@ -9,7 +9,7 @@ built for students learning quantum mechanics and for teachers explaining it.
 [![Tests](https://github.com/thinkiamparanoid2/quantum-physics-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/thinkiamparanoid2/quantum-physics-lab/actions/workflows/tests.yml)
 ![No build step](https://img.shields.io/badge/build_step-none-8b7bff)
 ![Runs in the browser](https://img.shields.io/badge/runs-in_your_browser-2ee6f5)
-![Topics](https://img.shields.io/badge/interactive_topics-29-8b7bff)
+![Topics](https://img.shields.io/badge/interactive_topics-33-8b7bff)
 
 <img src="docs/screenshots/home.png" alt="Landing page: 'Quantum physics, made visible.' beside a Bloch sphere rotating under a Hadamard gate" width="900">
 
@@ -33,11 +33,18 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 | **Qubits** | [The qubit](web/qubit/) · [Measurement](web/measurement/) · [Interference and phase](web/interference/) · [Entanglement](web/entanglement/) |
 | **Protocols** | [Quantum teleportation](web/teleportation/) · [Superdense coding](web/superdense-coding/) · [BB84 key distribution](web/bb84/) |
 | **Algorithms** | [Deutsch–Jozsa](web/deutsch-jozsa/) · [Bernstein–Vazirani](web/bernstein-vazirani/) · [Grover's search](web/grover/) · [Quantum Fourier transform](web/qft/) · [Phase estimation](web/phase-estimation/) · [Shor's algorithm](web/shor/) |
+| **Nonlocality, noise and error correction** | [Bell's theorem: the CHSH game](web/bell-test/) · [Decoherence and mixed states](web/decoherence/) · [Quantum error correction](web/error-correction/) · [Shor's nine-qubit code](web/shor-code/) |
 | **Tools** | [Schrödinger playground](web/schrodinger/): type or draw any potential, see its levels, watch packets move · [Circuit sandbox](web/sandbox/): drag gates, see the state live · [Hamiltonian Playground](web/playground/): type any Hamiltonian, compare exact and Trotterized dynamics |
 
 ## A quick tour
 
 <table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/bell-test.png" alt="CHSH game: 4000 rounds won at 85%, above the classical 75% limit, with the measurement directions and correlation table"><br>
+      <b>Bell's theorem.</b> Play the CHSH game: fixed rules stop at 75%, a shared Bell pair wins 85%.</td>
+    <td width="50%"><img src="docs/screenshots/decoherence.png" alt="Decoherence: a Bloch arrow spiralling inward with its density matrix and a decaying Ramsey fringe"><br>
+      <b>Decoherence.</b> Arrows shrink inside the sphere as the qubit leaks information to its surroundings.</td>
+  </tr>
   <tr>
     <td width="50%"><img src="docs/screenshots/double-slit.png" alt="Double slit: 3000 photon hits forming fringes, with the histogram matching the predicted pattern"><br>
       <b>Double slit.</b> Photons or electrons land one dot at a time and build the fringes; a which-path detector fades them out.</td>
@@ -99,7 +106,7 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 ## Is it right?
 
 Every simulation is either exact (statevectors, sums of stationary states) or checked against an
-independent method, and the physics is checked by 67 automated tests:
+independent method, and the physics is checked by 72 automated tests:
 
 - The JavaScript engine matches **numpy/scipy** and the **Qiskit** Schwinger-model Hamiltonian to 10⁻⁹.
 - The QFT equals the discrete Fourier transform; Grover follows sin²((2k+1)θ); phase estimation reaches ≥ 4/π².
@@ -111,6 +118,8 @@ independent method, and the physics is checked by 67 automated tests:
 - Transmission matches the exact rectangular-barrier formula with T + R = 1, and simulated wave packets agree with it to about 0.2%.
 - The magnetic-resonance solution matches direct numerical integration to 10⁻⁸ and Rabi's formula exactly; spin echoes refocus fully.
 - The Mach–Zehnder formulas equal the same experiment built from qubit gates; the bomb tester gives 1/2 boom, 1/4 dark detector; the Zeno version tends to 1.
+- CHSH: no classical rule beats 75%, simulated Bell pairs win cos²(π/8); a qubit touching N environment qubits keeps coherence cos(θ/2)ᴺ, from an exact partial trace.
+- Shor's nine-qubit code, built from gates, returns the message exactly after any X, Y, Z or arbitrary rotation on any one qubit.
 - Double-slit dark fringes sit exactly at (m + ½)λ/d, and marked paths add intensities; stopping voltages fit a line of slope h/e.
 - Hydrogen's radial functions are normalised with ⟨r⟩ = (3n² − l(l+1))/2; solving the radial equation numerically gives −1/2n²; the Balmer lines match NIST to 0.01 nm.
 
@@ -128,7 +137,7 @@ python -m http.server 8765 --directory web
 Then open <http://localhost:8765>. (ES modules don't load from `file://`, hence the tiny server.)
 
 ```bash
-cd web && npm test                          # 60 web tests, Node 20+, no dependencies
+cd web && npm test                          # 65 web tests, Node 20+, no dependencies
 pip install -r requirements.txt && pytest   # 7 Python tests
 ```
 
@@ -144,7 +153,7 @@ PennyLane animation. Real-hardware runs on IBM Quantum are planned under `hardwa
 ```
 quantum-physics-lab/
 ├── web/                  the website (static HTML/CSS/JS, deployable as-is)
-│   ├── lib/              physics engine: circuits, Bloch geometry, algorithms, protocols, 1D waves, spin, hydrogen, optics
+│   ├── lib/              physics engine: circuits, Bloch geometry, algorithms, protocols, 1D waves, spin, hydrogen, optics, noise
 │   ├── ui/               shared components: lesson frame, circuit diagrams, dials, Bloch spheres
 │   ├── <topic>/          one folder per lesson
 │   └── tests/            Node tests + Python reference generator
@@ -163,7 +172,7 @@ compares MIT, Cambridge and Oxford syllabi with what's here.
 - ~~**Waves and the Schrödinger equation:** wave packets and uncertainty, particle in a box, harmonic oscillator, tunnelling, the shooting method, a draw-your-own-potential playground~~ Done
 - ~~**Spin and atoms:** Stern–Gerlach, magnetic resonance, hydrogen orbitals and spectra~~ Done
 - ~~**The experiments that started it:** double slit, photoelectric effect, Mach–Zehnder~~ Done
-- **More quantum information:** Bell/CHSH test, density matrices and decoherence, quantum error correction
+- ~~**More quantum information:** Bell/CHSH test, density matrices and decoherence, quantum error correction~~ Done
 
 ## Contributing
 
