@@ -152,6 +152,11 @@ canvas {
   max-width: 100%;
 }
 
+/* Component display rules (e.g. .btn's inline-flex) would otherwise override the attribute. */
+[hidden] {
+  display: none !important;
+}
+
 .container {
   width: 100%;
   max-width: var(--maxw);
