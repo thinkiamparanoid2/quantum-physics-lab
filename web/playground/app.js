@@ -2,6 +2,9 @@ import { ParseError, parsePauliSum, parseState, qubitCount, toPauliTerms } from 
 import { PRESETS } from './presets.js';
 import { MAX_QUBITS, circuitCost, makeOperator, productState, simulate } from '../lib/dynamics.js';
 import { barChart, heatmap, lineChart, theme } from '../ui/charts.js';
+import { mountShell } from '../ui/shell.js';
+
+mountShell();
 
 const $ = (id) => document.getElementById(id);
 const ui = {
@@ -314,7 +317,7 @@ function init() {
   });
   ui.heatSource.addEventListener('change', render);
   document.addEventListener('keydown', (e) => {
-    if (e.code !== 'Space' || e.target.closest('input, textarea, select, button')) return;
+    if (e.code !== 'Space' || (e.target instanceof Element && e.target.closest('input, textarea, select, button'))) return;
     e.preventDefault();
     setPlaying(!playing);
   });
@@ -334,7 +337,7 @@ function init() {
     if (readHash() && compute()) setPlaying(true);
   });
   new ResizeObserver(() => render()).observe(document.querySelector('.viz'));
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+  window.addEventListener('themechange', render);
 
   if (readHash()) {
     if (compute()) setPlaying(true);

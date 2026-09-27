@@ -1,8 +1,8 @@
 // Small canvas chart helpers: line chart, space-time heatmap, bar chart.
 // Colors come from CSS custom properties so charts follow the page's light/dark theme.
 
-const FONT = '12px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-const MONO = '11px ui-monospace, "Cascadia Code", Consolas, monospace';
+export const FONT = '12px Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+export const MONO = '11px "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace';
 
 function hexToRgb(hex) {
   let h = hex.replace('#', '');
@@ -23,12 +23,17 @@ export function theme() {
     exact: v('--exact'),
     trotter: v('--trotter'),
     cursor: v('--cursor'),
+    accent: v('--accent'),
+    accent2: v('--accent-2'),
+    ampPos: v('--amp-pos'),
+    ampNeg: v('--amp-neg'),
+    marked: v('--marked'),
     empty: v('--heat-empty'),
     heat: [hexToRgb(v('--heat-0')), hexToRgb(v('--heat-50')), hexToRgb(v('--heat-100'))],
   };
 }
 
-function prep(canvas) {
+export function prep(canvas) {
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
   const w = Math.max(1, Math.round(rect.width));
@@ -61,14 +66,14 @@ function fmt(v, step) {
   return decimals > 4 ? v.toExponential(0) : v.toFixed(decimals);
 }
 
-function hline(ctx, x0, x1, y) {
+export function hline(ctx, x0, x1, y) {
   ctx.beginPath();
   ctx.moveTo(x0, y);
   ctx.lineTo(x1, y);
   ctx.stroke();
 }
 
-function yAxis(ctx, box, yr, th) {
+export function yAxis(ctx, box, yr, th) {
   const Y = (v) => box.y1 - ((v - yr[0]) / (yr[1] - yr[0])) * (box.y1 - box.y0);
   const yt = ticks(yr[0], yr[1], Math.max(2, Math.floor((box.y1 - box.y0) / 42)));
   ctx.font = FONT;
@@ -86,8 +91,17 @@ function yAxis(ctx, box, yr, th) {
 }
 
 function timeAxis(ctx, box, tMax, th) {
-  const X = (t) => box.x0 + (t / tMax) * (box.x1 - box.x0);
-  const xt = ticks(0, tMax, Math.max(2, Math.floor((box.x1 - box.x0) / 80)));
+  return xAxis(ctx, box, [0, tMax], th);
+}
+
+export function xAxis(ctx, box, [lo, hi], th, { integer = false } = {}) {
+  const X = (t) => box.x0 + ((t - lo) / (hi - lo)) * (box.x1 - box.x0);
+  const xt = ticks(lo, hi, Math.max(2, Math.floor((box.x1 - box.x0) / 80)));
+  if (integer && xt.step < 1) {
+    xt.step = 1;
+    xt.values = [];
+    for (let v = Math.ceil(lo); v <= hi; v++) xt.values.push(v);
+  }
   ctx.font = FONT;
   ctx.strokeStyle = th.axis;
   ctx.lineWidth = 1;
