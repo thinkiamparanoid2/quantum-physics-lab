@@ -3,13 +3,13 @@
 # Quantum Physics Lab
 
 **Quantum physics, made visible.**<br>
-Interactive, step-by-step lessons where you watch wave packets tunnel through walls, qubits rotate and algorithms find their answers,
+Interactive, step-by-step lessons where you watch wave packets tunnel through walls, electron clouds take shape, qubits rotate and algorithms find their answers,
 built for students learning quantum mechanics and for teachers explaining it.
 
 [![Tests](https://github.com/thinkiamparanoid2/quantum-physics-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/thinkiamparanoid2/quantum-physics-lab/actions/workflows/tests.yml)
 ![No build step](https://img.shields.io/badge/build_step-none-8b7bff)
 ![Runs in the browser](https://img.shields.io/badge/runs-in_your_browser-2ee6f5)
-![Topics](https://img.shields.io/badge/interactive_topics-21-8b7bff)
+![Topics](https://img.shields.io/badge/interactive_topics-25-8b7bff)
 
 <img src="docs/screenshots/home.png" alt="Landing page: 'Quantum physics, made visible.' beside a Bloch sphere rotating under a Hadamard gate" width="900">
 
@@ -28,6 +28,7 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 | Section | Topics |
 |---|---|
 | **Waves** | [Wave packets and uncertainty](web/wave-packets/) · [Particle in a box](web/particle-in-a-box/) · [Harmonic oscillator](web/harmonic-oscillator/) · [Tunnelling and scattering](web/tunnelling/) · [The shooting method](web/shooting-method/) |
+| **Spin and atoms** | [Stern–Gerlach](web/stern-gerlach/) · [Magnetic resonance](web/magnetic-resonance/) · [The hydrogen atom](web/hydrogen/) · [Atomic spectra](web/atomic-spectra/) |
 | **Qubits** | [The qubit](web/qubit/) · [Measurement](web/measurement/) · [Interference and phase](web/interference/) · [Entanglement](web/entanglement/) |
 | **Protocols** | [Quantum teleportation](web/teleportation/) · [Superdense coding](web/superdense-coding/) · [BB84 key distribution](web/bb84/) |
 | **Algorithms** | [Deutsch–Jozsa](web/deutsch-jozsa/) · [Bernstein–Vazirani](web/bernstein-vazirani/) · [Grover's search](web/grover/) · [Quantum Fourier transform](web/qft/) · [Phase estimation](web/phase-estimation/) · [Shor's algorithm](web/shor/) |
@@ -41,6 +42,12 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
       <b>Tunnelling.</b> A packet splits at a wall it can't climb; the share that gets through matches the exact T(E) curve.</td>
     <td width="50%"><img src="docs/screenshots/schrodinger.png" alt="Schrödinger playground with a periodic potential whose energy levels bunch into bands"><br>
       <b>Schrödinger playground.</b> Type or draw any potential. Here a crystal lattice's levels bunch into bands.</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/hydrogen.png" alt="Hydrogen 3d z-squared orbital as a 3D electron cloud, a slice through it and its radial probability"><br>
+      <b>Hydrogen.</b> 5000 sampled electron positions, a slice showing the nodes, and the energy checked by solving the radial equation.</td>
+    <td width="50%"><img src="docs/screenshots/resonance.png" alt="Magnetic resonance: a spin spiralling down the Bloch sphere next to its Rabi oscillation"><br>
+      <b>Magnetic resonance.</b> A spin driven at its Larmor frequency spirals down and back: the exact solution against Rabi's formula.</td>
   </tr>
   <tr>
     <td width="50%"><img src="docs/screenshots/interference.png" alt="Interference lesson: the two arrows arriving at |1⟩ point in opposite directions and cancel"><br>
@@ -85,7 +92,7 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 ## Is it right?
 
 Every simulation is either exact (statevectors, sums of stationary states) or checked against an
-independent method, and the physics is checked by 53 automated tests:
+independent method, and the physics is checked by 62 automated tests:
 
 - The JavaScript engine matches **numpy/scipy** and the **Qiskit** Schwinger-model Hamiltonian to 10⁻⁹.
 - The QFT equals the discrete Fourier transform; Grover follows sin²((2k+1)θ); phase estimation reaches ≥ 4/π².
@@ -95,6 +102,8 @@ independent method, and the physics is checked by 53 automated tests:
 - The wave solver reproduces the box levels n²π²/2L² and the oscillator's n + ½; the shooting method finds them to 10⁻⁷.
 - A free Gaussian spreads as σ√(1 + (t/2σ²)²) with Δx·Δk = ½; a coherent state swings as 3 cos t without spreading.
 - Transmission matches the exact rectangular-barrier formula with T + R = 1, and simulated wave packets agree with it to about 0.2%.
+- The magnetic-resonance solution matches direct numerical integration to 10⁻⁸ and Rabi's formula exactly; spin echoes refocus fully.
+- Hydrogen's radial functions are normalised with ⟨r⟩ = (3n² − l(l+1))/2; solving the radial equation numerically gives −1/2n²; the Balmer lines match NIST to 0.01 nm.
 
 At these sizes a laptop is exact and instant. The point is to see what the mathematics does, not to
 claim any quantum advantage.
@@ -110,7 +119,7 @@ python -m http.server 8765 --directory web
 Then open <http://localhost:8765>. (ES modules don't load from `file://`, hence the tiny server.)
 
 ```bash
-cd web && npm test                          # 46 web tests, Node 20+, no dependencies
+cd web && npm test                          # 55 web tests, Node 20+, no dependencies
 pip install -r requirements.txt && pytest   # 7 Python tests
 ```
 
@@ -126,7 +135,7 @@ PennyLane animation. Real-hardware runs on IBM Quantum are planned under `hardwa
 ```
 quantum-physics-lab/
 ├── web/                  the website (static HTML/CSS/JS, deployable as-is)
-│   ├── lib/              physics engine: circuits, Bloch geometry, algorithms, protocols, 1D waves
+│   ├── lib/              physics engine: circuits, Bloch geometry, algorithms, protocols, 1D waves, spin, hydrogen
 │   ├── ui/               shared components: lesson frame, circuit diagrams, dials, Bloch spheres
 │   ├── <topic>/          one folder per lesson
 │   └── tests/            Node tests + Python reference generator
@@ -143,7 +152,7 @@ University courses teach much more quantum mechanics than qubits. The [curriculu
 compares MIT, Cambridge and Oxford syllabi with what's here.
 
 - ~~**Waves and the Schrödinger equation:** wave packets and uncertainty, particle in a box, harmonic oscillator, tunnelling, the shooting method, a draw-your-own-potential playground~~ Done
-- **Spin and atoms:** Stern–Gerlach, magnetic resonance, hydrogen orbitals and spectra
+- ~~**Spin and atoms:** Stern–Gerlach, magnetic resonance, hydrogen orbitals and spectra~~ Done
 - **The experiments that started it:** double slit, photoelectric effect, Mach–Zehnder
 - **More quantum information:** Bell/CHSH test, density matrices and decoherence, quantum error correction
 

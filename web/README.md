@@ -56,6 +56,10 @@ web/
 │   ├── wave.js             1D wave mechanics (ħ = m = 1): eigenstates, split-operator evolution,
 │   │                       shooting (Numerov), transmission through any potential
 │   ├── fft.js              radix-2 FFT
+│   ├── spin.js             spin-1/2: measurement on any axis, Stern-Gerlach chains, exact
+│   │                       magnetic resonance (rotating frame), spin-echo ensembles
+│   ├── hydrogen.js         hydrogen orbitals (R_nl, real Y_lm), energies, Rydberg lines,
+│   │                       wavelength colours, electron-cloud sampling
 │   └── expr.js             safe formula parser for V(x), no eval
 ├── ui/                   browser components
 │   ├── shell.js            nav with topics menu, Dark/Light switch, footer, Present mode

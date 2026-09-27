@@ -30,13 +30,13 @@ Condensed from MIT 8.04 → 8.05 → 8.06, Cambridge, Oxford and Griffiths-based
 
 | Stage | Topics | On the site |
 |---|---|---|
-| **Experimental origins** | Photoelectric effect, Compton scattering, de Broglie waves, double slit and Mach–Zehnder, Stern–Gerlach | Not yet |
+| **Experimental origins** | Photoelectric effect, Compton scattering, de Broglie waves, double slit and Mach–Zehnder, Stern–Gerlach | Partly (Stern–Gerlach, atomic spectra) |
 | **Wave mechanics** | Wavefunction and probability density, probability current, wave packets and group velocity, Fourier transforms and the uncertainty principle, Ehrenfest's theorem | **Mostly covered** (no probability current yet) |
 | **1D bound states** | Infinite and finite square wells, harmonic oscillator (Hermite functions, ladder operators, coherent states), delta potential, particle on a ring, node theorem, shooting method | **Mostly covered** (no delta potential or ring yet) |
 | **1D scattering** | Steps and barriers, tunnelling, transmission and reflection, Ramsauer–Townsend resonance, wave-packet scattering | **Covered** |
 | **Formalism** | Operators, Hermiticity, commutators, measurement postulate, stationary states and time evolution, two-state systems | Partly (qubit, measurement) |
-| **3D and angular momentum** | Central potentials, spherical harmonics, the hydrogen atom and its spectrum, orbitals | Not yet |
-| **Spin** | Spin-1/2, Stern–Gerlach, precession in a magnetic field, magnetic resonance and Rabi oscillations, addition of angular momentum | Partly (Bloch sphere) |
+| **3D and angular momentum** | Central potentials, spherical harmonics, the hydrogen atom and its spectrum, orbitals | **Mostly covered** (no angular-momentum operators or ladder algebra yet) |
+| **Spin** | Spin-1/2, Stern–Gerlach, precession in a magnetic field, magnetic resonance and Rabi oscillations, addition of angular momentum | **Mostly covered** (no addition of angular momentum yet) |
 | **Many particles** | Identical particles, exchange symmetry, Pauli exclusion, periodic table, Fermi–Dirac and Bose–Einstein statistics | Not yet |
 | **Solids** | Periodic potentials, Bloch waves, band structure (Kronig–Penney), metals vs insulators | Partly (lattice example in the Schrödinger playground) |
 | **Approximation methods** | Time-independent perturbation theory, variational method, WKB, time-dependent perturbation theory, Fermi's golden rule, adiabatic theorem | Not yet |
@@ -57,7 +57,7 @@ evolution) powers all of these.
 5. The shooting method (find energy levels by hand, as in MIT 8.04 lecture 13)
 6. A Schrödinger playground: draw any potential and see its states
 
-**Phase B: spin and atoms.** Stern–Gerlach (sequential magnets), spin precession and magnetic
+**Phase B: spin and atoms (done).** Stern–Gerlach (sequential magnets), spin precession and magnetic
 resonance (reusing the Bloch sphere), the hydrogen atom (3D orbitals, energy levels, spectral lines).
 
 **Phase C: experiments that started it.** Double slit with single particles building up a pattern,

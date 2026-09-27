@@ -13,15 +13,19 @@ const LABELS = [
 ];
 
 export class BlochView {
-  constructor(canvas, { yaw = -0.62, pitch = 0.3, labels = 'all', title = '', interactive = true } = {}) {
+  constructor(canvas, { yaw = -0.62, pitch = 0.3, labels = 'all', names = null, title = '', interactive = true } = {}) {
     this.canvas = canvas;
     this.home = { yaw, pitch };
     this.yaw = yaw;
     this.pitch = pitch;
     this.labels = labels;
+    // Optional replacement text for the six axis labels, in the order of LABELS.
+    this.names = names;
     this.title = title;
     this.vector = [0, 0, 1];
     this.trail = [];
+    // Extra thin arrows, e.g. the individual spins of an ensemble.
+    this.others = [];
     this.axis = null;
     this.axisLabel = '';
     this.note = '';
@@ -125,12 +129,13 @@ export class BlochView {
       ctx.font = small ? `10px ${MONO_FAMILY}` : MONO;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      for (const [v, label] of LABELS) {
-        if (this.labels === 'poles' && v[2] === 0) continue;
+      LABELS.forEach(([v, ket], i) => {
+        const label = this.names?.[i] ?? ket;
+        if (this.labels === 'poles' && v[2] === 0) return;
         const p = P(v.map((c) => c * (small ? 1.2 : 1.17)));
         ctx.fillStyle = p.depth < -0.3 ? withAlpha(th.muted, 0.5) : th.muted;
         ctx.fillText(label, p.sx, p.sy);
-      }
+      });
     }
 
     if (this.axis) {
@@ -161,6 +166,18 @@ export class BlochView {
         ctx.beginPath();
         ctx.moveTo(p0.sx, p0.sy);
         ctx.lineTo(p1.sx, p1.sy);
+        ctx.stroke();
+      }
+    }
+
+    if (this.others.length) {
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = withAlpha(th.exact, 0.55);
+      for (const v of this.others) {
+        const p = P(v);
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(p.sx, p.sy);
         ctx.stroke();
       }
     }
