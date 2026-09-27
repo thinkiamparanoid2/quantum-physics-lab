@@ -5,6 +5,8 @@
 // URL form (fragment, no escaping needed): n=3&c=H0/C0_X1/RY2@-45
 //   columns separated by '/', cells by '_', angles in degrees after '@'.
 
+import { conditionsOf } from './circuit.js';
+
 export const ANGLE_GATES = new Set(['RX', 'RY', 'RZ', 'P']);
 export const GATE_NAMES = ['H', 'X', 'Y', 'Z', 'S', 'SDG', 'T', 'TDG', 'RX', 'RY', 'RZ', 'P', 'M', 'C', 'W'];
 export const MAX_QUBITS = 6;
@@ -134,9 +136,9 @@ export function fromOps(n, ops) {
       if (ANGLE_GATES.has(op.gate)) x.a = op.angle;
       if (!GATE_NAMES.includes(op.gate)) return null;
       const controls = [...(op.controls ?? [])];
-      if (op.if) {
-        if (op.if.value !== 1 || measuredQubit[op.if.bit] === undefined) return null;
-        controls.push(measuredQubit[op.if.bit]);
+      for (const c of conditionsOf(op)) {
+        if (c.value !== 1 || measuredQubit[c.bit] === undefined) return null;
+        controls.push(measuredQubit[c.bit]);
       }
       cells = [x, ...controls.map((q) => ({ g: 'C', q }))];
     }
