@@ -259,6 +259,48 @@ canvas {
   gap: 8px;
 }
 
+.theme-switch {
+  display: flex;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface-2);
+}
+
+.theme-switch button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  font: 500 13px var(--font-sans);
+  cursor: pointer;
+}
+
+.theme-switch button:hover {
+  color: var(--text);
+}
+
+.theme-switch button[aria-pressed='true'] {
+  background: var(--surface-solid);
+  color: var(--text);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+}
+
+.theme-switch svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .icon-btn {
   display: grid;
   place-items: center;
@@ -1580,8 +1622,13 @@ body.present .present-exit {
     padding-right: 14px;
   }
 
-  .brand-name {
+  .brand-name,
+  .theme-switch span {
     display: none;
+  }
+
+  .theme-switch button {
+    padding: 7px 9px;
   }
 
   .mega-grid {
