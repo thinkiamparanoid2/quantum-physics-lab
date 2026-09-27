@@ -1,7 +1,7 @@
-import { ParseError, parsePauliSum, parseState, qubitCount, toPauliTerms } from './parse.js';
+import { ParseError, parsePauliSum, parseState, qubitCount, toPauliTerms } from '../lib/pauli.js';
 import { PRESETS } from './presets.js';
-import { MAX_QUBITS, circuitCost, makeOperator, productState, simulate } from './sim.js';
-import { barChart, heatmap, lineChart, theme } from './charts.js';
+import { MAX_QUBITS, circuitCost, makeOperator, productState, simulate } from '../lib/dynamics.js';
+import { barChart, heatmap, lineChart, theme } from '../ui/charts.js';
 
 const $ = (id) => document.getElementById(id);
 const ui = {

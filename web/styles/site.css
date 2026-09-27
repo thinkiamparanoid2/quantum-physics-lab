@@ -84,6 +84,139 @@ code {
   color: var(--muted);
 }
 
+.crumb {
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.crumb:hover {
+  color: var(--accent);
+}
+
+a {
+  color: var(--accent);
+}
+
+/* Landing page */
+
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 20px 12px;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 4vw, 40px);
+  letter-spacing: -0.02em;
+}
+
+.lede {
+  max-width: 680px;
+  margin: 12px 0 0;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.hero-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.topics {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 20px 24px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 28px 0 12px;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.topic-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+a.topic-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.topic-card h3 {
+  margin: 4px 0 0;
+  font-size: 16px;
+}
+
+.topic-card p {
+  margin: 0;
+  color: var(--muted);
+  flex: 1;
+}
+
+.topic-card.soon {
+  opacity: 0.62;
+}
+
+.topic-icon {
+  width: 44px;
+  height: 44px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.topic-icon .fill {
+  fill: var(--accent);
+}
+
+.badge {
+  align-self: flex-start;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.badge.live {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topic-card {
+    transition: none;
+  }
+
+  a.topic-card:hover {
+    transform: none;
+  }
+}
+
 .layout {
   display: grid;
   grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
@@ -389,6 +522,10 @@ input[type="range"] {
   padding: 4px 20px 32px;
   color: var(--muted);
   font-size: 12.5px;
+}
+
+.footer.narrow {
+  max-width: 1100px;
 }
 
 .footer p {

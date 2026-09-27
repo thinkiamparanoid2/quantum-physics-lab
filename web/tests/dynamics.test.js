@@ -4,9 +4,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
-import { parsePauliSum, parseState, qubitCount, toPauliTerms, ParseError } from '../js/parse.js';
-import { schwinger } from '../js/presets.js';
-import { makeOperator, productState, simulate } from '../js/sim.js';
+import { parsePauliSum, parseState, qubitCount, toPauliTerms, ParseError } from '../lib/pauli.js';
+import { schwinger } from '../playground/presets.js';
+import { makeOperator, productState, simulate } from '../lib/dynamics.js';
 
 const reference = JSON.parse(readFileSync(new URL('./reference.json', import.meta.url), 'utf8'));
 const TOL = 1e-9;
