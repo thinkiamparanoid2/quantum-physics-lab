@@ -158,3 +158,22 @@ export function bombTest(live) {
 // resetting it to horizontal; a dud lets it turn all the way to vertical.
 // Returns the chance that a live bomb is found without exploding.
 export const zenoSuccess = (N) => Math.cos(Math.PI / (2 * N)) ** (2 * N);
+
+// ----- Compton scattering -----
+
+export const COMPTON_PM = 2.42631024; // h / (m_e c), picometres
+export const ELECTRON_KEV = 510.99895;
+
+// A photon of wavelength lambda (pm) scatters off an electron at rest through angle theta.
+// Returns the new wavelength, the photon energies (keV), the electron's kinetic energy (keV) and
+// its recoil angle phi (from the incoming direction, on the other side).
+export function compton(lambdaPm, theta) {
+  const out = lambdaPm + COMPTON_PM * (1 - Math.cos(theta));
+  const E0 = (HC_EV_NM * 1e3) / lambdaPm / 1e3; // hc/lambda with hc in keV pm
+  const E1 = (HC_EV_NM * 1e3) / out / 1e3;
+  // electron momentum = photon momentum in - photon momentum out (units keV/c)
+  const px = E0 - E1 * Math.cos(theta);
+  const py = -E1 * Math.sin(theta);
+  const phi = Math.atan2(-py, px);
+  return { out, E0, E1, kinetic: E0 - E1, phi, p: Math.hypot(px, py) };
+}

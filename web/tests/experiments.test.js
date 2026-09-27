@@ -16,6 +16,9 @@ import {
   slitSampler,
   thresholdNm,
   zenoSuccess,
+  compton,
+  COMPTON_PM,
+  ELECTRON_KEV,
 } from '../lib/optics.js';
 
 const close = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, `${msg}: ${a} vs ${b}`);
@@ -92,4 +95,17 @@ test('bomb tester: a live bomb is found without exploding a quarter of the time;
   assert.ok(zenoSuccess(1) < 1e-12, 'one big turn always hits the bomb');
   close(zenoSuccess(10), 0.78, 0.01, 'N = 10');
   assert.ok(zenoSuccess(1000) > 0.997, 'N = 1000');
+});
+
+test('Compton scattering: shift h/mc (1 - cos theta), with energy and momentum both conserved', () => {
+  const r90 = compton(71.1, Math.PI / 2);
+  close(r90.out - 71.1, COMPTON_PM, 1e-12, 'shift at 90 degrees is the Compton wavelength');
+  close(compton(71.1, Math.PI).out - 71.1, 2 * COMPTON_PM, 1e-12, 'backscatter doubles it');
+  for (const theta of [0.3, 1, 2, 3]) {
+    const r = compton(71.1, theta);
+    // the electron's relativistic energy from its momentum must match the energy lost by the photon
+    const Ee = Math.sqrt(r.p * r.p + ELECTRON_KEV ** 2) - ELECTRON_KEV;
+    close(Ee, r.kinetic, 1e-7 * r.kinetic, `energy balance at ${theta} (constants rounded to ~9 digits)`);
+  }
+  close(compton(71.1, 0).E0, 17.44, 0.01, 'molybdenum K-alpha photon energy (keV)');
 });

@@ -18,3 +18,20 @@ test('no lesson reuses an id owned by the lesson frame', () => {
   }
   assert.deepEqual(clashes, [], `ids clash with the lesson frame:\n${clashes.join('\n')}`);
 });
+
+test('no lesson declares the same id twice', () => {
+  const root = new URL('../', import.meta.url);
+  const dupes = [];
+  for (const dir of readdirSync(root, { withFileTypes: true })) {
+    if (!dir.isDirectory()) continue;
+    const app = new URL(`${dir.name}/app.js`, root);
+    if (!existsSync(app)) continue;
+    const ids = [...readFileSync(app, 'utf8').matchAll(/id="([\w-]+)"/g)].map((m) => m[1]);
+    const seen = new Set();
+    for (const id of ids) {
+      if (seen.has(id)) dupes.push(`${dir.name}: ${id}`);
+      seen.add(id);
+    }
+  }
+  assert.deepEqual(dupes, [], `duplicate ids:\n${dupes.join('\n')}`);
+});
