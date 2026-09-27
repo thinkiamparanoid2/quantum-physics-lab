@@ -36,13 +36,23 @@ cd web && npm test                   # Node 20+; no dependencies
 
 Or from this folder with the CLI: `npx vercel` (first time) and `npx vercel --prod`.
 
-## Files
+## Layout
 
-- `js/parse.js`: parses Pauli sums like `0.5*Z0 Z1 + X2` or `ZZI - 0.3*XIX`, and initial states
-- `js/sim.js`: statevector engine; exact evolution by Taylor series, first- and second-order Trotter
-- `js/presets.js`: built-in examples, including the lattice Schwinger model
-- `js/charts.js`: canvas charts that follow the page's light/dark theme
-- `js/app.js`: inputs, playback, shareable links
+```
+web/
+├── index.html        landing page: topics grouped by course order
+├── styles/site.css   shared design tokens and components (light/dark)
+├── lib/              pure logic, no DOM, tested in Node
+│   ├── pauli.js        parses Pauli sums like 0.5*Z0 Z1 + X2 or ZZI - 0.3*XIX
+│   └── dynamics.js     statevector engine: exact evolution and 1st/2nd-order Trotter
+├── ui/               canvas components shared by topics
+│   └── charts.js       line chart, space-time heatmap, bar chart
+├── playground/       Hamiltonian Playground (index.html, app.js, presets.js)
+└── tests/            Node tests + Python reference generator
+```
+
+A new topic gets its own folder (`web/<topic>/index.html` + `app.js`), reuses `lib/`, `ui/`
+and `styles/site.css`, and gets a card on the landing page.
 
 ## Conventions and limits
 
