@@ -6,5 +6,4 @@ numpy
 scipy
 matplotlib
 pillow
-streamlit
 pytest
