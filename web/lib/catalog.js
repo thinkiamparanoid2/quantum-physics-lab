@@ -3,38 +3,44 @@
 
 export const SECTIONS = [
   {
-    id: 'waves',
+    id: 'experiments',
     ket: '|000⟩',
+    title: 'The experiments that started it',
+    blurb: 'Light that comes in lumps, particles that interfere with themselves, and a bomb found without touching it.',
+  },
+  {
+    id: 'waves',
+    ket: '|001⟩',
     title: 'Waves and the Schrödinger equation',
     blurb: 'Particles as waves: packets that spread, energies that come in steps, and barriers they can pass through.',
   },
   {
     id: 'atoms',
-    ket: '|001⟩',
+    ket: '|010⟩',
     title: 'Spin and atoms',
     blurb: 'Spin as the first quantum property ever measured, magnetic resonance, and the hydrogen atom with its orbitals and colours of light.',
   },
   {
     id: 'foundations',
-    ket: '|010⟩',
+    ket: '|011⟩',
     title: 'Qubits',
     blurb: 'The simplest quantum system, and the three ideas quantum computing builds on: superposition, interference and entanglement.',
   },
   {
     id: 'protocols',
-    ket: '|011⟩',
+    ket: '|100⟩',
     title: 'Protocols',
     blurb: 'Using entanglement to move and protect information in ways classical physics cannot.',
   },
   {
     id: 'algorithms',
-    ket: '|100⟩',
+    ket: '|101⟩',
     title: 'Algorithms',
     blurb: 'Where the speedups come from, one algorithm at a time.',
   },
   {
     id: 'tools',
-    ket: '|101⟩',
+    ket: '|110⟩',
     title: 'Tools',
     blurb: 'Open-ended spaces to build circuits, draw potentials and simulate physics yourself.',
   },
@@ -42,6 +48,46 @@ export const SECTIONS = [
 
 // Icons are SVG path data drawn in a 48x48 box with round strokes.
 export const TOPICS = [
+  {
+    slug: 'photoelectric',
+    section: 'experiments',
+    title: 'The photoelectric effect',
+    summary: 'Why dim blue light frees electrons that bright red light never can, and how to measure Planck’s constant.',
+    level: 'Beginner',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 6 L16 16 M14 4 L22 14 M4 16 L12 22 M18 24 H42 V42 H18 Z M30 24 L40 10',
+  },
+  {
+    slug: 'double-slit',
+    section: 'experiments',
+    title: 'The double slit, one particle at a time',
+    summary: 'Single electrons land as dots, yet together they paint interference fringes, until you look at which slit.',
+    level: 'Beginner',
+    minutes: 10,
+    status: 'live',
+    icon: 'M16 4 V18 M16 22 V26 M16 30 V44 M4 24 H12 M42 6 V42 M36 12 L42 12 M34 24 L42 24 M36 36 L42 36',
+  },
+  {
+    slug: 'mach-zehnder',
+    section: 'experiments',
+    title: 'The Mach–Zehnder interferometer',
+    summary: 'One photon, two paths, and a detector that never clicks, until you find out which way it went.',
+    level: 'Intermediate',
+    minutes: 10,
+    status: 'live',
+    icon: 'M4 38 H12 M12 38 L36 38 L36 14 M12 38 L12 14 L36 14 L44 14 M36 14 L36 4 M9 41 L15 35 M33 17 L39 11',
+  },
+  {
+    slug: 'bomb-tester',
+    section: 'experiments',
+    title: 'The quantum bomb tester',
+    summary: 'Find out whether a bomb is live without setting it off: interaction-free measurement.',
+    level: 'Intermediate',
+    minutes: 8,
+    status: 'live',
+    icon: 'M24 44 A13 13 0 1 1 24.01 44 M30 20 L36 12 M36 12 L40 8 M38 6 L42 4',
+  },
   {
     slug: 'wave-packets',
     section: 'waves',

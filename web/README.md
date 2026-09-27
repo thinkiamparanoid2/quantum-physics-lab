@@ -58,6 +58,8 @@ web/
 │   ├── fft.js              radix-2 FFT
 │   ├── spin.js             spin-1/2: measurement on any axis, Stern-Gerlach chains, exact
 │   │                       magnetic resonance (rotating frame), spin-echo ensembles
+│   ├── optics.js           photoelectric effect, double-slit patterns and sampling,
+│   │                       Mach-Zehnder amplitudes, bomb tester, quantum Zeno
 │   ├── hydrogen.js         hydrogen orbitals (R_nl, real Y_lm), energies, Rydberg lines,
 │   │                       wavelength colours, electron-cloud sampling
 │   └── expr.js             safe formula parser for V(x), no eval
@@ -71,6 +73,7 @@ web/
 │   ├── sampler.js          repeated measurement vs predicted probabilities
 │   ├── wave-plot.js        phase-coloured |ψ|², level diagrams, momentum, quantum carpets
 │   ├── player.js           play/pause/scrub bar for the wave lessons
+│   ├── interferometer.js   Mach-Zehnder optical table with amplitude dials
 │   └── charts.js, amplitude-bars.js, circuit-strip.js
 ├── <topic>/              one folder per lesson: app.js (+ index.html)
 ├── sandbox/              circuit sandbox: drag gates, live state, presets, shareable links
