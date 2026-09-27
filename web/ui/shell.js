@@ -52,7 +52,10 @@ function renderNav() {
         <a href="${root || './'}#teachers">For teachers</a>
       </nav>
       <div class="nav-actions">
-        <button class="icon-btn theme-toggle" type="button"></button>
+        <div class="theme-switch" role="group" aria-label="Colour theme">
+          <button type="button" data-theme-choice="dark" title="Dark theme">${MOON}<span>Dark</span></button>
+          <button type="button" data-theme-choice="light" title="Light theme (better on projectors)">${SUN}<span>Light</span></button>
+        </div>
       </div>
     </div>
     <div class="mega" id="mega" hidden><div class="container mega-grid">${megaMenu()}</div></div>`;
@@ -75,17 +78,16 @@ function renderNav() {
     }
   });
 
-  const toggle = nav.querySelector('.theme-toggle');
+  const choices = nav.querySelectorAll('[data-theme-choice]');
   const paint = () => {
-    const light = currentTheme() === 'light';
-    toggle.innerHTML = light ? MOON : SUN;
-    toggle.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme (better on projectors)');
-    toggle.title = toggle.getAttribute('aria-label');
+    for (const b of choices) b.setAttribute('aria-pressed', String(b.dataset.themeChoice === currentTheme()));
   };
-  toggle.addEventListener('click', () => {
-    setTheme(currentTheme() === 'light' ? 'dark' : 'light');
-    paint();
-  });
+  for (const b of choices) {
+    b.addEventListener('click', () => {
+      setTheme(b.dataset.themeChoice);
+      paint();
+    });
+  }
   paint();
 }
 
