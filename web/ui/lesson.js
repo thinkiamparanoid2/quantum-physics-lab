@@ -21,7 +21,7 @@ export function mountLesson({ slug, onNavigate, sandbox = false }) {
     <div class="lesson-actions">
       <button id="present" class="btn" type="button" title="Full screen with large captions (Esc to exit)">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Present</button>
-      ${sandbox ? `<a id="open-sandbox" class="btn" href="${href('sandbox')}">Open in sandbox</a>` : ''}
+      ${sandbox ? `<a id="open-sandbox" class="btn" href="${href('sandbox')}" hidden title="Edit this circuit yourself">Open in sandbox</a>` : ''}
       <button id="share" class="btn" type="button">Copy link</button>
     </div>`;
 

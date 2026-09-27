@@ -42,7 +42,6 @@ runCircuitLesson({
   n: 3,
   labels: ['Alice: message', 'Alice: pair', 'Bob: pair'],
   bloch: true,
-  sandbox: false,
   params: [
     {
       id: 'theta',

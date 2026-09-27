@@ -22,6 +22,8 @@ import { drawCircuit } from './circuit-view.js';
 import { drawDials, drawPhaseWheel } from './dials.js';
 import { mountLesson } from './lesson.js';
 import { Sampler } from './sampler.js';
+import { encode, fromOps } from '../lib/sandbox.js';
+import { href } from './shell.js';
 
 const ANIM_MS = 650;
 
@@ -58,7 +60,7 @@ export function runCircuitLesson(def) {
   let circuitKey = '';
   let version = 0;
 
-  const lesson = mountLesson({ slug: def.slug, sandbox: def.sandbox, onNavigate: (i) => go(i) });
+  const lesson = mountLesson({ slug: def.slug, sandbox: def.sandbox !== false, onNavigate: (i) => go(i) });
 
   // ----- stage -----
   const circuitCard = card(stage, 'Circuit', 'Click any gate to jump to that point');
@@ -296,6 +298,12 @@ export function runCircuitLesson(def) {
           if (j >= 0 && j !== index) go(j);
         },
       });
+      const link = document.getElementById('open-sandbox');
+      if (link) {
+        const model = fromOps(n, step.ops);
+        link.hidden = !model;
+        if (model) link.href = `${href('sandbox')}#${encode(model)}`;
+      }
       if (formula) {
         formula.innerHTML = `<span class="label">State</span>${formatState(target.state.re, target.state.im, n)}`;
       }

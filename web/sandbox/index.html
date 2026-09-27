@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="sandbox">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Circuit sandbox: Quantum Physics Lab</title>
+  <meta name="description" content="Drag quantum gates onto wires and watch the state, the Bloch spheres and the measurement statistics update live. Shareable links, presets and undo.">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../styles/site.css">
+</head>
+<body>
+  <main>
+    <div class="container lesson-head">
+      <div>
+        <p class="eyebrow">Tools</p>
+        <h1>Circuit sandbox</h1>
+        <p class="lede">Drag gates onto the wires and watch the state change. A &#x25CF; control dot controls every other gate in its column, so &#x25CF; + X is a CNOT.</p>
+      </div>
+      <div class="lesson-actions">
+        <button id="undo" class="btn" type="button" title="Undo (Ctrl+Z)">Undo</button>
+        <button id="redo" class="btn" type="button" title="Redo (Ctrl+Y)">Redo</button>
+        <button id="clear" class="btn" type="button">Clear</button>
+        <button id="share" class="btn" type="button">Copy link</button>
+      </div>
+    </div>
+
+    <div class="container sb-layout">
+      <aside class="sb-side" aria-label="Gates and examples">
+        <div class="panel try-card">
+          <h2>Gates</h2>
+          <div class="sb-palette" id="palette" role="toolbar" aria-label="Gate palette"></div>
+          <label class="field"><span class="label">Angle for Rx, Ry, Rz, P <output id="angle-out"></output></span>
+            <input id="angle" type="range" min="-180" max="180" step="7.5" value="45"></label>
+          <p class="hint">Drag a gate onto a wire, or pick it and click cells. Drag placed gates to move them. Select one and press Delete to remove it.</p>
+        </div>
+        <div class="panel try-card" id="inspector"></div>
+        <div class="panel try-card">
+          <h2>Examples</h2>
+          <div class="sb-presets" id="presets"></div>
+        </div>
+      </aside>
+
+      <section class="stage" id="stage" aria-label="Circuit and results">
+        <figure class="panel card">
+          <figcaption class="card-head">
+            <h2>Circuit</h2>
+            <span class="sb-qubits">Qubits <button id="less" type="button" aria-label="Remove a qubit">&minus;</button><b id="count"></b><button id="more" type="button" aria-label="Add a qubit">+</button></span>
+          </figcaption>
+          <div class="sb-scroll"><div class="sb-grid" id="grid"></div></div>
+          <div id="warnings" aria-live="polite"></div>
+          <p class="hint" id="cursor-note"></p>
+        </figure>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
