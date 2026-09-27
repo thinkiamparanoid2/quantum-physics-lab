@@ -1,4 +1,4 @@
-"""Reference values for the browser engine's tests (web/tests/sim.test.js).
+"""Reference values for the browser engine's tests (web/tests/dynamics.test.js).
 
 Everything here is computed independently of the JavaScript: dense numpy matrices and
 scipy's expm for the generic cases, and the repo's validated Qiskit Hamiltonian for the

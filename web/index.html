@@ -3,144 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hamiltonian Playground</title>
-  <meta name="description" content="Type a Hamiltonian and watch it evolve in real time. Compare exact quantum dynamics with the Trotterized circuit a quantum computer would run.">
+  <title>Quantum Physics Lab: interactive quantum computing visualizations</title>
+  <meta name="description" content="Interactive, projector-friendly visualizations for teaching quantum computing: qubits, interference, entanglement, Grover's search and quantum simulation. Free, no sign-up, runs in the browser.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M3 16c4-11 8-11 13 0s9 11 13 0' fill='none' stroke='%233b5bdb' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles/site.css">
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>Hamiltonian Playground</h1>
-      <p class="tagline">Type a Hamiltonian, watch it evolve, and see what a quantum computer's circuit would do.</p>
-    </div>
-    <button id="share" class="button secondary" type="button">Copy link</button>
+  <header class="hero">
+    <h1>Quantum Physics Lab</h1>
+    <p class="lede">Interactive visualizations for teaching quantum computing. Open a topic, press play, and put it on the projector. Amplitudes, phases and interference you'd otherwise have to draw by hand.</p>
+    <p class="hero-note">Free, no sign-up, runs entirely in the browser.</p>
   </header>
 
-  <main class="layout">
-    <aside class="panel controls" aria-label="Simulation settings">
-      <label class="field">
-        <span class="label">Example</span>
-        <select id="preset"></select>
-      </label>
-      <p id="preset-desc" class="hint preset-desc"></p>
-
-      <label class="field" for="hamiltonian"><span class="label">Hamiltonian H</span></label>
-      <textarea id="hamiltonian" rows="9" spellcheck="false" autocomplete="off" aria-describedby="h-error"></textarea>
-      <p id="h-error" class="error" role="alert" hidden></p>
-      <details class="syntax">
-        <summary>Syntax</summary>
-        <ul>
-          <li><code>0.5*Z0 Z1</code> Pauli operators on numbered qubits, multiplied together</li>
-          <li><code>ZZI - 0.3*XIX</code> full Pauli strings: character <i>i</i> acts on qubit <i>i</i></li>
-          <li><code>2 - Z0</code> constants shift the energy but not the dynamics</li>
-          <li><code># text</code> comments run to the end of the line</li>
-        </ul>
-        <p class="hint">Qubit 0 is written first everywhere, in strings and in kets like |01⟩. Qiskit uses the opposite order.</p>
-      </details>
-
-      <label class="field" for="state"><span class="label">Initial state</span></label>
-      <input id="state" type="text" spellcheck="false" autocomplete="off" aria-describedby="state-error state-hint">
-      <p id="state-error" class="error" role="alert" hidden></p>
-      <p id="state-hint" class="hint">One character per qubit, qubit 0 first: 0, 1, + or -.</p>
-
-      <label class="field" for="observable"><span class="label">Observable to plot</span></label>
-      <input id="observable" type="text" spellcheck="false" autocomplete="off" aria-describedby="obs-error obs-hint">
-      <p id="obs-error" class="error" role="alert" hidden></p>
-      <p id="obs-hint" class="hint">Any Pauli sum, or <code>H</code> for the energy.</p>
-
-      <div class="row">
-        <label class="field">
-          <span class="label">Total time</span>
-          <input id="time" type="number" min="0.1" max="200" step="0.5" aria-describedby="time-error">
-        </label>
-        <label class="field">
-          <span class="label">Trotter order</span>
-          <select id="order">
-            <option value="1">1st (Lie)</option>
-            <option value="2">2nd (Strang)</option>
-          </select>
-        </label>
-      </div>
-      <p id="time-error" class="error" role="alert" hidden></p>
-
-      <label class="field" for="steps">
-        <span class="label">Trotter steps <output id="steps-out" for="steps"></output></span>
-      </label>
-      <input id="steps" type="range" min="1" max="200" step="1">
-      <p class="hint">More steps make the circuit more accurate but deeper. On real hardware every extra CNOT adds noise.</p>
-
-      <div id="stats" class="stats" aria-live="polite"></div>
-    </aside>
-
-    <section class="viz" aria-label="Simulation results">
-      <div class="panel playback">
-        <button id="play" class="button" type="button" aria-pressed="false">Play</button>
-        <input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Time">
-        <span id="clock" class="clock">t = 0.00</span>
-        <label class="speed">
-          <span class="visually-hidden">Playback speed</span>
-          <select id="speed">
-            <option value="16">Slow</option>
-            <option value="8" selected>Normal</option>
-            <option value="4">Fast</option>
-          </select>
-        </label>
-      </div>
-
-      <figure class="panel card">
-        <figcaption class="card-head">
-          <h2 id="obs-title">Observable</h2>
-          <span class="legend"><span class="key exact"></span>Exact <span class="key trotter"></span>Trotter circuit</span>
-        </figcaption>
-        <canvas id="obs-chart" class="chart tall"></canvas>
-      </figure>
-
-      <figure class="panel card">
-        <figcaption class="card-head">
-          <h2>Qubit map: chance each qubit reads 1, over time</h2>
-          <label class="inline-select">
-            <span class="visually-hidden">Heatmap source</span>
-            <select id="heat-source">
-              <option value="exact">Exact</option>
-              <option value="trotter">Trotter circuit</option>
-            </select>
-          </label>
-        </figcaption>
-        <canvas id="heatmap" class="chart"></canvas>
-        <div class="colorbar" aria-hidden="true">
-          <span>0</span><span class="ramp"></span><span>1</span>
+  <main class="topics">
+    <section aria-labelledby="foundations">
+      <h2 id="foundations" class="section-title">Foundations</h2>
+      <div class="topic-grid">
+        <div class="topic-card soon" aria-disabled="true">
+          <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17"/><ellipse cx="24" cy="24" rx="17" ry="6"/><path d="M24 24 L33 12"/><circle cx="33" cy="12" r="2.5" class="fill"/></svg>
+          <h3>The qubit</h3>
+          <p>Superposition, measurement, and gates as rotations on the Bloch sphere.</p>
+          <span class="badge">Coming soon</span>
         </div>
-      </figure>
+        <div class="topic-card soon" aria-disabled="true">
+          <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 30 L18 18"/><path d="M18 18 l-5 1 M18 18 l-1 5"/><path d="M42 30 L30 18"/><path d="M30 18 l5 1 M30 18 l1 5"/><path d="M8 38 H40"/></svg>
+          <h3>Interference and phase</h3>
+          <p>Amplitudes as arrows that add up or cancel. Why H, Z, H flips a qubit.</p>
+          <span class="badge">Coming soon</span>
+        </div>
+        <div class="topic-card soon" aria-disabled="true">
+          <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><circle cx="14" cy="24" r="8"/><circle cx="34" cy="24" r="8"/><path d="M22 24 H26" stroke-dasharray="2 2"/></svg>
+          <h3>Entanglement</h3>
+          <p>Bell states, and measurement outcomes that stay correlated no matter how you measure.</p>
+          <span class="badge">Coming soon</span>
+        </div>
+      </div>
+    </section>
 
-      <div class="grid2">
-        <figure class="panel card">
-          <figcaption class="card-head">
-            <h2 id="bars-title">Measurement probabilities</h2>
-            <span class="legend"><span class="key exact block"></span>Exact <span class="key trotter outline"></span>Trotter</span>
-          </figcaption>
-          <canvas id="bars" class="chart"></canvas>
-        </figure>
-        <figure class="panel card">
-          <figcaption class="card-head">
-            <h2>Trotter error</h2>
-            <span class="legend muted">1 − fidelity with the exact state</span>
-          </figcaption>
-          <canvas id="error-chart" class="chart"></canvas>
-        </figure>
+    <section aria-labelledby="algorithms">
+      <h2 id="algorithms" class="section-title">Algorithms</h2>
+      <div class="topic-grid">
+        <div class="topic-card soon" aria-disabled="true">
+          <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40 V34 M14 40 V34 M20 40 V34 M26 40 V10 M32 40 V34 M38 40 V34"/></svg>
+          <h3>Grover's search</h3>
+          <p>Watch the marked answer's amplitude grow, one reflection at a time.</p>
+          <span class="badge">Coming soon</span>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="simulation">
+      <h2 id="simulation" class="section-title">Simulating physics</h2>
+      <div class="topic-grid">
+        <a class="topic-card" href="playground/">
+          <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 30 C10 10, 16 10, 22 26 S34 40, 44 16"/></svg>
+          <h3>Hamiltonian Playground</h3>
+          <p>Type any Hamiltonian and watch it evolve: exact dynamics next to the Trotter circuit a quantum computer would run.</p>
+          <span class="badge live">Open</span>
+        </a>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer narrow">
     <p>
-      Everything runs in your browser. "Exact" evolves the full quantum state with a series expansion accurate to machine precision.
-      "Trotter circuit" is the noiseless product-formula circuit a quantum computer would run: the same answer, approximated in discrete steps.
-      Up to 10 qubits, which a laptop handles easily. Real quantum computers matter at sizes far beyond this.
+      All simulations run on a classical computer in your browser, which is exact and fast at these sizes (up to about 10 qubits).
+      The point is to see what the mathematics does. Real quantum hardware matters at scales far beyond this.
     </p>
-    <p>Part of the Quantum Physics Lab project.</p>
   </footer>
-
-  <script type="module" src="js/app.js"></script>
 </body>
 </html>

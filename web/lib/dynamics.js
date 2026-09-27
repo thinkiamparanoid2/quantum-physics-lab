@@ -1,6 +1,6 @@
 // Statevector simulation of Hamiltonian dynamics: exact evolution and the Trotterized
 // circuit a quantum computer would run. Qubit q is bit q of the basis-state index.
-// Terms come from parse.js as { coeff, xmask, zmask }.
+// Terms come from pauli.js as { coeff, xmask, zmask }.
 
 export const MAX_QUBITS = 10;
 
