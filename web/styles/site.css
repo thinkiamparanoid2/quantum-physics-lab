@@ -1502,7 +1502,9 @@ body.present .present-exit {
   text-anchor: middle;
 }
 
-.circuit .gate-sub.cond {
+/* sits above the gate box, so it keeps its colour when the gate is the current step */
+.circuit .gate-sub.cond,
+.circuit .op.current .gate-sub.cond {
   fill: var(--marked);
 }
 
@@ -2448,5 +2450,80 @@ body.present .present-exit {
   a.topic-card:hover,
   .btn-primary:hover {
     transform: none;
+  }
+}
+
+/* CHSH game: the last round */
+.chsh-round {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.chsh-player {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-2);
+}
+
+.chsh-player h3 {
+  font-size: 15px;
+}
+
+.chsh-chip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.chsh-chip b {
+  font-family: var(--mono);
+  font-size: 20px;
+  color: var(--text);
+}
+
+.chsh-chip.answer b {
+  color: var(--accent-2);
+}
+
+.chsh-mid {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  text-align: center;
+}
+
+.chsh-rule {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.chsh-verdict {
+  font-weight: 700;
+  font-size: 18px;
+  padding: 4px 14px;
+  border-radius: 999px;
+}
+
+.chsh-verdict.win {
+  color: #05060d;
+  background: var(--amp-pos);
+}
+
+.chsh-verdict.lose {
+  color: #05060d;
+  background: var(--amp-neg);
+}
+
+@media (max-width: 560px) {
+  .chsh-round {
+    grid-template-columns: 1fr;
   }
 }
