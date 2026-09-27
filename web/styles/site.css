@@ -2263,6 +2263,7 @@ body.present .present-exit {
 .data-table th:first-child,
 .data-table td:first-child {
   text-align: left;
+  font-family: inherit;
 }
 
 .clock {
