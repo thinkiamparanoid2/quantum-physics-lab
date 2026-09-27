@@ -12,4 +12,9 @@ qiskit-ibm.json
 
 # large hardware-run artifacts (keep plots/summaries, not raw job dumps)
 hardware_runs/**/raw/
-.venv/
+
+node_modules/
+.vercel/
+
+# machine-specific local preview config (absolute paths)
+.claude/launch.json
