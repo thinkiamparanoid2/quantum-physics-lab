@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quantum Physics Lab: quantum computing, made visible</title>
-  <meta name="description" content="Free interactive lessons that make quantum computing visible: qubits on the Bloch sphere, interference, entanglement, teleportation, Grover, Shor and more. Built for students and for teachers presenting in class.">
+  <title>Quantum Physics Lab: quantum physics, made visible</title>
+  <meta name="description" content="Free interactive lessons that make quantum physics visible: wave packets, tunnelling, energy levels, qubits, entanglement, teleportation, Grover, Shor and more. Built for students and for teachers presenting in class.">
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b7bff'/%3E%3Cstop offset='1' stop-color='%232ee6f5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles/site.css">
@@ -14,10 +14,10 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <span class="eyebrow pill">Interactive quantum computing</span>
-          <h1>Quantum computing, <span class="gradient-text">made visible.</span></h1>
+          <span class="eyebrow pill">Interactive quantum physics</span>
+          <h1>Quantum physics, <span class="gradient-text">made visible.</span></h1>
           <p class="lede">
-            Step-by-step lessons where you watch qubits rotate, amplitudes interfere and algorithms find their answers.
+            Step-by-step lessons where you watch wave packets tunnel through walls, qubits rotate and algorithms find their answers.
             Built for students learning it and for teachers explaining it.
           </p>
           <div class="hero-cta">
@@ -46,19 +46,19 @@
       </div>
       <div class="primer">
         <article class="panel primer-card">
-          <div class="symbol">&alpha;|0&#x27E9; + &beta;|1&#x27E9;</div>
-          <h3>A qubit is not just 0 or 1</h3>
-          <p>A bit is either 0 or 1. A qubit carries two <b>amplitudes</b>, &alpha; and &beta;, and the squares of their sizes are the chances of reading 0 or 1. Until you measure, both possibilities are in play.</p>
+          <div class="symbol">|&psi;(x)|&sup2;</div>
+          <h3>A particle is a wave of amplitudes</h3>
+          <p>Until it is measured, an electron has no single position. It has an <b>amplitude</b> at every place, the wavefunction &psi;, and |&psi;|&sup2; is the chance of finding it there. A qubit is the simplest case: just two amplitudes, &alpha; for 0 and &beta; for 1.</p>
         </article>
         <article class="panel primer-card">
           <div class="symbol">&#x2197; + &#x2199; = 0</div>
           <h3>Amplitudes can cancel</h3>
-          <p>Probabilities only ever add up. Amplitudes are arrows with a direction, called the <b>phase</b>, so they can also cancel. Quantum algorithms arrange that cancellation so wrong answers disappear.</p>
+          <p>Probabilities only ever add up. Amplitudes are arrows with a direction, called the <b>phase</b>, so they can also cancel. That is why electrons make interference fringes, why some barriers turn see-through, and how quantum algorithms make wrong answers disappear.</p>
         </article>
         <article class="panel primer-card">
-          <div class="symbol">|00&#x27E9; + |11&#x27E9;</div>
-          <h3>Qubits can share one state</h3>
-          <p><b>Entangled</b> qubits have no separate states of their own. Measure one and you learn about the other at once. That shared state is the resource behind teleportation and quantum cryptography.</p>
+          <div class="symbol">E&#x2081; &lt; E&#x2082; &lt; E&#x2083;</div>
+          <h3>Trapped waves come in steps</h3>
+          <p>A wave confined to a region can only take shapes that fit, so its energy comes in <b>steps</b>: the &ldquo;quantum&rdquo; in quantum mechanics. It explains the sharp colours atoms emit, and why a trapped particle can never sit perfectly still.</p>
         </article>
       </div>
     </section>
@@ -66,23 +66,23 @@
     <section class="section container" aria-labelledby="how-title">
       <div class="section-head">
         <span class="eyebrow">How the lessons work</span>
-        <h2 id="how-title">Follow the circuit one gate at a time</h2>
+        <h2 id="how-title">Follow the physics one step at a time</h2>
       </div>
       <div class="how-grid">
         <article class="panel how-card">
           <div class="num">01</div>
           <h3>Step through it</h3>
-          <p>Every lesson advances one gate at a time. Go back, jump ahead, or change the input and watch everything update.</p>
+          <p>Every lesson moves one idea at a time: a gate of a circuit, or a new fact about a wave. Go back, jump ahead, or change the input and watch everything update.</p>
         </article>
         <article class="panel how-card">
           <div class="num">02</div>
           <h3>See the invisible</h3>
-          <p>Amplitudes are drawn as dials: the size is the probability and the hand points along the phase. Each qubit is an arrow on the Bloch sphere.</p>
+          <p>Wavefunctions are coloured by their phase. Amplitudes are drawn as dials: the size is the probability and the hand points along the phase. Each qubit is an arrow on the Bloch sphere.</p>
         </article>
         <article class="panel how-card">
           <div class="num">03</div>
           <h3>Try it yourself</h3>
-          <p>Each lesson has knobs to turn, a Measure button that samples real outcomes, and a link that opens its circuit in the sandbox.</p>
+          <p>Each lesson has knobs to turn. Wave lessons play out in time; circuit lessons have a Measure button that samples real outcomes and a link into the sandbox.</p>
         </article>
       </div>
     </section>
@@ -90,7 +90,7 @@
     <section class="section container" id="path" aria-labelledby="path-title">
       <div class="section-head">
         <span class="eyebrow">Learning path</span>
-        <h2 id="path-title">From one qubit to Shor's algorithm</h2>
+        <h2 id="path-title">From wave packets to Shor's algorithm</h2>
         <p>Topics are ordered the way most courses teach them. Each one stands on its own too.</p>
       </div>
       <div id="path-list"></div>
@@ -106,9 +106,9 @@
         </div>
         <ul>
           <li><span class="check">&#x2713;</span><span><b>Present mode.</b> One click hides everything except the visual and a large caption. Step with the arrow keys or a presentation clicker.</span></li>
-          <li><span class="check">&#x2713;</span><span><b>Links to an exact moment.</b> Every setting and step is in the URL, so you can prepare the link before class.</span></li>
+          <li><span class="check">&#x2713;</span><span><b>Links to an exact moment.</b> Every lesson step has its own link (and in the tools, every setting), so you can prepare it before class.</span></li>
           <li><span class="check">&#x2713;</span><span><b>Dark or light.</b> Switch with the Dark / Light buttons at the top right. Light usually reads better on a projector, and your choice is remembered on every page.</span></li>
-          <li><span class="check">&#x2713;</span><span><b>Honest numbers.</b> Every simulation is exact and checked against textbook results in automated tests.</span></li>
+          <li><span class="check">&#x2713;</span><span><b>Honest numbers.</b> Every simulation is checked against textbook results or a second, independent method in automated tests.</span></li>
         </ul>
       </div>
     </section>

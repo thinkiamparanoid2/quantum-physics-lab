@@ -52,7 +52,11 @@ web/
 │   ├── algorithms.js       Deutsch-Jozsa, Bernstein-Vazirani, QFT, phase estimation, Shor
 │   ├── sandbox.js          sandbox grid model, URL format (n=2&c=H0/C0_X1), lesson import
 │   ├── pauli.js            parses Pauli sums like 0.5*Z0 Z1 + X2
-│   └── dynamics.js         Hamiltonian dynamics: exact evolution and Trotter circuits
+│   ├── dynamics.js         Hamiltonian dynamics: exact evolution and Trotter circuits
+│   ├── wave.js             1D wave mechanics (ħ = m = 1): eigenstates, split-operator evolution,
+│   │                       shooting (Numerov), transmission through any potential
+│   ├── fft.js              radix-2 FFT
+│   └── expr.js             safe formula parser for V(x), no eval
 ├── ui/                   browser components
 │   ├── shell.js            nav with topics menu, Dark/Light switch, footer, Present mode
 │   ├── lesson.js           lesson frame: steps, progress, keyboard/clicker navigation
@@ -61,9 +65,12 @@ web/
 │   ├── dials.js            amplitude dials: size = probability, colour/hand = phase
 │   ├── bloch.js            draggable 3D Bloch sphere
 │   ├── sampler.js          repeated measurement vs predicted probabilities
+│   ├── wave-plot.js        phase-coloured |ψ|², level diagrams, momentum, quantum carpets
+│   ├── player.js           play/pause/scrub bar for the wave lessons
 │   └── charts.js, amplitude-bars.js, circuit-strip.js
 ├── <topic>/              one folder per lesson: app.js (+ index.html)
 ├── sandbox/              circuit sandbox: drag gates, live state, presets, shareable links
+├── schrodinger/          Schrödinger playground: type or draw V(x), levels, packets
 ├── tools/make-pages.mjs  writes each lesson's index.html from the catalog
 └── tests/                Node tests + Python reference generator
 ```
