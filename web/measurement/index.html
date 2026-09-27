@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="measurement">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Measurement: Quantum Physics Lab</title>
+  <meta name="description" content="Why outcomes are random, how likely each one is, and what measuring does to the state.">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../styles/site.css">
+</head>
+<body>
+  <main>
+    <div class="container lesson-head" id="lesson-head"></div>
+    <div class="container lesson-body">
+      <aside class="guide" aria-label="Lesson steps">
+        <div class="panel guide-card">
+          <div class="progress-track"><div class="progress-fill"></div></div>
+          <ol class="steps" id="steps"></ol>
+          <div class="guide-nav">
+            <span class="count" id="count"></span>
+            <button id="back" class="btn" type="button">Back</button>
+            <button id="next" class="btn btn-primary" type="button">Next</button>
+          </div>
+        </div>
+        <div id="try-slot"></div>
+      </aside>
+      <section class="stage" id="stage" aria-label="Visualization">
+        <div class="panel stage-caption" id="caption" aria-live="polite"></div>
+      </section>
+    </div>
+    <div class="container next-lesson" id="next-lesson"></div>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

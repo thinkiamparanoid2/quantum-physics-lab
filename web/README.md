@@ -40,19 +40,41 @@ Or from this folder with the CLI: `npx vercel` (first time) and `npx vercel --pr
 
 ```
 web/
-├── index.html        landing page: topics grouped by course order
-├── styles/site.css   shared design tokens and components (light/dark)
-├── lib/              pure logic, no DOM, tested in Node
-│   ├── pauli.js        parses Pauli sums like 0.5*Z0 Z1 + X2 or ZZI - 0.3*XIX
-│   └── dynamics.js     statevector engine: exact evolution and 1st/2nd-order Trotter
-├── ui/               canvas components shared by topics
-│   └── charts.js       line chart, space-time heatmap, bar chart
-├── playground/       Hamiltonian Playground (index.html, app.js, presets.js)
-└── tests/            Node tests + Python reference generator
+├── index.html, home.js   landing page (hero Bloch sphere, primer, learning path, teachers)
+├── styles/site.css       design system: dark "quantum" theme + light theme, all components
+├── lib/                  pure logic, no DOM, tested in Node
+│   ├── catalog.js          every topic: title, section, status (live/soon), icon
+│   ├── circuit.js          statevector engine: gates, rotations, measurement, classical control
+│   ├── bloch.js            Bloch vectors, gate -> rotation axis/angle, partial rotations
+│   ├── format.js           textbook formatting: (|00⟩ + |11⟩)/√2, 1/√2, π/4
+│   ├── grover.js           Grover's search from real gates + closed-form results
+│   ├── protocols.js        teleportation, superdense coding, BB84 (every photon a real qubit)
+│   ├── algorithms.js       Deutsch-Jozsa, Bernstein-Vazirani, QFT, phase estimation, Shor
+│   ├── sandbox.js          sandbox grid model, URL format (n=2&c=H0/C0_X1), lesson import
+│   ├── pauli.js            parses Pauli sums like 0.5*Z0 Z1 + X2
+│   └── dynamics.js         Hamiltonian dynamics: exact evolution and Trotter circuits
+├── ui/                   browser components
+│   ├── shell.js            nav with topics menu, Dark/Light switch, footer, Present mode
+│   ├── lesson.js           lesson frame: steps, progress, keyboard/clicker navigation
+│   ├── circuit-lesson.js   engine for circuit lessons (circuit, dials, Bloch, sampler, views)
+│   ├── circuit-view.js     gate-level circuit diagram (SVG)
+│   ├── dials.js            amplitude dials: size = probability, colour/hand = phase
+│   ├── bloch.js            draggable 3D Bloch sphere
+│   ├── sampler.js          repeated measurement vs predicted probabilities
+│   └── charts.js, amplitude-bars.js, circuit-strip.js
+├── <topic>/              one folder per lesson: app.js (+ index.html)
+├── sandbox/              circuit sandbox: drag gates, live state, presets, shareable links
+├── tools/make-pages.mjs  writes each lesson's index.html from the catalog
+└── tests/                Node tests + Python reference generator
 ```
 
-A new topic gets its own folder (`web/<topic>/index.html` + `app.js`), reuses `lib/`, `ui/`
-and `styles/site.css`, and gets a card on the landing page.
+### Adding a lesson
+
+1. Add or update its entry in `lib/catalog.js` (set `status: 'live'` when it's ready).
+2. Write `web/<slug>/app.js`. Circuit-based lessons call `runCircuitLesson({...})` from
+   `ui/circuit-lesson.js` with their steps; custom lessons use `mountLesson` directly.
+3. Run `node web/tools/make-pages.mjs` to generate `web/<slug>/index.html`.
+4. Add tests for any new physics in `web/tests/`.
 
 ## Conventions and limits
 
