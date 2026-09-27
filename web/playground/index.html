@@ -1,22 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-root="../" data-page="playground">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hamiltonian Playground</title>
+  <title>Hamiltonian Playground: Quantum Physics Lab</title>
   <meta name="description" content="Type a Hamiltonian and watch it evolve in real time. Compare exact quantum dynamics with the Trotterized circuit a quantum computer would run.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M3 16c4-11 8-11 13 0s9 11 13 0' fill='none' stroke='%233b5bdb' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="../styles/site.css">
 </head>
 <body>
-  <header class="topbar">
+  <div class="container lesson-head">
     <div>
-      <a class="crumb" href="../">Quantum Physics Lab</a>
+      <p class="eyebrow">Tools</p>
       <h1>Hamiltonian Playground</h1>
-      <p class="tagline">Type a Hamiltonian, watch it evolve, and see what a quantum computer's circuit would do.</p>
+      <p class="lede">Type a Hamiltonian, watch it evolve, and see what a quantum computer's circuit would do.</p>
     </div>
-    <button id="share" class="button secondary" type="button">Copy link</button>
-  </header>
+    <div class="lesson-actions"><button id="share" class="btn" type="button">Copy link</button></div>
+  </div>
 
   <main class="layout">
     <aside class="panel controls" aria-label="Simulation settings">
@@ -133,14 +134,13 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <p>
-      Everything runs in your browser. "Exact" evolves the full quantum state with a series expansion accurate to machine precision.
+  <div class="container">
+    <p class="hint" style="max-width: 900px">
+      "Exact" evolves the full quantum state with a series expansion accurate to machine precision.
       "Trotter circuit" is the noiseless product-formula circuit a quantum computer would run: the same answer, approximated in discrete steps.
-      Up to 10 qubits, which a laptop handles easily. Real quantum computers matter at sizes far beyond this.
+      Up to 10 qubits.
     </p>
-    <p><a href="../">More topics in the Quantum Physics Lab</a></p>
-  </footer>
+  </div>
 
   <script type="module" src="app.js"></script>
 </body>

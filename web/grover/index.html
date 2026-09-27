@@ -1,111 +1,102 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-root="../" data-page="grover">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Grover's search: Quantum Physics Lab</title>
   <meta name="description" content="Step through Grover's search algorithm: watch the oracle flip a sign and diffusion reflect every amplitude about the average, until the marked answer stands out.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M3 16c4-11 8-11 13 0s9 11 13 0' fill='none' stroke='%233b5bdb' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="../styles/site.css">
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <a class="crumb" href="../">Quantum Physics Lab</a>
-      <h1>Grover's search</h1>
-      <p class="tagline">Find a marked item among N possibilities with about √N oracle calls. Step through it to see why it works.</p>
-    </div>
-    <div class="actions">
-      <button id="fullscreen" class="button secondary" type="button">Full screen</button>
-      <button id="share" class="button secondary" type="button">Copy link</button>
-    </div>
-  </header>
+  <main>
+    <div class="container lesson-head" id="lesson-head"></div>
 
-  <main class="topic">
-    <div class="panel stepper" role="toolbar" aria-label="Step controls">
-      <button id="restart" class="button secondary" type="button">Restart</button>
-      <button id="back" class="button secondary" type="button">Back</button>
-      <button id="play" class="button" type="button" aria-pressed="false">Play</button>
-      <button id="next" class="button secondary" type="button">Next</button>
-      <span id="step-label" class="step-label"></span>
-      <span class="hint keys">Keys: ← → to step, space to play</span>
-    </div>
-
-    <figure class="panel card">
-      <figcaption class="card-head">
-        <h2>Circuit</h2>
-        <span class="legend muted">Click a block to jump to the state after it</span>
-      </figcaption>
-      <div id="circuit" class="circuit-scroll"></div>
-    </figure>
-
-    <div class="topic-main">
-      <figure class="panel card">
-        <figcaption class="card-head">
-          <h2 id="amp-title">Amplitudes</h2>
-          <span class="legend">
-            <span class="key block"></span>positive
-            <span class="key block negative"></span>negative
-            <span class="key outline marked"></span>marked
-            <span class="key dashed"></span>average
-          </span>
-        </figcaption>
-        <canvas id="amps" class="chart xl" role="img" aria-label="Amplitude of each possible answer"></canvas>
-        <p class="hint">Click a bar to mark or unmark that answer. Grover works for any number of marked items.</p>
-      </figure>
-
-      <aside class="panel narrative" aria-label="What is happening">
-        <h2 id="story-title"></h2>
-        <div id="story" aria-live="polite"></div>
-
-        <div class="measure-box">
-          <button id="measure" class="button" type="button">Measure</button>
-          <p id="measure-result" aria-live="polite"></p>
+    <div class="container lesson-body">
+      <aside class="guide" aria-label="Lesson steps">
+        <div class="panel guide-card">
+          <div class="progress-track"><div class="progress-fill"></div></div>
+          <ol class="steps" id="steps"></ol>
+          <div class="guide-nav">
+            <span class="count" id="count"></span>
+            <button id="back" class="btn" type="button">Back</button>
+            <button id="play" class="btn" type="button" aria-pressed="false" title="Play through the steps (space)">Play</button>
+            <button id="next" class="btn btn-primary" type="button">Next</button>
+          </div>
         </div>
 
-        <div class="row">
-          <label class="field">
-            <span class="label">Qubits</span>
-            <select id="qubits">
-              <option value="2">2 (4 answers)</option>
-              <option value="3">3 (8 answers)</option>
-              <option value="4">4 (16 answers)</option>
-              <option value="5">5 (32 answers)</option>
-              <option value="6">6 (64 answers)</option>
-            </select>
-          </label>
-          <label class="field">
-            <span class="label">Rounds</span>
-            <select id="rounds"></select>
-          </label>
+        <div class="panel try-card">
+          <h2>Try it</h2>
+          <div class="row">
+            <label class="field">
+              <span class="label">Qubits</span>
+              <select id="qubits">
+                <option value="2">2 (4 answers)</option>
+                <option value="3">3 (8 answers)</option>
+                <option value="4">4 (16 answers)</option>
+                <option value="5">5 (32 answers)</option>
+                <option value="6">6 (64 answers)</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="label">Rounds</span>
+              <select id="rounds"></select>
+            </label>
+          </div>
+          <p class="hint">Marked: <span id="marked-list" class="mono"></span>. Click any bar to mark or unmark it.</p>
+          <div class="measure-box">
+            <button id="measure" class="btn btn-primary" type="button">Measure</button>
+            <p id="measure-result" aria-live="polite"></p>
+          </div>
+          <dl id="facts" class="facts"></dl>
         </div>
-        <p class="hint">Marked: <span id="marked-list" class="mono"></span></p>
-
-        <dl id="facts" class="facts"></dl>
       </aside>
+
+      <section class="stage" aria-label="Visualization">
+        <div class="panel stage-caption" id="caption" aria-live="polite"></div>
+
+        <figure class="panel card">
+          <figcaption class="card-head">
+            <h2>Circuit</h2>
+            <span class="legend">Click a block to jump to the state after it</span>
+          </figcaption>
+          <div id="circuit" class="circuit-scroll"></div>
+        </figure>
+
+        <figure class="panel card">
+          <figcaption class="card-head">
+            <h2 id="amp-title">Amplitudes</h2>
+            <span class="legend">
+              <span class="key block positive"></span>positive
+              <span class="key block negative"></span>negative
+              <span class="key outline marked"></span>marked
+              <span class="key dashed"></span>average
+            </span>
+          </figcaption>
+          <canvas id="amps" class="chart xl clickable" role="img" aria-label="Amplitude of each possible answer"></canvas>
+        </figure>
+
+        <div class="grid2">
+          <figure class="panel card">
+            <figcaption class="card-head"><h2>Geometric view</h2></figcaption>
+            <canvas id="plane" class="chart square" role="img" aria-label="The state as an arrow in the marked/unmarked plane"></canvas>
+            <p id="plane-caption" class="hint"></p>
+          </figure>
+          <figure class="panel card">
+            <figcaption class="card-head">
+              <h2>Chance of finding a marked answer</h2>
+              <span class="legend">after each round</span>
+            </figcaption>
+            <canvas id="rounds-chart" class="chart square" role="img" aria-label="Success probability after each round"></canvas>
+            <p class="hint">Filled dots are rounds already applied. The probability rises, peaks, then falls again: stopping at the right time matters.</p>
+          </figure>
+        </div>
+      </section>
     </div>
 
-    <div class="grid2">
-      <figure class="panel card">
-        <figcaption class="card-head"><h2>Geometric view</h2></figcaption>
-        <canvas id="plane" class="chart square" role="img" aria-label="The state as an arrow in the marked/unmarked plane"></canvas>
-        <p id="plane-caption" class="hint"></p>
-      </figure>
-      <figure class="panel card">
-        <figcaption class="card-head">
-          <h2>Chance of finding a marked answer</h2>
-          <span class="legend muted">after each round</span>
-        </figcaption>
-        <canvas id="rounds-chart" class="chart square" role="img" aria-label="Success probability after each round"></canvas>
-        <p class="hint">Filled dots are rounds already applied. The probability rises, peaks, then falls again: stopping at the right time matters.</p>
-      </figure>
-    </div>
+    <div class="container next-lesson" id="next-lesson"></div>
   </main>
-
-  <footer class="footer">
-    <p>The oracle here is a black box that recognises the marked answers. Grover's speedup is in how many times you have to ask it: about √N questions instead of about N/2.</p>
-    <p><a href="../">More topics in the Quantum Physics Lab</a></p>
-  </footer>
 
   <script type="module" src="app.js"></script>
 </body>

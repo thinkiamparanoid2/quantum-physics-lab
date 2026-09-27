@@ -10,20 +10,15 @@ import {
 import { amplitudeBars } from '../ui/amplitude-bars.js';
 import { FONT, prep, theme, xAxis, yAxis } from '../ui/charts.js';
 import { circuitStrip } from '../ui/circuit-strip.js';
+import { mountLesson } from '../ui/lesson.js';
 import { drawPlane } from './plane.js';
 
 const $ = (id) => document.getElementById(id);
 const ui = {
-  restart: $('restart'),
-  back: $('back'),
   play: $('play'),
-  next: $('next'),
-  stepLabel: $('step-label'),
   circuit: $('circuit'),
   amps: $('amps'),
   ampTitle: $('amp-title'),
-  storyTitle: $('story-title'),
-  story: $('story'),
   measure: $('measure'),
   measureResult: $('measure-result'),
   qubits: $('qubits'),
@@ -33,8 +28,6 @@ const ui = {
   plane: $('plane'),
   planeCaption: $('plane-caption'),
   roundsChart: $('rounds-chart'),
-  fullscreen: $('fullscreen'),
-  share: $('share'),
 };
 
 const ANIMATION_MS = 700;
@@ -56,6 +49,14 @@ const state = {
 };
 let hitTest = () => -1;
 let circuitKey = '';
+
+const lesson = mountLesson({
+  slug: 'grover',
+  onNavigate: (i) => {
+    setPlaying(false);
+    goTo(i);
+  },
+});
 
 const N = () => 1 << state.n;
 const pct = (p) => `${(p * 100).toFixed(p > 0 && p < 0.1 ? 1 : 0)}%`;
@@ -170,11 +171,6 @@ function render(now = performance.now()) {
   const amps = displayed(now);
   const measuring = step.kind === 'measure';
 
-  ui.stepLabel.textContent = `Step ${state.step + 1} of ${state.steps.length}`;
-  ui.back.disabled = state.step === 0;
-  ui.next.disabled = state.step === state.steps.length - 1;
-  ui.restart.disabled = state.step === 0;
-
   const labels = Array.from({ length: N() }, (_, b) => ket(b, state.n));
   ui.ampTitle.textContent = measuring ? 'Measurement probabilities (amplitude squared)' : 'Amplitudes';
   if (measuring) {
@@ -192,16 +188,16 @@ function render(now = performance.now()) {
     });
   }
 
-  const [title, html] = describe(step);
-  if (ui.story.dataset.key !== title + html) {
-    ui.story.dataset.key = title + html;
-    ui.storyTitle.textContent = title;
-    ui.story.innerHTML = html;
-  }
-
-  const key = `${state.n}|${state.rounds}|${state.step}`;
+  const key = `${state.n}|${state.rounds}|${state.step}|${[...state.marked].join(',')}`;
   if (key !== circuitKey) {
     circuitKey = key;
+    lesson.render(
+      state.steps.map((s) => {
+        const [title, html] = describe(s);
+        return { title, html };
+      }),
+      state.step,
+    );
     const hadFocus = ui.circuit.contains(document.activeElement);
     circuitStrip(ui.circuit, { n: state.n, columns: columns(), position: state.step, onSelect: goTo });
     if (hadFocus) (ui.circuit.querySelector('.col.current') ?? ui.circuit.querySelector('.col'))?.focus();
@@ -368,9 +364,6 @@ function readHash() {
 }
 
 function init() {
-  ui.next.addEventListener('click', () => goTo(state.step + 1));
-  ui.back.addEventListener('click', () => goTo(state.step - 1));
-  ui.restart.addEventListener('click', () => goTo(0, false));
   ui.play.addEventListener('click', () => setPlaying(!state.playing));
   ui.measure.addEventListener('click', measureOnce);
   ui.qubits.addEventListener('change', () => {
@@ -389,35 +382,10 @@ function init() {
     if (i >= 0) toggleMark(i);
   });
   document.addEventListener('keydown', (e) => {
-    const inField = e.target instanceof Element && e.target.closest('input, textarea, select');
-    if (inField || e.altKey || e.ctrlKey || e.metaKey) return;
-    const actions = {
-      ArrowRight: () => goTo(state.step + 1),
-      ArrowLeft: () => goTo(state.step - 1),
-      Home: () => goTo(0, false),
-      Space: () => setPlaying(!state.playing),
-    };
-    const action = actions[e.code];
-    if (!action || (e.code === 'Space' && e.target instanceof Element && e.target.closest('button'))) return;
+    if (e.code !== 'Space' || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target instanceof Element && e.target.closest('input, textarea, select, button, a')) return;
     e.preventDefault();
-    action();
-  });
-
-  ui.fullscreen.addEventListener('click', () => {
-    if (document.fullscreenElement) document.exitFullscreen();
-    else document.documentElement.requestFullscreen?.();
-  });
-  document.addEventListener('fullscreenchange', () => {
-    ui.fullscreen.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen';
-  });
-  ui.share.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(location.href);
-      ui.share.textContent = 'Link copied';
-    } catch {
-      ui.share.textContent = 'Copy the address bar';
-    }
-    setTimeout(() => (ui.share.textContent = 'Copy link'), 1800);
+    setPlaying(!state.playing);
   });
 
   window.addEventListener('hashchange', () => {
@@ -425,8 +393,8 @@ function init() {
     readHash();
     rebuild();
   });
-  new ResizeObserver(() => render()).observe(document.querySelector('.topic'));
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => render());
+  new ResizeObserver(() => render()).observe(document.querySelector('.stage'));
+  window.addEventListener('themechange', () => render());
 
   readHash();
   rebuild();
