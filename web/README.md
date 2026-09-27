@@ -58,6 +58,8 @@ web/
 │   ├── fft.js              radix-2 FFT
 │   ├── spin.js             spin-1/2: measurement on any axis, Stern-Gerlach chains, exact
 │   │                       magnetic resonance (rotating frame), spin-echo ensembles
+│   ├── approx.js           Kronig-Penney bands, identical particles, perturbation theory,
+│   │                       variational method, WKB levels and tunnelling
 │   ├── noise.js            CHSH game, density matrices and partial traces, decoherence,
 │   │                       T1/T2 noise, repetition codes, Shor's nine-qubit code
 │   ├── optics.js           photoelectric effect, double-slit patterns and sampling,

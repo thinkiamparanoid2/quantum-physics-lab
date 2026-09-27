@@ -9,7 +9,7 @@ built for students learning quantum mechanics and for teachers explaining it.
 [![Tests](https://github.com/thinkiamparanoid2/quantum-physics-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/thinkiamparanoid2/quantum-physics-lab/actions/workflows/tests.yml)
 ![No build step](https://img.shields.io/badge/build_step-none-8b7bff)
 ![Runs in the browser](https://img.shields.io/badge/runs-in_your_browser-2ee6f5)
-![Topics](https://img.shields.io/badge/interactive_topics-33-8b7bff)
+![Topics](https://img.shields.io/badge/interactive_topics-39-8b7bff)
 
 <img src="docs/screenshots/home.png" alt="Landing page: 'Quantum physics, made visible.' beside a Bloch sphere rotating under a Hadamard gate" width="900">
 
@@ -27,9 +27,10 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 
 | Section | Topics |
 |---|---|
-| **Experiments** | [Photoelectric effect](web/photoelectric/) · [Double slit, one particle at a time](web/double-slit/) · [Mach–Zehnder interferometer](web/mach-zehnder/) · [Quantum bomb tester](web/bomb-tester/) |
+| **Experiments** | [Photoelectric effect](web/photoelectric/) · [Compton scattering](web/compton/) · [Double slit, one particle at a time](web/double-slit/) · [Mach–Zehnder interferometer](web/mach-zehnder/) · [Quantum bomb tester](web/bomb-tester/) |
 | **Waves** | [Wave packets and uncertainty](web/wave-packets/) · [Particle in a box](web/particle-in-a-box/) · [Harmonic oscillator](web/harmonic-oscillator/) · [Tunnelling and scattering](web/tunnelling/) · [The shooting method](web/shooting-method/) |
 | **Spin and atoms** | [Stern–Gerlach](web/stern-gerlach/) · [Magnetic resonance](web/magnetic-resonance/) · [The hydrogen atom](web/hydrogen/) · [Atomic spectra](web/atomic-spectra/) |
+| **Many particles and approximations** | [Crystals and energy bands](web/bands/) · [Identical particles](web/identical-particles/) · [Perturbation theory](web/perturbation/) · [The variational method](web/variational/) · [The WKB approximation](web/wkb/) |
 | **Qubits** | [The qubit](web/qubit/) · [Measurement](web/measurement/) · [Interference and phase](web/interference/) · [Entanglement](web/entanglement/) |
 | **Protocols** | [Quantum teleportation](web/teleportation/) · [Superdense coding](web/superdense-coding/) · [BB84 key distribution](web/bb84/) |
 | **Algorithms** | [Deutsch–Jozsa](web/deutsch-jozsa/) · [Bernstein–Vazirani](web/bernstein-vazirani/) · [Grover's search](web/grover/) · [Quantum Fourier transform](web/qft/) · [Phase estimation](web/phase-estimation/) · [Shor's algorithm](web/shor/) |
@@ -39,6 +40,12 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 ## A quick tour
 
 <table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/bands.png" alt="Energy bands: levels of chains of 1 to 12 wells falling inside the shaded Kronig-Penney bands, with E(k)"><br>
+      <b>Energy bands.</b> Add wells one at a time and watch single levels spread into bands; fill them to get a metal or an insulator.</td>
+    <td width="50%"><img src="docs/screenshots/variational.png" alt="Variational method: a two-Gaussian trial state nearly matching the exact double-well ground state"><br>
+      <b>Variational method.</b> Tune a trial wavefunction; its energy can approach the true ground state but never go below it.</td>
+  </tr>
   <tr>
     <td width="50%"><img src="docs/screenshots/bell-test.png" alt="CHSH game: 4000 rounds won at 85%, above the classical 75% limit, with the measurement directions and correlation table"><br>
       <b>Bell's theorem.</b> Play the CHSH game: fixed rules stop at 75%, a shared Bell pair wins 85%.</td>
@@ -106,7 +113,7 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 ## Is it right?
 
 Every simulation is either exact (statevectors, sums of stationary states) or checked against an
-independent method, and the physics is checked by 72 automated tests:
+independent method, and the physics is checked by 79 automated tests:
 
 - The JavaScript engine matches **numpy/scipy** and the **Qiskit** Schwinger-model Hamiltonian to 10⁻⁹.
 - The QFT equals the discrete Fourier transform; Grover follows sin²((2k+1)θ); phase estimation reaches ≥ 4/π².
@@ -119,6 +126,8 @@ independent method, and the physics is checked by 72 automated tests:
 - The magnetic-resonance solution matches direct numerical integration to 10⁻⁸ and Rabi's formula exactly; spin echoes refocus fully.
 - The Mach–Zehnder formulas equal the same experiment built from qubit gates; the bomb tester gives 1/2 boom, 1/4 dark detector; the Zeno version tends to 1.
 - CHSH: no classical rule beats 75%, simulated Bell pairs win cos²(π/8); a qubit touching N environment qubits keeps coherence cos(θ/2)ᴺ, from an exact partial trace.
+- Kronig–Penney bands contain the levels of a 12-well chain; boson and fermion exchange terms match the analytic result; second-order perturbation theory gives the exact −F²/2 Stark shift; variational energies never undershoot; WKB is exact for the oscillator and converges for |x|.
+- Compton scattering conserves energy and momentum; the shift is h/mc(1 − cos θ).
 - Shor's nine-qubit code, built from gates, returns the message exactly after any X, Y, Z or arbitrary rotation on any one qubit.
 - Double-slit dark fringes sit exactly at (m + ½)λ/d, and marked paths add intensities; stopping voltages fit a line of slope h/e.
 - Hydrogen's radial functions are normalised with ⟨r⟩ = (3n² − l(l+1))/2; solving the radial equation numerically gives −1/2n²; the Balmer lines match NIST to 0.01 nm.
@@ -137,7 +146,7 @@ python -m http.server 8765 --directory web
 Then open <http://localhost:8765>. (ES modules don't load from `file://`, hence the tiny server.)
 
 ```bash
-cd web && npm test                          # 65 web tests, Node 20+, no dependencies
+cd web && npm test                          # 72 web tests, Node 20+, no dependencies
 pip install -r requirements.txt && pytest   # 7 Python tests
 ```
 
@@ -153,7 +162,7 @@ PennyLane animation. Real-hardware runs on IBM Quantum are planned under `hardwa
 ```
 quantum-physics-lab/
 ├── web/                  the website (static HTML/CSS/JS, deployable as-is)
-│   ├── lib/              physics engine: circuits, Bloch geometry, algorithms, protocols, 1D waves, spin, hydrogen, optics, noise
+│   ├── lib/              physics engine: circuits, Bloch geometry, algorithms, protocols, 1D waves, spin, hydrogen, optics, noise, approximations
 │   ├── ui/               shared components: lesson frame, circuit diagrams, dials, Bloch spheres
 │   ├── <topic>/          one folder per lesson
 │   └── tests/            Node tests + Python reference generator
@@ -166,13 +175,14 @@ See [`web/README.md`](web/README.md) for the engine's structure and how to add a
 
 ## Roadmap
 
-University courses teach much more quantum mechanics than qubits. The [curriculum research](docs/curriculum.md)
-compares MIT, Cambridge and Oxford syllabi with what's here.
+All five phases from the [curriculum research](docs/curriculum.md) are done: the experiments that started
+quantum mechanics, waves and the Schrödinger equation, spin and atoms, many particles and
+approximations, and quantum information beyond the basics. Still open:
 
-- ~~**Waves and the Schrödinger equation:** wave packets and uncertainty, particle in a box, harmonic oscillator, tunnelling, the shooting method, a draw-your-own-potential playground~~ Done
-- ~~**Spin and atoms:** Stern–Gerlach, magnetic resonance, hydrogen orbitals and spectra~~ Done
-- ~~**The experiments that started it:** double slit, photoelectric effect, Mach–Zehnder~~ Done
-- ~~**More quantum information:** Bell/CHSH test, density matrices and decoherence, quantum error correction~~ Done
+- Probability current, the delta potential, and a particle on a ring
+- Angular-momentum operators, ladder algebra and the addition of angular momenta
+- Time-dependent perturbation theory, Fermi's golden rule and the adiabatic theorem
+- Real-hardware runs of the Python lab on IBM Quantum
 
 ## Contributing
 

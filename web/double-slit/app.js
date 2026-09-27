@@ -246,6 +246,9 @@ function drawTop(th, now) {
   off.width = cols;
   off.height = rows;
   off.getContext('2d').putImageData(img, 0, 0);
+  // a dark backdrop, like the screen, so the interference reads in both themes
+  ctx.fillStyle = '#05060d';
+  ctx.fillRect(0, 0, w, h);
   ctx.imageSmoothingEnabled = true;
   ctx.drawImage(off, 0, 0, cols * cell, rows * cell);
   // the wall with its slits
