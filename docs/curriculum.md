@@ -41,7 +41,7 @@ Condensed from MIT 8.04 → 8.05 → 8.06, Cambridge, Oxford and Griffiths-based
 | **Solids** | Periodic potentials, Bloch waves, band structure (Kronig–Penney), metals vs insulators | Partly (lattice example in the Schrödinger playground) |
 | **Approximation methods** | Time-independent perturbation theory, variational method, WKB, time-dependent perturbation theory, Fermi's golden rule, adiabatic theorem | Not yet |
 | **Quantum information** | Qubits, measurement, entanglement, teleportation, superdense coding, QKD, algorithms | **Covered** |
-| **Quantum information, further** | Bell/CHSH inequality, density matrices, decoherence, no-cloning, quantum error correction | Not yet |
+| **Quantum information, further** | Bell/CHSH inequality, density matrices, decoherence, no-cloning, quantum error correction | **Covered** (no-cloning as a step, not its own lesson) |
 | **Dynamics and simulation** | Hamiltonians, time evolution, Trotterisation | **Covered** (Hamiltonian Playground) |
 
 ## Roadmap
@@ -63,7 +63,7 @@ resonance (reusing the Bloch sphere), the hydrogen atom (3D orbitals, energy lev
 **Phase C: experiments that started it (done).** Double slit with single particles building up a pattern,
 photoelectric effect, Mach–Zehnder interferometer and the Elitzur–Vaidman bomb tester.
 
-**Phase D: quantum information, further.** Bell/CHSH test (quantum vs local hidden variables),
+**Phase D: quantum information, further (done).** Bell/CHSH test (quantum vs local hidden variables),
 density matrices and decoherence, quantum error correction (bit-flip, phase-flip and Shor codes).
 
 **Phase E: many particles and approximations.** Identical particles and exchange, periodic

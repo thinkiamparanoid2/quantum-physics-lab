@@ -58,6 +58,8 @@ web/
 │   ├── fft.js              radix-2 FFT
 │   ├── spin.js             spin-1/2: measurement on any axis, Stern-Gerlach chains, exact
 │   │                       magnetic resonance (rotating frame), spin-echo ensembles
+│   ├── noise.js            CHSH game, density matrices and partial traces, decoherence,
+│   │                       T1/T2 noise, repetition codes, Shor's nine-qubit code
 │   ├── optics.js           photoelectric effect, double-slit patterns and sampling,
 │   │                       Mach-Zehnder amplitudes, bomb tester, quantum Zeno
 │   ├── hydrogen.js         hydrogen orbitals (R_nl, real Y_lm), energies, Rydberg lines,

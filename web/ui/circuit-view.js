@@ -4,6 +4,7 @@
 // onSelect(opIndex).
 
 import { angleLabel } from '../lib/format.js';
+import { conditionsOf } from '../lib/circuit.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const WIRE_GAP = 46;
@@ -38,7 +39,7 @@ export function layoutColumns(ops, n) {
     const hi = Math.max(...qs);
     let col = 0;
     for (let q = lo; q <= hi; q++) col = Math.max(col, next[q]);
-    if (op.if) col = Math.max(col, bitReady[op.if.bit] ?? 0);
+    for (const c of conditionsOf(op)) col = Math.max(col, bitReady[c.bit] ?? 0);
     for (let q = lo; q <= hi; q++) next[q] = col + 1;
     if (op.gate === 'MEASURE') bitReady[op.bit ?? op.target] = col + 1;
     cols = Math.max(cols, col + 1);
@@ -117,7 +118,10 @@ export function drawCircuit(container, { n, ops, applied, current = [], labels =
     }
 
     if (op.if) {
-      el('text', { x, y: Y(op.target) - BOX / 2 - 6, class: 'gate-sub cond' }, g, `if m${op.if.bit}=${op.if.value}`);
+      const conds = conditionsOf(op);
+      const sub = (k) => String(k).replace(/\d/g, (d) => '₀₁₂₃₄₅₆₇₈₉'[d]);
+      const text = conds.length === 1 ? `if m${conds[0].bit}=${conds[0].value}` : `if ${conds.map((c) => `m${sub(c.bit)}`).join('')}=${conds.map((c) => c.value).join('')}`;
+      el('text', { x, y: Y(op.target) - BOX / 2 - 6, class: 'gate-sub cond' }, g, text);
     }
 
     const select = () => onSelect?.(i);
