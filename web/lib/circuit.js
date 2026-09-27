@@ -167,6 +167,7 @@ export function measureQubit(s, q, u) {
 //   { gate: 'SWAP', targets: [0, 2] }
 //   { gate: 'MEASURE', target: 1, bit: 1 }           collapses; stores the outcome in bits[bit]
 //   { gate: 'Z', target: 2, if: { bit: 0, value: 1 } }   classically controlled
+//   { gate: 'X', target: 0, if: [{ bit: 3, value: 1 }, { bit: 4, value: 0 }] }   on several bits (all must match)
 //   { gate: 'BLOCK', targets: [0, 1, 2], label: 'Oracle', apply: (state) => {} }
 //   { gate: 'BARRIER' }                              no-op, aligns the diagram
 export function gateMatrix(op) {
@@ -187,8 +188,11 @@ export function gateMatrix(op) {
   }
 }
 
+// The classical conditions of an op as a list (an op may give one or several).
+export const conditionsOf = (op) => (op.if ? (Array.isArray(op.if) ? op.if : [op.if]) : []);
+
 export function applyOp(s, op, bits, rng) {
-  if (op.if && bits[op.if.bit] !== op.if.value) return { skipped: true };
+  if (op.if && !conditionsOf(op).every((c) => bits[c.bit] === c.value)) return { skipped: true };
   switch (op.gate) {
     case 'MEASURE': {
       const r = measureQubit(s, op.target, rng());
