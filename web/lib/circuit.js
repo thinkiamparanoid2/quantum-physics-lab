@@ -104,6 +104,18 @@ export function ket(b, n) {
   return `|${bits}⟩`;
 }
 
+// Basis indices in reading order (|00⟩, |01⟩, |10⟩, |11⟩ with qubit 0 written first),
+// which is bit-reversed index order.
+export function ketOrder(n) {
+  const order = [];
+  for (let r = 0; r < 1 << n; r++) {
+    let b = 0;
+    for (let q = 0; q < n; q++) if (r & (1 << (n - 1 - q))) b |= 1 << q;
+    order.push(b);
+  }
+  return order;
+}
+
 // Draw one measurement outcome from a probability vector, given a uniform random number u in [0, 1).
 export function sampleOutcome(probs, u) {
   let acc = 0;
@@ -112,4 +124,109 @@ export function sampleOutcome(probs, u) {
     if (u < acc) return b;
   }
   return probs.length - 1;
+}
+
+export function swapQubits(s, a, b) {
+  const ma = 1 << a;
+  const mb = 1 << b;
+  for (let i = 0; i < s.dim; i++) {
+    if (!(i & ma) && i & mb) {
+      const j = i ^ ma ^ mb;
+      [s.re[i], s.re[j]] = [s.re[j], s.re[i]];
+      [s.im[i], s.im[j]] = [s.im[j], s.im[i]];
+    }
+  }
+  return s;
+}
+
+// Measure qubit q: outcome 0 with probability P(0), decided by the uniform number u.
+// The state collapses onto the outcome and is renormalised.
+export function measureQubit(s, q, u) {
+  const bit = 1 << q;
+  let p0 = 0;
+  for (let b = 0; b < s.dim; b++) if (!(b & bit)) p0 += s.re[b] * s.re[b] + s.im[b] * s.im[b];
+  const outcome = u < p0 ? 0 : 1;
+  const p = outcome === 0 ? p0 : 1 - p0;
+  const scale = 1 / Math.sqrt(p);
+  for (let b = 0; b < s.dim; b++) {
+    if (((b & bit) !== 0) === (outcome === 1)) {
+      s.re[b] *= scale;
+      s.im[b] *= scale;
+    } else {
+      s.re[b] = 0;
+      s.im[b] = 0;
+    }
+  }
+  return { outcome, probability: p };
+}
+
+// A circuit is a list of operations:
+//   { gate: 'H', target: 0 }                         named gate from GATES
+//   { gate: 'X', target: 2, controls: [0, 1] }       controlled (Toffoli here)
+//   { gate: 'RY', target: 0, angle: 1.2 }            RX, RY, RZ, P take an angle
+//   { gate: 'SWAP', targets: [0, 2] }
+//   { gate: 'MEASURE', target: 1, bit: 1 }           collapses; stores the outcome in bits[bit]
+//   { gate: 'Z', target: 2, if: { bit: 0, value: 1 } }   classically controlled
+//   { gate: 'BLOCK', targets: [0, 1, 2], label: 'Oracle', apply: (state) => {} }
+//   { gate: 'BARRIER' }                              no-op, aligns the diagram
+export function gateMatrix(op) {
+  switch (op.gate) {
+    case 'RX':
+      return rx(op.angle);
+    case 'RY':
+      return ry(op.angle);
+    case 'RZ':
+      return rz(op.angle);
+    case 'P':
+      return phase(op.angle);
+    default: {
+      const g = GATES[op.gate];
+      if (!g) throw new Error(`Unknown gate ${op.gate}`);
+      return g;
+    }
+  }
+}
+
+export function applyOp(s, op, bits, rng) {
+  if (op.if && bits[op.if.bit] !== op.if.value) return { skipped: true };
+  switch (op.gate) {
+    case 'MEASURE': {
+      const r = measureQubit(s, op.target, rng());
+      bits[op.bit ?? op.target] = r.outcome;
+      return r;
+    }
+    case 'SWAP':
+      swapQubits(s, op.targets[0], op.targets[1]);
+      return null;
+    case 'BLOCK':
+      op.apply(s);
+      return null;
+    case 'BARRIER':
+      return null;
+    default:
+      applyGate(s, op.target, gateMatrix(op), op.controls ?? []);
+      return null;
+  }
+}
+
+// Run the first `until` operations from |0...0>. Measurements draw from rng, so a fixed
+// seed gives the same outcomes every time.
+export function runOps(n, ops, until = ops.length, rng = Math.random) {
+  const state = zeroState(n);
+  const bits = {};
+  const results = [];
+  for (let i = 0; i < until; i++) results.push(applyOp(state, ops[i], bits, rng));
+  return { state, bits, results };
+}
+
+// Small deterministic PRNG (mulberry32) so a lesson's "random" measurements are repeatable.
+export function seededRandom(seed) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }

@@ -1434,6 +1434,258 @@ body.present .present-exit {
   stroke-dasharray: 4 3;
 }
 
+.circuit .step-band {
+  fill: color-mix(in srgb, var(--accent) 12%, transparent);
+  stroke: color-mix(in srgb, var(--accent) 35%, transparent);
+  stroke-dasharray: 4 4;
+}
+
+.circuit .op {
+  cursor: pointer;
+  outline: none;
+}
+
+.circuit .op.todo {
+  opacity: 0.3;
+}
+
+.circuit .op .gate {
+  fill: var(--surface-solid);
+  stroke: var(--accent);
+  stroke-width: 1.6;
+}
+
+.circuit .op .gate.block {
+  stroke: var(--marked);
+}
+
+.circuit .op.current .gate {
+  fill: var(--accent);
+  stroke: var(--accent-strong);
+}
+
+.circuit .op.current .gate.block {
+  fill: var(--marked);
+}
+
+.circuit .op:hover .gate,
+.circuit .op:focus-visible .gate {
+  stroke-width: 3;
+}
+
+.circuit .gate-label {
+  fill: var(--text);
+  font: 600 14px var(--font-sans);
+  text-anchor: middle;
+}
+
+.circuit .gate-label.small {
+  font-size: 11px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.circuit .op.current .gate-label,
+.circuit .op.current .gate-sub {
+  fill: var(--accent-text);
+}
+
+.circuit .gate-sub {
+  fill: var(--muted);
+  font: 10px var(--mono);
+  text-anchor: middle;
+}
+
+.circuit .gate-sub.cond {
+  fill: var(--marked);
+}
+
+.circuit .op.conditional .gate {
+  stroke-dasharray: 4 3;
+}
+
+.circuit .link,
+.circuit .target-plus {
+  stroke: var(--text);
+  stroke-width: 1.8;
+  fill: none;
+}
+
+.circuit .ctrl {
+  fill: var(--text);
+}
+
+.circuit .target {
+  fill: var(--surface-solid);
+  stroke: var(--text);
+  stroke-width: 1.8;
+}
+
+.circuit .op.current .ctrl,
+.circuit .op.current .link,
+.circuit .op.current .target,
+.circuit .op.current .target-plus {
+  stroke: var(--accent-2);
+}
+
+.circuit .op.current .ctrl {
+  fill: var(--accent-2);
+}
+
+/* State views for circuit lessons */
+
+.state-formula {
+  font-family: var(--mono);
+  font-size: 17px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.state-formula .label {
+  display: inline;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--muted);
+  margin-right: 10px;
+}
+
+.phase-wheel {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+.bloch-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 300px));
+  justify-content: center;
+  gap: 10px;
+}
+
+.bloch-row canvas {
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+}
+
+.bloch-hero {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 520px;
+}
+
+.bits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.bit-chip {
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+}
+
+.bit-chip b {
+  color: var(--accent-2);
+}
+
+.sampler-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sampler-controls .readout {
+  margin-left: auto;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.sampler-controls .readout b {
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+.param-group + .param-group {
+  margin-top: 14px;
+}
+
+.gate-palette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.gate-palette button {
+  font: 600 14px var(--font-sans);
+  padding: 9px 0;
+  border-radius: 9px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.gate-palette button:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.amp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.amp-table td {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+}
+
+.amp-table td:first-child {
+  font-family: var(--mono);
+}
+
+.prob-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  overflow: hidden;
+  min-width: 80px;
+}
+
+.prob-bar span {
+  display: block;
+  height: 100%;
+  background: var(--grad);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- Hamiltonian Playground (tool layout) ---------- */
 
 .layout {
@@ -1589,6 +1841,24 @@ body.present .present-exit {
   .controls {
     position: static;
     max-height: none;
+  }
+
+  /* On one column: the explanation, then the visual it describes, then the controls. */
+  .lesson-body .guide {
+    display: contents;
+  }
+
+  .lesson-body .guide-card {
+    order: 1;
+  }
+
+  .lesson-body .stage {
+    order: 2;
+  }
+
+  .lesson-body #try-slot,
+  .lesson-body .guide > .try-card {
+    order: 3;
   }
 
   .steps {

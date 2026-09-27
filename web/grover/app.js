@@ -1,4 +1,4 @@
-import { ket, sampleOutcome } from '../lib/circuit.js';
+import { ket, ketOrder, sampleOutcome } from '../lib/circuit.js';
 import {
   analyticSuccess,
   classicalExpectedQueries,
@@ -171,22 +171,31 @@ function render(now = performance.now()) {
   const amps = displayed(now);
   const measuring = step.kind === 'measure';
 
-  const labels = Array.from({ length: N() }, (_, b) => ket(b, state.n));
+  // Bars are drawn in reading order (|000⟩, |001⟩, ...); map positions back to basis indices.
+  const order = ketOrder(state.n);
+  const labels = order.map((b) => ket(b, state.n));
+  const marked = new Set(order.flatMap((b, i) => (state.marked.has(b) ? [i] : [])));
+  const highlight = order.indexOf(state.measured);
   ui.ampTitle.textContent = measuring ? 'Measurement probabilities (amplitude squared)' : 'Amplitudes';
+  let hit;
   if (measuring) {
-    hitTest = amplitudeBars(ui.amps, { theme: th, labels, values: step.probs, marked: state.marked, yRange: [0, 1], highlight: state.measured });
+    hit = amplitudeBars(ui.amps, { theme: th, labels, values: order.map((b) => step.probs[b]), marked, yRange: [0, 1], highlight });
   } else {
     const mean = amps.reduce((a, b) => a + b, 0) / amps.length;
-    hitTest = amplitudeBars(ui.amps, {
+    hit = amplitudeBars(ui.amps, {
       theme: th,
       labels,
-      values: amps,
-      marked: state.marked,
+      values: order.map((b) => amps[b]),
+      marked,
       yRange: [state.ampFloor, 1],
       mean: step.kind === 'start' ? null : mean,
-      highlight: state.measured,
+      highlight,
     });
   }
+  hitTest = (x) => {
+    const i = hit(x);
+    return i < 0 ? -1 : order[i];
+  };
 
   const key = `${state.n}|${state.rounds}|${state.step}|${[...state.marked].join(',')}`;
   if (key !== circuitKey) {

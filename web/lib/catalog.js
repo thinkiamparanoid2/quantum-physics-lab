@@ -37,7 +37,7 @@ export const TOPICS = [
     summary: 'Superposition, and every gate as a rotation of an arrow on the Bloch sphere.',
     level: 'Beginner',
     minutes: 8,
-    status: 'soon',
+    status: 'live',
     icon: 'M24 7a17 17 0 1 0 0.01 0 M7 24c0 4 7.6 7 17 7s17-3 17-7 M24 24 L33 12',
   },
   {
@@ -47,7 +47,7 @@ export const TOPICS = [
     summary: 'Why outcomes are random, how likely each one is, and what measuring does to the state.',
     level: 'Beginner',
     minutes: 6,
-    status: 'soon',
+    status: 'live',
     icon: 'M8 34a16 16 0 0 1 32 0 M24 34 L32 20 M6 38 H42',
   },
   {
@@ -57,7 +57,7 @@ export const TOPICS = [
     summary: 'Amplitudes are arrows: they add up or cancel, and that is where quantum advantage starts.',
     level: 'Beginner',
     minutes: 8,
-    status: 'soon',
+    status: 'live',
     icon: 'M4 24c4-10 8-10 12 0s8 10 12 0 8-10 12 0 M4 24c4 10 8 10 12 0',
   },
   {
@@ -67,7 +67,7 @@ export const TOPICS = [
     summary: 'Two qubits sharing one state: Bell pairs, and outcomes that always agree.',
     level: 'Beginner',
     minutes: 8,
-    status: 'soon',
+    status: 'live',
     icon: 'M14 16a8 8 0 1 0 0.01 0 M34 16a8 8 0 1 0 0.01 0 M20 29 C24 34 24 34 28 29',
   },
   {
