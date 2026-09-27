@@ -48,6 +48,9 @@ web/
 │   ├── bloch.js            Bloch vectors, gate -> rotation axis/angle, partial rotations
 │   ├── format.js           textbook formatting: (|00⟩ + |11⟩)/√2, 1/√2, π/4
 │   ├── grover.js           Grover's search from real gates + closed-form results
+│   ├── protocols.js        teleportation, superdense coding, BB84 (every photon a real qubit)
+│   ├── algorithms.js       Deutsch-Jozsa, Bernstein-Vazirani, QFT, phase estimation, Shor
+│   ├── sandbox.js          sandbox grid model, URL format (n=2&c=H0/C0_X1), lesson import
 │   ├── pauli.js            parses Pauli sums like 0.5*Z0 Z1 + X2
 │   └── dynamics.js         Hamiltonian dynamics: exact evolution and Trotter circuits
 ├── ui/                   browser components
@@ -60,6 +63,7 @@ web/
 │   ├── sampler.js          repeated measurement vs predicted probabilities
 │   └── charts.js, amplitude-bars.js, circuit-strip.js
 ├── <topic>/              one folder per lesson: app.js (+ index.html)
+├── sandbox/              circuit sandbox: drag gates, live state, presets, shareable links
 ├── tools/make-pages.mjs  writes each lesson's index.html from the catalog
 └── tests/                Node tests + Python reference generator
 ```

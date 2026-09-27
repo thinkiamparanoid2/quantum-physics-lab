@@ -167,7 +167,7 @@ export const TOPICS = [
     summary: 'Drag gates onto wires and watch the state change live.',
     level: 'All levels',
     minutes: null,
-    status: 'soon',
+    status: 'live',
     icon: 'M6 14 H42 M6 24 H42 M6 34 H42 M14 9 H24 V19 H14 Z M30 24 a3 3 0 1 0 0.01 0 M30 24 V34 M30 34 a4 4 0 1 0 0.01 0',
   },
   {

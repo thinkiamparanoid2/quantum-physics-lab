@@ -1764,6 +1764,289 @@ body.present .present-exit {
   color: var(--accent-2);
 }
 
+/* Circuit sandbox */
+
+.sb-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 310px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  padding-bottom: 24px;
+}
+
+.sb-side {
+  display: grid;
+  gap: 14px;
+  position: sticky;
+  top: calc(var(--nav-h) + 16px);
+}
+
+.sb-palette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.sb-tool {
+  position: relative;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+  font: 600 14px var(--font-sans);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.sb-tool:hover {
+  border-color: var(--accent);
+}
+
+.sb-tool[aria-pressed='true'] {
+  background: var(--grad);
+  color: var(--accent-text);
+  border-color: transparent;
+}
+
+.sb-tool small {
+  display: block;
+  font: 500 9.5px var(--mono);
+  opacity: 0.8;
+}
+
+.sb-presets {
+  display: grid;
+  gap: 6px;
+}
+
+.sb-presets button {
+  text-align: left;
+  padding: 8px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font: 500 13.5px var(--font-sans);
+  cursor: pointer;
+}
+
+.sb-presets button:hover {
+  border-color: var(--accent);
+}
+
+.sb-qubits {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.sb-qubits button {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sb-scroll {
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.sb-grid {
+  display: grid;
+  position: relative;
+  width: max-content;
+}
+
+.sb-colhead {
+  height: 26px;
+  border: 0;
+  background: none;
+  color: var(--faint);
+  font: 11px var(--mono);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.sb-colhead:hover,
+.sb-colhead.cursor {
+  color: var(--accent-2);
+  background: var(--surface-2);
+}
+
+.sb-rowlabel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-right: 8px;
+  font: 12px var(--mono);
+  color: var(--muted);
+}
+
+.sb-cell {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.sb-cell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1.5px solid var(--axis);
+}
+
+.sb-cell:hover::after,
+.sb-cell.drop::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border-radius: 9px;
+  border: 1.5px dashed var(--accent);
+}
+
+.sb-cell:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: -4px;
+  border-radius: 10px;
+}
+
+.sb-cell.future {
+  opacity: 0.35;
+}
+
+.sb-cell.selected .sb-gate,
+.sb-cell.selected .sb-dot,
+.sb-cell.selected .sb-swap {
+  box-shadow: 0 0 0 3px var(--accent-2);
+}
+
+.sb-gate {
+  position: absolute;
+  inset: 9px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  border-radius: 8px;
+  background: var(--surface-solid);
+  border: 1.6px solid var(--accent);
+  color: var(--text);
+  font: 600 14px var(--font-sans);
+  line-height: 1.05;
+  z-index: 2;
+}
+
+.sb-gate small {
+  font: 500 9.5px var(--mono);
+  color: var(--muted);
+}
+
+.sb-gate.measure {
+  border-color: var(--marked);
+}
+
+.sb-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
+  border-radius: 50%;
+  background: var(--text);
+  z-index: 2;
+}
+
+.sb-oplus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border-radius: 50%;
+  border: 1.8px solid var(--text);
+  background:
+    linear-gradient(var(--text), var(--text)) center / 1.8px 100% no-repeat,
+    linear-gradient(var(--text), var(--text)) center / 100% 1.8px no-repeat,
+    var(--surface-solid);
+  z-index: 2;
+}
+
+.sb-cell.selected .sb-oplus {
+  box-shadow: 0 0 0 3px var(--accent-2);
+}
+
+.sb-swap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 700 22px var(--font-sans);
+  color: var(--text);
+  z-index: 2;
+}
+
+.sb-link {
+  position: relative;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sb-link::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 27px;
+  bottom: 27px;
+  border-left: 1.8px solid var(--text);
+}
+
+.sb-ghost {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  padding: 10px 14px;
+  border-radius: 9px;
+  background: var(--grad);
+  color: var(--accent-text);
+  font: 600 14px var(--font-sans);
+  box-shadow: var(--shadow);
+  transform: translate(-50%, -50%);
+}
+
+.sb-warn {
+  color: var(--marked);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+@media (max-width: 1080px) {
+  .sb-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sb-side {
+    position: static;
+  }
+}
+
 /* BB84 photon table */
 
 .table-scroll {
