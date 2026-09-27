@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { blochVector, rotateVector, rotationOf } from '../lib/bloch.js';
+import { blochAngles, blochVector, rotateVector, rotationMatrix, rotationOf, withoutGlobalPhase } from '../lib/bloch.js';
 import { GATES, applyGate, phase, rx, ry, rz, zeroState } from '../lib/circuit.js';
 
 const near = (a, b, what, tol = 1e-12) => {
@@ -43,4 +43,26 @@ test('rotationOf recovers axis and angle, and predicts what the gate does to the
     applyGate(s, 0, g);
     near(rotateVector(before, axis, angle), blochVector(s, 0), `gate ${name}`, 1e-10);
   }
+});
+
+test('rotationMatrix matches the gate it came from, and any fraction of it', () => {
+  for (const g of [GATES.H, GATES.S, GATES.T, GATES.Y, rx(0.4), ry(2.2)]) {
+    const { axis, angle } = rotationOf(g);
+    const start = applyGate(applyGate(zeroState(1), 0, ry(1.1)), 0, rz(0.3));
+    const v0 = blochVector(start, 0);
+    for (const f of [0.25, 0.5, 1]) {
+      const s = applyGate(structuredClone(start), 0, rotationMatrix(axis, angle * f));
+      near(blochVector(s, 0), rotateVector(v0, axis, angle * f), `fraction ${f}`, 1e-10);
+    }
+  }
+});
+
+test('Bloch angles and global phase removal', () => {
+  const s = applyGate(applyGate(zeroState(1), 0, ry(Math.PI / 3)), 0, rz(Math.PI / 2));
+  const { theta, phi } = blochAngles(s.re, s.im);
+  assert.ok(Math.abs(theta - Math.PI / 3) < 1e-12);
+  assert.ok(Math.abs(phi - Math.PI / 2) < 1e-12);
+  const clean = withoutGlobalPhase(s.re, s.im);
+  assert.ok(Math.abs(clean.im[0]) < 1e-12 && clean.re[0] > 0);
+  near(blochVector({ ...s, re: clean.re, im: clean.im }, 0), blochVector(s, 0), 'same Bloch vector');
 });

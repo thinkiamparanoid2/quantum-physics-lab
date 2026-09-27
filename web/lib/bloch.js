@@ -72,6 +72,38 @@ export function rotateVector(v, axis, angle) {
   ];
 }
 
+// The 2x2 unitary cos(t/2) I - i sin(t/2) (n . sigma): rotates the Bloch arrow by angle t
+// about axis n. Used to animate a gate part of the way along its real rotation.
+export function rotationMatrix([nx, ny, nz], t) {
+  const c = Math.cos(t / 2);
+  const s = Math.sin(t / 2);
+  return {
+    re: [c, -s * ny, s * ny, c],
+    im: [-s * nz, -s * nx, -s * nx, s * nz],
+  };
+}
+
+// Polar angle theta (0 at |0>, pi at |1>) and azimuth phi of a single-qubit state.
+export function blochAngles(re, im) {
+  const a = Math.hypot(re[0], im[0]);
+  const theta = 2 * Math.acos(Math.min(1, a));
+  const phi = Math.hypot(re[1], im[1]) < 1e-9 ? 0 : Math.atan2(im[1], re[1]) - Math.atan2(im[0], re[0]);
+  return { theta, phi: ((phi % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) };
+}
+
+// Multiply by a global phase so the |0> amplitude is real and non-negative (or, if it is
+// zero, the |1> amplitude). Physically identical state, easier to read.
+export function withoutGlobalPhase(re, im) {
+  const k = Math.hypot(re[0], im[0]) > 1e-9 ? 0 : 1;
+  const a = -Math.atan2(im[k], re[k]);
+  const c = Math.cos(a);
+  const s = Math.sin(a);
+  return {
+    re: re.map((r, i) => r * c - im[i] * s),
+    im: im.map((v, i) => v * c + re[i] * s),
+  };
+}
+
 export function length(v) {
   return Math.hypot(v[0], v[1], v[2]);
 }
