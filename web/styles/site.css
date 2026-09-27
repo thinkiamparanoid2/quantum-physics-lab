@@ -514,7 +514,8 @@ input[type='range'] {
   margin-top: 14px;
 }
 
-.field:first-child {
+.field:first-child,
+.row > .field {
   margin-top: 0;
 }
 
@@ -2217,6 +2218,11 @@ body.present .present-exit {
   min-width: 0;
 }
 
+.playback [data-scrub] {
+  flex: 1;
+  min-width: 0;
+}
+
 .playback {
   display: flex;
   align-items: center;
@@ -2231,6 +2237,34 @@ body.present .present-exit {
   min-width: 82px;
 }
 
+/* Numeric results, e.g. shooting vs matrix levels */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th {
+  text-align: right;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  text-align: right;
+  font-family: var(--mono);
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--grid);
+}
+
+.data-table th:first-child,
+.data-table td:first-child {
+  text-align: left;
+}
+
 .clock {
   font-variant-numeric: tabular-nums;
   font-family: var(--mono);
@@ -2239,7 +2273,8 @@ body.present .present-exit {
 }
 
 .speed select,
-.inline-select select {
+.inline-select select,
+.playback select {
   width: auto;
   padding: 4px 8px;
   font-size: 13px;
