@@ -97,7 +97,7 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 ## Made for classrooms
 
 - **Present mode:** one click hides everything except the visual and a large caption. Step with the arrow keys or a presentation clicker.
-- **Links to an exact moment:** every setting and step lives in the URL, so a link can open on the exact step you want.
+- **Links to an exact moment:** every lesson step has its own link (circuit lessons and the tools also keep their settings), so you can prepare it before class.
 - **Dark or light:** the dark theme for screens, a light theme that reads well on projectors.
 - **Nothing to install:** no accounts, no server, no build step. Everything runs in the browser.
 
@@ -150,6 +150,12 @@ cd web && npm test                          # 72 web tests, Node 20+, no depende
 pip install -r requirements.txt && pytest   # 7 Python tests
 ```
 
+## Deploy it
+
+The site is static, so any static host works. On [Vercel](https://vercel.com) (free Hobby plan):
+**Add New → Project**, import this repository, set **Root Directory** to `web`, leave the framework
+as "Other" and the build command empty, and deploy. Every push to `main` redeploys.
+
 ## The Python lab
 
 Alongside the website, `engine/` and `modules/` hold Qiskit and PennyLane simulations validated against
@@ -165,13 +171,16 @@ quantum-physics-lab/
 │   ├── lib/              physics engine: circuits, Bloch geometry, algorithms, protocols, 1D waves, spin, hydrogen, optics, noise, approximations
 │   ├── ui/               shared components: lesson frame, circuit diagrams, dials, Bloch spheres
 │   ├── <topic>/          one folder per lesson
+│   ├── tools/            page generator and catalog status script
 │   └── tests/            Node tests + Python reference generator
 ├── engine/, modules/     Python lab (Qiskit, PennyLane)
 ├── tests/                Python tests
-└── docs/                 curriculum research and screenshots
+├── docs/                 curriculum research and screenshots
+└── PROJECT.md            full handoff: architecture, conventions, how everything is checked
 ```
 
-See [`web/README.md`](web/README.md) for the engine's structure and how to add a lesson.
+See [`web/README.md`](web/README.md) for the web code's structure and how to add a lesson, and
+[`PROJECT.md`](PROJECT.md) for the complete project briefing.
 
 ## Roadmap
 
@@ -186,8 +195,9 @@ approximations, and quantum information beyond the basics. Still open:
 
 ## Contributing
 
-`main` is what gets deployed. Work happens on one branch per topic (`topic/…`, `feature/…`, `lab/…`,
-`fix/…`) and lands through a pull request with the tests passing. See [`CLAUDE.md`](CLAUDE.md) for the
-conventions (in particular, qubit ordering differs between Qiskit and this site).
+`main` is what gets deployed. Work happens on one branch per unit of work (`topic/…`, `feature/…`,
+`lab/…`, `fix/…`, `docs/…`) and lands through a pull request with the tests passing. See
+[`CLAUDE.md`](CLAUDE.md) for the rules and [`PROJECT.md`](PROJECT.md) for the conventions that have
+bitten us (qubit ordering between Qiskit and this site, reserved lesson-frame ids, and more).
 
 Inspired by [PhET](https://phet.colorado.edu), [QuVis](https://www.st-andrews.ac.uk/physics/quvis/) and [Quirk](https://algassert.com/quirk).
