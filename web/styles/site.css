@@ -1686,6 +1686,84 @@ body.present .present-exit {
   }
 }
 
+.bit-toggles {
+  display: flex;
+  gap: 6px;
+}
+
+.bit-toggles button {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--muted);
+  font: 600 18px var(--mono);
+  cursor: pointer;
+}
+
+.bit-toggles button[aria-pressed='true'] {
+  background: var(--grad);
+  color: var(--accent-text);
+  border-color: transparent;
+}
+
+.fn-table {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 6px;
+}
+
+.fn-cell {
+  padding: 8px 6px;
+  border-radius: 9px;
+  text-align: center;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.fn-cell b {
+  display: block;
+  font-size: 18px;
+  margin-top: 2px;
+}
+
+.fn-cell.one {
+  border-color: color-mix(in srgb, var(--amp-neg) 60%, transparent);
+  background: color-mix(in srgb, var(--amp-neg) 14%, transparent);
+}
+
+.verdict {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  font-size: 15px;
+}
+
+.verdict.good {
+  border-color: color-mix(in srgb, var(--accent-2) 60%, transparent);
+}
+
+.verdict.bad {
+  border-color: color-mix(in srgb, var(--marked) 60%, transparent);
+}
+
+.post-steps {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+  font-size: 14.5px;
+}
+
+.post-steps code {
+  color: var(--accent-2);
+}
+
 /* BB84 photon table */
 
 .table-scroll {

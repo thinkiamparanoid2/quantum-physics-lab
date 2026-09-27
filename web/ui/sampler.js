@@ -6,8 +6,10 @@ import { percent } from '../lib/format.js';
 import { MONO, hline, prep, yAxis } from './charts.js';
 
 export class Sampler {
-  constructor(container, { labelFor } = {}) {
+  // numeric: outcomes are register values (most significant bit first), listed 0, 1, 2, ...
+  constructor(container, { labelFor, numeric = false } = {}) {
     this.labelFor = labelFor;
+    this.numeric = numeric;
     container.innerHTML = `
       <div class="sampler-controls">
         <button type="button" class="btn btn-primary" data-shots="1">Measure</button>
@@ -59,14 +61,16 @@ export class Sampler {
   }
 
   label(b) {
-    return this.labelFor ? this.labelFor(b) : ket(b, this.n);
+    if (this.labelFor) return this.labelFor(b);
+    return this.numeric ? `|${b.toString(2).padStart(this.n, '0')}⟩` : ket(b, this.n);
   }
 
   draw(th) {
     if (!this.probs) return;
     th ??= this.lastTheme;
     this.lastTheme = th;
-    const order = ketOrder(this.n).filter((b) => this.probs[b] > 1e-9 || this.counts.has(b));
+    const all = this.numeric ? Array.from({ length: this.probs.length }, (_, b) => b) : ketOrder(this.n);
+    const order = all.filter((b) => this.probs[b] > 1e-9 || this.counts.has(b));
     this.readout.innerHTML = this.total
       ? `Last result: <b>${this.label(this.last)}</b> · ${this.total.toLocaleString()} measurement${this.total === 1 ? '' : 's'}`
       : 'Press Measure to sample outcomes';
