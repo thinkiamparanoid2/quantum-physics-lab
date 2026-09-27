@@ -30,7 +30,7 @@ Condensed from MIT 8.04 → 8.05 → 8.06, Cambridge, Oxford and Griffiths-based
 
 | Stage | Topics | On the site |
 |---|---|---|
-| **Experimental origins** | Photoelectric effect, Compton scattering, de Broglie waves, double slit and Mach–Zehnder, Stern–Gerlach | Partly (Stern–Gerlach, atomic spectra) |
+| **Experimental origins** | Photoelectric effect, Compton scattering, de Broglie waves, double slit and Mach–Zehnder, Stern–Gerlach | **Mostly covered** (no Compton scattering yet) |
 | **Wave mechanics** | Wavefunction and probability density, probability current, wave packets and group velocity, Fourier transforms and the uncertainty principle, Ehrenfest's theorem | **Mostly covered** (no probability current yet) |
 | **1D bound states** | Infinite and finite square wells, harmonic oscillator (Hermite functions, ladder operators, coherent states), delta potential, particle on a ring, node theorem, shooting method | **Mostly covered** (no delta potential or ring yet) |
 | **1D scattering** | Steps and barriers, tunnelling, transmission and reflection, Ramsauer–Townsend resonance, wave-packet scattering | **Covered** |
@@ -60,7 +60,7 @@ evolution) powers all of these.
 **Phase B: spin and atoms (done).** Stern–Gerlach (sequential magnets), spin precession and magnetic
 resonance (reusing the Bloch sphere), the hydrogen atom (3D orbitals, energy levels, spectral lines).
 
-**Phase C: experiments that started it.** Double slit with single particles building up a pattern,
+**Phase C: experiments that started it (done).** Double slit with single particles building up a pattern,
 photoelectric effect, Mach–Zehnder interferometer and the Elitzur–Vaidman bomb tester.
 
 **Phase D: quantum information, further.** Bell/CHSH test (quantum vs local hidden variables),
