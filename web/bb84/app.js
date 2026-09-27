@@ -90,7 +90,7 @@ document.getElementById('try-slot').innerHTML = `
     <label class="field"><span class="label">Channel noise <output id="noise-out"></output></span>
       <input id="noise" type="range" min="0" max="0.15" step="0.01" value="0"></label>
     <label class="field"><span class="label">Photons</span>
-      <select id="count"><option>12</option><option selected>16</option><option>24</option><option>32</option></select></label>
+      <select id="photon-count"><option>12</option><option selected>16</option><option>24</option><option>32</option></select></label>
     <div class="row" style="margin-top: 14px"><button id="rerun" class="btn btn-primary" type="button">New run</button></div>
   </div>`;
 
@@ -233,8 +233,8 @@ $('noise').addEventListener('input', () => {
   simulate();
   render();
 });
-$('count').addEventListener('change', () => {
-  settings.count = Number($('count').value);
+$('photon-count').addEventListener('change', () => {
+  settings.count = Number($('photon-count').value);
   simulate();
   render();
 });
