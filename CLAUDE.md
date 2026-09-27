@@ -31,5 +31,5 @@ Two halves in one repo:
 - `main` is what's deployed. Never commit directly to it except trivial fixes.
 - One branch per unit of work, merged via pull request:
   `topic/<name>` for a new teaching topic, `feature/<name>` for shared site features,
-  `lab/<name>` for Python modules, `fix/<name>` for bug fixes.
+  `lab/<name>` for Python modules, `fix/<name>` for bug fixes, `docs/<name>` for documentation.
 - Keep tests passing (Python + web) before opening a PR.
