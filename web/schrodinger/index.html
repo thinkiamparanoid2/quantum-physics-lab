@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="schrodinger">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schrödinger Playground: Quantum Physics Lab</title>
+  <meta name="description" content="Type or draw any one-dimensional potential, see its energy levels and stationary states, and watch wave packets move in it.">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../styles/site.css">
+</head>
+<body>
+  <div class="container lesson-head">
+    <div>
+      <p class="eyebrow">Tools</p>
+      <h1>Schrödinger Playground</h1>
+      <p class="lede">Type or draw any potential, see its energy levels, and watch a particle move in it.</p>
+    </div>
+    <div class="lesson-actions"><button id="share" class="btn" type="button">Copy link</button></div>
+  </div>
+
+  <main class="layout">
+    <aside class="panel controls" aria-label="Potential and initial state">
+      <label class="field">
+        <span class="label">Example</span>
+        <select id="preset"></select>
+      </label>
+      <p id="preset-desc" class="hint preset-desc"></p>
+
+      <label class="field" for="formula"><span class="label">Potential V(x)</span></label>
+      <input id="formula" type="text" spellcheck="false" autocomplete="off" aria-describedby="formula-error formula-hint">
+      <p id="formula-error" class="error" role="alert" hidden></p>
+      <details class="syntax" id="formula-hint">
+        <summary>Syntax</summary>
+        <ul>
+          <li><code>0.5*x^2</code> use x, numbers, + − * / and ^ for powers</li>
+          <li><code>6*(abs(x) &gt; 2)</code> comparisons count as 1 (true) or 0 (false)</li>
+          <li><code>sin cos exp log sqrt abs tanh min max step</code> and <code>pi</code></li>
+        </ul>
+        <p class="hint">Units: ħ = m = 1. Hard walls stand at x = ±10.</p>
+      </details>
+      <div class="row" style="margin-top: 10px">
+        <button id="draw" class="btn" type="button" aria-pressed="false">Draw it</button>
+        <button id="smooth" class="btn" type="button">Smooth</button>
+      </div>
+      <p id="draw-hint" class="hint" hidden>Drag across the top plot to draw V(x). Press <b>Draw it</b> again when done.</p>
+
+      <label class="field" style="margin-top: 16px"><span class="label">Start with</span>
+        <select id="mode">
+          <option value="packet">A wave packet</option>
+          <option value="levels">Energy levels I pick</option>
+        </select></label>
+      <div data-for="packet">
+        <label class="field"><span class="label">Position x₀ <output id="x0-out"></output></span>
+          <input id="x0" type="range" min="-9" max="9" step="0.1"></label>
+        <label class="field"><span class="label">Width σ <output id="sigma-out"></output></span>
+          <input id="sigma" type="range" min="0.3" max="3" step="0.05"></label>
+        <label class="field"><span class="label">Momentum k₀ <output id="k0-out"></output></span>
+          <input id="k0" type="range" min="-6" max="6" step="0.1"></label>
+      </div>
+      <p data-for="levels" class="hint">Click levels in <b>Energy levels</b> to add or remove them. They start with equal weights.</p>
+
+      <div class="row" style="margin-top: 10px">
+        <label class="field"><span class="label">Show</span>
+          <select id="view"><option value="density">|ψ|²</option><option value="parts">Re ψ, Im ψ</option></select></label>
+        <label class="field"><span class="label">Run for</span>
+          <select id="duration"><option value="20">t = 20</option><option value="60">t = 60</option><option value="200">t = 200</option><option value="1000">t = 1000</option></select></label>
+      </div>
+
+      <div id="stats" class="stats" aria-live="polite"></div>
+    </aside>
+
+    <section class="viz" aria-label="Simulation">
+      <div id="player"></div>
+      <figure class="panel card">
+        <figcaption class="card-head">
+          <h2>ψ(x, t) in your potential</h2>
+          <span class="legend"><canvas class="phase-wheel" width="18" height="18" aria-hidden="true"></canvas> <span id="density-legend">colour = phase; amber = ⟨E⟩</span></span>
+        </figcaption>
+        <canvas id="density" class="chart tall" role="img" aria-label="Probability density over the potential"></canvas>
+      </figure>
+      <div class="grid2">
+        <figure class="panel card">
+          <figcaption class="card-head"><h2>Energy levels</h2><span class="legend">click to pick</span></figcaption>
+          <canvas id="levels" class="chart" style="height: 320px; cursor: pointer" role="img" aria-label="Energy levels and stationary states"></canvas>
+        </figure>
+        <figure class="panel card">
+          <figcaption class="card-head"><h2>Made of levels</h2><span class="legend">chance of measuring each energy</span></figcaption>
+          <canvas id="bars" class="chart" style="height: 320px" role="img" aria-label="Weight of each energy level in the state"></canvas>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <div class="container">
+    <p class="hint" style="max-width: 900px">
+      The potential is sampled on 700 points between hard walls at x = ±10. The lowest 110 stationary states come from
+      diagonalising the finite-difference Hamiltonian, and the motion is the exact sum of those states with their phases
+      e<sup>−iE<sub>n</sub>t</sup>. "Captured" says how much of the starting state those 110 levels describe.
+    </p>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -31,14 +31,14 @@ Condensed from MIT 8.04 → 8.05 → 8.06, Cambridge, Oxford and Griffiths-based
 | Stage | Topics | On the site |
 |---|---|---|
 | **Experimental origins** | Photoelectric effect, Compton scattering, de Broglie waves, double slit and Mach–Zehnder, Stern–Gerlach | Not yet |
-| **Wave mechanics** | Wavefunction and probability density, probability current, wave packets and group velocity, Fourier transforms and the uncertainty principle, Ehrenfest's theorem | Not yet |
-| **1D bound states** | Infinite and finite square wells, harmonic oscillator (Hermite functions, ladder operators, coherent states), delta potential, particle on a ring, node theorem, shooting method | Not yet |
-| **1D scattering** | Steps and barriers, tunnelling, transmission and reflection, Ramsauer–Townsend resonance, wave-packet scattering | Not yet (Python module planned) |
+| **Wave mechanics** | Wavefunction and probability density, probability current, wave packets and group velocity, Fourier transforms and the uncertainty principle, Ehrenfest's theorem | **Mostly covered** (no probability current yet) |
+| **1D bound states** | Infinite and finite square wells, harmonic oscillator (Hermite functions, ladder operators, coherent states), delta potential, particle on a ring, node theorem, shooting method | **Mostly covered** (no delta potential or ring yet) |
+| **1D scattering** | Steps and barriers, tunnelling, transmission and reflection, Ramsauer–Townsend resonance, wave-packet scattering | **Covered** |
 | **Formalism** | Operators, Hermiticity, commutators, measurement postulate, stationary states and time evolution, two-state systems | Partly (qubit, measurement) |
 | **3D and angular momentum** | Central potentials, spherical harmonics, the hydrogen atom and its spectrum, orbitals | Not yet |
 | **Spin** | Spin-1/2, Stern–Gerlach, precession in a magnetic field, magnetic resonance and Rabi oscillations, addition of angular momentum | Partly (Bloch sphere) |
 | **Many particles** | Identical particles, exchange symmetry, Pauli exclusion, periodic table, Fermi–Dirac and Bose–Einstein statistics | Not yet |
-| **Solids** | Periodic potentials, Bloch waves, band structure (Kronig–Penney), metals vs insulators | Not yet |
+| **Solids** | Periodic potentials, Bloch waves, band structure (Kronig–Penney), metals vs insulators | Partly (lattice example in the Schrödinger playground) |
 | **Approximation methods** | Time-independent perturbation theory, variational method, WKB, time-dependent perturbation theory, Fermi's golden rule, adiabatic theorem | Not yet |
 | **Quantum information** | Qubits, measurement, entanglement, teleportation, superdense coding, QKD, algorithms | **Covered** |
 | **Quantum information, further** | Bell/CHSH inequality, density matrices, decoherence, no-cloning, quantum error correction | Not yet |
@@ -48,7 +48,7 @@ Condensed from MIT 8.04 → 8.05 → 8.06, Cambridge, Oxford and Griffiths-based
 
 Ordered by how many courses teach the topic and how much a visual helps.
 
-**Phase A: waves and the Schrödinger equation.** One shared 1D solver (eigenstates plus time
+**Phase A: waves and the Schrödinger equation (done).** One shared 1D solver (eigenstates plus time
 evolution) powers all of these.
 1. Wave packets and the uncertainty principle
 2. Particle in a box (stationary states, and superpositions that slosh)
