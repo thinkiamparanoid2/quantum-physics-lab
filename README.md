@@ -12,6 +12,7 @@ built for students learning quantum mechanics and for teachers explaining it.
 ![No build step](https://img.shields.io/badge/build_step-none-8b7bff)
 ![Runs in the browser](https://img.shields.io/badge/runs-in_your_browser-2ee6f5)
 [![Live site](https://img.shields.io/badge/live-quantum--physics--lab.vercel.app-2ee6f5)](https://quantum-physics-lab.vercel.app)
+[![MIT license](https://img.shields.io/badge/license-MIT-8b7bff)](LICENSE)
 ![Topics](https://img.shields.io/badge/interactive_topics-39-8b7bff)
 
 <img src="docs/screenshots/home.png" alt="Landing page: 'Quantum physics, made visible.' beside a Bloch sphere rotating under a Hadamard gate" width="900">
@@ -205,5 +206,9 @@ approximations, and quantum information beyond the basics. Still open:
 `lab/…`, `fix/…`, `docs/…`) and lands through a pull request with the tests passing. See
 [`CLAUDE.md`](CLAUDE.md) for the rules and [`PROJECT.md`](PROJECT.md) for the conventions that have
 bitten us (qubit ordering between Qiskit and this site, reserved lesson-frame ids, and more).
+
+## License
+
+[MIT](LICENSE): free to use, adapt and share, in classrooms or anywhere else.
 
 Inspired by [PhET](https://phet.colorado.edu), [QuVis](https://www.st-andrews.ac.uk/physics/quvis/) and [Quirk](https://algassert.com/quirk).
