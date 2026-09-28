@@ -25,7 +25,7 @@ const STEPS = [
     title: 'The wave picture predicts…',
     preset: { metal: 'sodium', nm: 650, intensity: 100, volts: 0 },
     html: `<p>If light is a wave, brighter light shakes the electrons harder, so any colour should work if it is bright enough. Here is red light at full brightness.</p>
-      <p><b>Nothing.</b> Not one electron, however bright the light or however long you wait. Slide the brightness: still nothing.</p>`,
+      <p><b>Nothing.</b> Not one electron, however bright the lamp or however long you wait. Slide the brightness: still nothing.</p>`,
   },
   {
     title: 'Light comes in lumps',
@@ -298,7 +298,7 @@ function drawIV(th) {
   ctx.fillText('voltage (V)', (box.x0 + box.x1) / 2, h);
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
-  ctx.fillText('current (dashed: full brightness)', box.x0 + 4, box.y0);
+  ctx.fillText('current (dashed: full brightness; simple model, energies spread evenly up to K_max)', box.x0 + 4, box.y0);
 }
 
 function drawMillikan(th) {

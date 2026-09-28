@@ -32,13 +32,13 @@ const STEPS = [
   {
     title: 'Fermions keep apart',
     preset: { kind: 'fermions', n1: 1, n2: 2, many: 6, manyKind: 'fermions' },
-    html: ({ sep }) => `<p>For fermions the two arrangements subtract, so ψ is <b>exactly zero on the diagonal</b>: two identical fermions are never found at the same place. Their mean squared separation grows to ${sep.fermions.toFixed(4)}.</p>
+    html: ({ sep }) => `<p>For fermions the two arrangements subtract, so ψ is <b>exactly zero on the diagonal</b>: two identical fermions with the same spin are never found at the same place. Their mean squared separation grows to ${sep.fermions.toFixed(4)}.</p>
       <p>No force pushes them apart: this "exchange hole" comes purely from the symmetry of the wavefunction.</p>`,
   },
   {
     title: 'The Pauli exclusion principle',
     preset: { kind: 'fermions', n1: 2, n2: 2, many: 6, manyKind: 'fermions' },
-    html: `<p>Put both fermions in the <b>same</b> level: the two arrangements are identical, they cancel completely, and the map is blank. There is no such state.</p>
+    html: `<p>Put both fermions (with the same spin) in the <b>same</b> level: the two arrangements are identical, they cancel completely, and the map is blank. There is no such state.</p>
       <p>Two identical fermions can never occupy the same quantum state: <b>Pauli's exclusion principle</b>. (Electrons also have spin, so two can share a level if their spins differ.)</p>`,
   },
   {
@@ -50,7 +50,7 @@ const STEPS = [
   {
     title: 'The periodic table',
     preset: { kind: 'fermions', n1: 1, n2: 3, many: 10, manyKind: 'fermions' },
-    html: `<p>In an atom the same rule stacks electrons into the hydrogen-like shells: 2 in the first, 8 in the second (2s and 2p), 18 in the third. Atoms with a closed shell (helium, neon, argon) are inert; one electron beyond it (lithium, sodium) makes them eager to react.</p>
+    html: `<p>In an atom the same rule stacks electrons into shells and subshells: 2 in 1s, then 2 in 2s and 6 in 2p, and so on. Atoms whose outer subshells are exactly full (helium, neon, argon) are inert; one electron beyond them (lithium, sodium, potassium) makes them eager to react.</p>
       <p>Chemistry, and the solidity of matter, rest on the antisymmetry of fermions.</p>`,
   },
   {

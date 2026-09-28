@@ -17,13 +17,13 @@ const BOX = (w, h) => ({ x0: 48, y0: 12, x1: w - 14, y1: h - 28 });
 
 const PRESETS = [
   { name: 'Harmonic oscillator', f: '0.5*x^2', desc: 'A particle on a spring. Evenly spaced levels; a displaced packet swings without spreading.', packet: [-4, 0.71, 0], duration: 20 },
-  { name: 'Box', f: '0', desc: 'Nothing but the hard walls at ±10. Watch the packet bounce, blur, and partly revive.', packet: [-5, 1, 3], duration: 60 },
+  { name: 'Box', f: '0', desc: 'Nothing but the hard walls at ±10. Watch the packet bounce and blur; run for t = 1000 to catch it reviving (fully at t = 1600/π ≈ 509).', packet: [-5, 1, 3], duration: 60 },
   { name: 'Finite well', f: '6*(abs(x) > 2)', desc: 'A well of depth 6 and width 4: a few bound levels, then a continuum above the rim.', packet: [0, 0.6, 0], duration: 20 },
   { name: 'Double well', f: '0.1*(x^2 - 4)^2', desc: 'Two wells and a hump. Levels 0 and 1 together make a particle that tunnels from well to well, every 46 time units.', levels: [0, 1], duration: 200 },
   { name: 'Barrier in a box', f: '3*(abs(x) < 0.5)', desc: 'A thin wall higher than the packet’s energy. Part tunnels through each time it hits.', packet: [-5, 1.2, 2], duration: 20 },
   { name: 'Step', f: '2*(x > 0)', desc: 'A step up of height 2. The packet has just enough energy to climb it, yet part reflects.', packet: [-5, 1.5, 2.2], duration: 20 },
   { name: 'Crystal lattice', f: '1.5 + 1.5*cos(2*pi*x/2.5)', desc: 'A periodic potential, like atoms in a crystal. The levels bunch into bands with gaps between them.', packet: [-5, 1.5, 1], duration: 60 },
-  { name: 'Constant force', f: '1.5*abs(x)', desc: 'A V-shaped potential: a constant force pushes toward the middle, like a ball bouncing under gravity.', packet: [5, 0.6, 0], duration: 20 },
+  { name: 'Constant force', f: '1.5*abs(x)', desc: 'A V-shaped potential: a constant force always pushes toward the middle. Its antisymmetric states are exactly those of a quantum ball bouncing on a floor under gravity.', packet: [5, 0.6, 0], duration: 20 },
   { name: 'Molecule (Morse)', f: '6*(1 - exp(-0.6*(x + 3)))^2', desc: 'The Morse potential of a chemical bond. Levels crowd together toward the dissociation energy 6.', packet: [-1.5, 0.4, 0], duration: 60 },
 ];
 

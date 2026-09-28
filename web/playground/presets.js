@@ -126,7 +126,7 @@ export const PRESETS = [
     id: 'schwinger',
     name: 'Schwinger pair production (6 qubits)',
     description:
-      'Quantum electrodynamics in one dimension, on a lattice. The simulation starts from empty space, and the electric field pulls electron-positron pairs out of the vacuum. The observable is the total number of particles.',
+      'Quantum electrodynamics in one dimension, on a lattice. The simulation starts from the bare vacuum (no particles), which is not a stationary state of the interacting theory, so electron-positron pairs appear and oscillate. This quench is the one Martinez et al. ran on a trapped-ion quantum computer (Nature, 2016). The observable is the total number of particles.',
     observableName: 'total particle number',
     build: () => schwinger(6),
   },

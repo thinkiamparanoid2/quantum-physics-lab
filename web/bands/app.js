@@ -49,7 +49,7 @@ const STEPS = [
         metal
           ? 'The top band is only partly full: an electron can move into an empty level just above for the tiniest push. That is a <b>metal</b>, like sodium or copper.'
           : 'The band is exactly full and the next empty level is across a gap. A small voltage can’t move anyone: an <b>insulator</b>, like diamond (or a semiconductor, if the gap is small).'
-      } Switch <b>Electrons per atom</b> between 1 and 2.</p>`,
+      } Switch <b>Electrons per atom</b> between 1 and 2. (In three dimensions bands can overlap, which is why magnesium, with 2 outer electrons per atom, is still a metal.)</p>`,
   },
   {
     title: 'Your turn',

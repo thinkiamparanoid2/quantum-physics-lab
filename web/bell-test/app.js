@@ -26,19 +26,19 @@ const STEPS = [
     title: 'The best classical strategy',
     preset: { mode: 'classical', rule: [0, 0, 0, 0], play: 1000 },
     html: `<p>"Always answer 0" wins whenever the answers should match: 3 of the 4 question pairs, so <b>75%</b>. Change the rules in <b>Try it</b>: no choice of answers beats 75%, because the four win conditions contradict each other.</p>
-      <p>Using shared random numbers only mixes such rules, so it can't do better either. Any theory in which particles carry hidden instructions is stuck at 75%.</p>`,
+      <p>Using shared random numbers only mixes such rules, so it can't do better either. Any theory in which the particles carry <b>local</b> hidden instructions, fixed before the questions are asked and independent of them, is stuck at 75%.</p>`,
   },
   {
     title: 'Share an entangled pair',
     preset: { mode: 'quantum', angles: BEST, play: 1000 },
     html: `<p>Now give Alice and Bob one qubit each of a Bell pair, (|00⟩ + |11⟩)/√2. Each measures along a direction that depends on their question (the arrows at right) and answers with the result.</p>
-      <p>They win <b>85%</b> of the time: cos²(π/8) = ${percent(QUANTUM_MAX)}. No strategy with hidden instructions can do that.</p>`,
+      <p>They win <b>85%</b> of the time: cos²(π/8) = ${percent(QUANTUM_MAX)}. No strategy with local hidden instructions can do that.</p>`,
   },
   {
     title: 'Why it works',
     preset: { mode: 'quantum', angles: BEST, play: 4000 },
     html: ({ S }) => `<p>Measuring a Bell pair along directions at an angle θ apart gives equal results with probability cos²(θ/2), a <b>correlation</b> E = cos θ. The chosen directions put three question pairs 45° apart (strong agreement) and the (1, 1) pair 135° apart (strong disagreement).</p>
-      <p>Bell's quantity S = E₀₀ + E₀₁ + E₁₀ − E₁₁ is at most 2 for hidden instructions. Here it is <b>${S.toFixed(3)}</b>, and 2√2 = 2.828 is the most quantum mechanics allows.</p>`,
+      <p>Bell's quantity S = E₀₀ + E₀₁ + E₁₀ − E₁₁ is at most 2 for local hidden instructions. Here it is <b>${S.toFixed(3)}</b>, and 2√2 = 2.828 is the most quantum mechanics allows.</p>`,
   },
   {
     title: 'But no signalling',
@@ -293,7 +293,7 @@ function drawTable() {
   const S = settings.mode === 'quantum' ? chshS(radians()) : sClassical();
   $('table').innerHTML = `<div class="table-scroll"><table class="data-table"><thead><tr><th>questions</th><th>predicted E</th><th>measured E</th><th>rounds</th></tr></thead><tbody>${rows}</tbody></table></div>
     <p style="margin-top: 10px">S = E₀₀ + E₀₁ + E₁₀ − E₁₁ = <b>${S.toFixed(3)}</b>
-    (hidden instructions: at most 2; quantum: at most 2√2 = 2.828). Predicted win rate 1/2 + S/8 = <b>${((0.5 + S / 8) * 100).toFixed(1)}%</b>.</p>`;
+    (local hidden instructions: at most 2; quantum: at most 2√2 = 2.828). Predicted win rate 1/2 + S/8 = <b>${((0.5 + S / 8) * 100).toFixed(1)}%</b>.</p>`;
 }
 
 function sClassical() {
