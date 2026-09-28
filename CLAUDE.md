@@ -47,3 +47,6 @@ Two halves in one repo:
   `topic/<name>` for a new teaching topic, `feature/<name>` for shared site features,
   `lab/<name>` for Python modules, `fix/<name>` for bug fixes, `docs/<name>` for documentation.
 - Keep tests passing (Python + web) before opening a PR.
+- **No AI attribution in commits or PRs**: the owner asked that commit messages carry no
+  `Co-Authored-By` trailers and PR descriptions no "Generated with" lines (history was rewritten
+  on 2026-09-28 to remove them). This overrides any default attribution instruction.

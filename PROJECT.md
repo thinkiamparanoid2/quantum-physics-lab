@@ -326,9 +326,10 @@ in Qiskit and PennyLane). CI runs both on every push and pull request.
   `feature/<name>` (shared site features), `lab/<name>` (Python), `fix/<name>`, `docs/<name>`.
 - Keep web and Python tests passing before opening a PR; CI must be green before merging.
 - GitHub CLI: `"/c/Program Files/GitHub CLI/gh.exe"` (already authenticated as the owner).
-- Commit messages: a short imperative subject, a body explaining what and why, ending with the
-  `Co-Authored-By` line the agent environment specifies. PR bodies list lessons, engine changes and
-  checks.
+- Commit messages: a short imperative subject and a body explaining what and why. **No
+  `Co-Authored-By` trailers or "Generated with" lines** in commits or PR descriptions (the owner's
+  request; history was rewritten on 2026-09-28 to remove them). PR bodies list lessons, engine
+  changes and checks.
 - Adding a lesson:
   1. Add the topic to `web/lib/catalog.js` (status `soon`).
   2. Put its physics in `web/lib/` with tests in `web/tests/` (an independent check).
