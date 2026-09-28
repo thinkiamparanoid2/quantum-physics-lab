@@ -15,6 +15,12 @@ same pair-production effect happens at accessible field strengths, and the whole
 simple enough to put on a lattice and simulate on a handful of qubits — while still being a
 real, non-perturbative quantum field theory, not a toy spin model wearing a QFT costume.
 
+What this module simulates is the protocol of the first quantum-computer experiment
+(Martinez et al., 2016): start from the *bare* vacuum, which is not the true ground state of the
+interacting theory, with no applied field, and watch pairs appear and disappear as it evolves.
+Pair creation by a strong applied field (the Schwinger mechanism proper) needs a nonzero
+`background_field`, which the Hamiltonian supports but the default runs don't use.
+
 ## The setup
 
 Space is discretized into a line of `N` sites. Using the **Kogut-Susskind staggered fermion**
@@ -41,11 +47,13 @@ H = x * Σ_{n=0}^{N-2} (X_n X_{n+1} + Y_n Y_{n+1}) / 2      <- hopping (kinetic 
   where L_n = Σ_{k=0}^{n} (Z_k + (-1)^k) / 2   (background field = 0)
 ```
 
-- **Hopping** lets a particle-antiparticle pair move/annihilate — same role as the hopping
-  term in the spin-chain module, and it's what needs Trotterizing.
+- **Hopping** is what creates, moves and annihilates particle-antiparticle pairs (a fermion
+  hopping from an odd to an even site turns the bare vacuum into a pair). It doesn't commute
+  with the rest, which is why the evolution needs Trotterizing.
 - **Mass** is the energy cost of an electron or positron existing at all.
-- **Electric field energy** is what does the actual pair creation: it's minimized when
-  charges rearrange to screen the field, and that rearrangement *is* a created pair.
+- **Electric field energy** is the cost of the field stretched between separated charges. With
+  zero background field it *suppresses* pair creation; a nonzero `background_field` (a strong
+  applied field) is what would make pairs energetically favourable, the Schwinger mechanism.
 
 This follows the construction from [Muschik et al., *New J. Phys.* 19, 103020 (2017)](https://doi.org/10.1088/1367-2630/aa89ab),
 the theory behind the first experimental realization on a 4-qubit trapped-ion computer in
@@ -93,11 +101,13 @@ directly elsewhere in this repo.
 
 ## What to expect
 
-Starting in the bare vacuum, the total particle number should stay at 0 only if `mass` is
-very large relative to `coupling` (pair creation too expensive). As `coupling` grows relative
-to `mass`, pairs get created and the total particle number oscillates upward from zero —
-that oscillation, not a monotonic climb, is expected: this is a closed, finite system, so
-particles get created and reabsorbed rather than escaping.
+The bare vacuum is not an eigenstate of H, so after the quench pairs appear. How many depends
+on hopping `x` against the energy costs `mass` and `coupling`: for 6 sites the peak total
+particle number over t ≤ 8 is about 3.5 at `x = 1, mass = 0.5, coupling = 0.6`, drops to 0.5
+at `mass = 4`, drops to 0.9 at `coupling = 6`, and falls to 0.8 when the hopping is weakened
+to `x = 0.1`. The number oscillates rather than climbing
+steadily: this is a closed, finite system, so particles get created and reabsorbed rather than
+escaping.
 
 ## Hardware run
 
