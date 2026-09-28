@@ -37,8 +37,8 @@ Two halves in one repo:
   remember headless Edge and a hidden Browser pane don't run `requestAnimationFrame` animations.
 - **Line-ending noise**: regenerated pages may differ only in CRLF/LF. Check with
   `git diff --ignore-cr-at-eol` and discard rather than commit.
-- **Open decisions belong to the owner**: no LICENSE until they confirm (MIT suggested); a custom
-  domain for the Vercel site is optional and theirs to decide. Merging to `main` publishes the site.
+- **Decisions belong to the owner**: the project is MIT-licensed (`LICENSE`); a custom domain for
+  the Vercel site is optional and theirs to decide. Merging to `main` publishes the site.
 
 ## Git workflow
 

@@ -355,10 +355,10 @@ in Qiskit and PennyLane). CI runs both on every push and pull request.
 
 ## 8. Open decisions and next steps
 
-Decisions that belong to the owner (do not act without asking):
+Decisions the owner has made (ask before changing them):
 
-- **License**: none yet. MIT was suggested; the owner said to keep it in mind. Do not add one
-  until they confirm.
+- **License**: MIT, added on 2026-09-28 at the owner's request (`LICENSE`, copyright Ishmam
+  Rashid Bhuiyan).
 - **Deployment**: done on 2026-09-28. Vercel project `quantum-physics-lab` under the owner's Hobby
   account ("Ishmam Rashid Bhuiyan"), Root Directory `web`, preset "Other", no build command.
   Every push to `main` redeploys; pull requests get preview URLs. A custom domain is optional
