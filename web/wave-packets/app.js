@@ -35,7 +35,7 @@ const STEPS = [
     title: "Heisenberg's limit",
     preset: { sigma: 1, k0: 2, shape: 'gaussian' },
     html: ({ product }) => `<p>The spreads can't both be small: Δx · Δp ≥ ħ/2. Here the product is <b>${product.toFixed(3)}</b> (in units of ħ).</p>
-      <p>A Gaussian packet sits exactly on the limit, 0.5. Switch <b>Shape</b> to "Square" or "Two bumps" and the product rises above it. No shape can go below.</p>`,
+      <p>A Gaussian packet sits exactly on the limit, 0.5. Switch <b>Shape</b> to "Square" or "Two bumps" and the product rises above it. No shape can go below. (For the square, the sharp edges make Δp formally infinite; the simulation's grid caps it.)</p>`,
   },
   {
     title: 'Let it go',

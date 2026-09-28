@@ -63,12 +63,12 @@ runCircuitLesson({
           <p>Yet each qubit on its own is a fair coin: q0 alone gives 0 or 1 with equal odds, and so does q1. The randomness is shared.</p>`,
       },
       {
-        title: 'Correlated in every direction',
+        title: 'Correlated along x too',
         ops: XBASIS,
         until: 4,
         html: ({ probs }) => `<p>Now apply H to both qubits before measuring. That is the same as measuring along x instead of z.</p>
-          <p>Two coins with a secret agreed in advance would give unrelated results here. The Bell pair still agrees <b>${percent(agreement(probs))}</b> of the time.
-          Correlations that survive a change of direction are what separate entanglement from shared classical randomness.</p>`,
+          <p>Compare a pair that is secretly 00 or 11, decided by a coin flip: it agrees 100% along z but only 50% along x. The Bell pair still agrees <b>${percent(agreement(probs))}</b> of the time: no mixture of 00 and 11 can do that.</p>
+          <p>Perfect agreement in two directions doesn't yet rule out every hidden-instruction explanation. Bell's theorem does that, with measurements at in-between angles: see <a href="../bell-test/">the CHSH game</a>.</p>`,
       },
       {
         title: 'The four Bell states',

@@ -28,7 +28,7 @@ const STEPS = [
     title: 'Precession is just a phase',
     preset: { mode: 'larmor', tilt: 60, frame: 'lab' },
     play: true,
-    html: `<p>In quantum terms: spin up and spin down have energies +ħω<sub>0</sub>/2 and −ħω<sub>0</sub>/2, and each picks up the phase e<sup>−iEt/ħ</sup>. The <b>relative</b> phase between them turns at ω<sub>0</sub>, and that turning phase <i>is</i> the arrow going round.</p>
+    html: `<p>In quantum terms: the spin states along the field have energies ±ħω<sub>0</sub>/2 (which one is lower depends on the sign of the particle's magnetic moment), and each picks up the phase e<sup>−iEt/ħ</sup>. The <b>relative</b> phase between them turns at ω<sub>0</sub>, and that turning phase <i>is</i> the arrow going round.</p>
       <p>The chance of measuring up (the height of the arrow) never changes. On a qubit this is exactly an R<sub>z</sub> rotation.</p>`,
   },
   {
@@ -50,7 +50,7 @@ const STEPS = [
     preset: { mode: 'rabi', detune: 1.2, W: 0.8, pulse: 'cw', frame: 'rot' },
     play: true,
     html: ({ maxFlip }) => `<p>Drive slightly off resonance (ω − ω<sub>0</sub> = −1.2). In the rotating frame the spin now turns about a <b>tilted</b> axis, so it never reaches the bottom: at most ${percent(maxFlip)} flips, but faster.</p>
-      <p><b>The resonance line</b> shows the best flip chance for every drive frequency: a sharp peak at ω<sub>0</sub>. An NMR machine sweeps for these peaks; since ω<sub>0</sub> depends on each nucleus's surroundings, the peaks reveal chemistry.</p>`,
+      <p><b>The resonance line</b> shows the best flip chance for every drive frequency: a sharp peak at ω<sub>0</sub>. An NMR machine looks for these peaks; since ω<sub>0</sub> depends on each nucleus's surroundings, the peaks reveal chemistry.</p>`,
   },
   {
     title: 'π and π/2 pulses',

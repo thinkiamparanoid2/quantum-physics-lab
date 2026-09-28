@@ -46,7 +46,7 @@ const STEPS = [
     eve: true,
     reveal: 4,
     html: `<p>Alice and Bob publicly compare a random sample of their key bits and throw those away. Eve causes errors in about <b>25%</b> of key bits, so each compared bit has a 3/4 chance of hiding her.</p>
-      <p>After comparing 20 bits, the chance she stays hidden is (3/4)<sup>20</sup> ≈ 0.3%. If the error rate is too high, they discard the key and try again. Eve can't win, and she can't hide.</p>`,
+      <p>After comparing 20 bits, the chance she stays hidden is (3/4)<sup>20</sup> ≈ 0.3%. If the error rate is too high, they discard the key and try again. Eve can't listen in without, almost certainly, leaving a trace.</p>`,
   },
   {
     title: 'Your turn',

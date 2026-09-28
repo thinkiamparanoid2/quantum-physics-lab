@@ -88,7 +88,7 @@ const STEPS = [
     preset: { shape: 'well', V0: 1.5, a: 3, E: 0.69, sigma: 10 },
     play: true,
     html: ({ predicted }) => `<p>Swap the wall for a <b>well</b>. Even a dip reflects part of a wave, except at special energies where the reflections from its two edges cancel exactly and the well becomes transparent: T = 1. Here ${percent(predicted)} passes.</p>
-      <p>Set the energy to 0.3 and about a quarter bounces off a hole. This is the Ramsauer–Townsend effect: slow electrons fly through argon atoms as if they weren't there.</p>`,
+      <p>Set the energy to 0.3 and about a quarter bounces off a hole. This is a one-dimensional version of the Ramsauer–Townsend effect: slow electrons fly through argon atoms almost as if they weren't there.</p>`,
   },
   {
     title: 'Resonant tunnelling',
