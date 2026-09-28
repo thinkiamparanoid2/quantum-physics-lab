@@ -6,9 +6,12 @@
 Interactive, step-by-step lessons where you watch wave packets tunnel through walls, electron clouds take shape, qubits rotate and algorithms find their answers,
 built for students learning quantum mechanics and for teachers explaining it.
 
+### [**Open the live site → quantum-physics-lab.vercel.app**](https://quantum-physics-lab.vercel.app)
+
 [![Tests](https://github.com/thinkiamparanoid2/quantum-physics-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/thinkiamparanoid2/quantum-physics-lab/actions/workflows/tests.yml)
 ![No build step](https://img.shields.io/badge/build_step-none-8b7bff)
 ![Runs in the browser](https://img.shields.io/badge/runs-in_your_browser-2ee6f5)
+[![Live site](https://img.shields.io/badge/live-quantum--physics--lab.vercel.app-2ee6f5)](https://quantum-physics-lab.vercel.app)
 ![Topics](https://img.shields.io/badge/interactive_topics-39-8b7bff)
 
 <img src="docs/screenshots/home.png" alt="Landing page: 'Quantum physics, made visible.' beside a Bloch sphere rotating under a Hadamard gate" width="900">
@@ -152,9 +155,12 @@ pip install -r requirements.txt && pytest   # 7 Python tests
 
 ## Deploy it
 
-The site is static, so any static host works. On [Vercel](https://vercel.com) (free Hobby plan):
-**Add New → Project**, import this repository, set **Root Directory** to `web`, leave the framework
-as "Other" and the build command empty, and deploy. Every push to `main` redeploys.
+The site is live at **<https://quantum-physics-lab.vercel.app>**, deployed by Vercel from `main`;
+every merge redeploys it and every pull request gets a preview link.
+
+To host your own copy: the site is static, so any static host works. On [Vercel](https://vercel.com)
+(free Hobby plan), **Add New → Project**, import the repository, set **Root Directory** to `web` and
+the preset to "Other", leave the build command empty, and deploy.
 
 ## The Python lab
 
