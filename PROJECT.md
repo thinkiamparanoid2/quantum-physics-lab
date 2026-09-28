@@ -5,6 +5,7 @@ without the conversation that built it. Read it once, top to bottom, before chan
 `CLAUDE.md` holds the short list of rules; this file explains the whole project and why it is the
 way it is.
 
+- Live site: <https://quantum-physics-lab.vercel.app> (Vercel Hobby, deploys from `main`)
 - Repository: <https://github.com/thinkiamparanoid2/quantum-physics-lab> (public)
 - Owner: GitHub `thinkiamparanoid2`, commits as "Ishmam Rashid Bhuiyan"
 - Local checkout: `F:\Quantum` on Windows 10 (RTX 3070); Python venv at `.venv/` (Python 3.12)
@@ -30,7 +31,8 @@ Every lesson:
 
 The repo also contains a smaller **Python lab** (`engine/`, `modules/`): Qiskit and PennyLane
 simulations, the first being pair production in the lattice Schwinger model. That was the
-project's starting point; the website is now the main product.
+project's starting point; the website is now the main product, live at
+<https://quantum-physics-lab.vercel.app>.
 
 ### How it got here (history)
 
@@ -357,8 +359,10 @@ Decisions that belong to the owner (do not act without asking):
 
 - **License**: none yet. MIT was suggested; the owner said to keep it in mind. Do not add one
   until they confirm.
-- **Deployment**: Vercel (free Hobby plan) with Root Directory `web`, Framework "Other", no build
-  command. The owner deliberately postponed this until the site was finished; it is now ready.
+- **Deployment**: done on 2026-09-28. Vercel project `quantum-physics-lab` under the owner's Hobby
+  account ("Ishmam Rashid Bhuiyan"), Root Directory `web`, preset "Other", no build command.
+  Every push to `main` redeploys; pull requests get preview URLs. A custom domain is optional
+  (Vercel → Settings → Domains) and is the owner's call.
 
 Content still open (from `docs/curriculum.md`):
 
