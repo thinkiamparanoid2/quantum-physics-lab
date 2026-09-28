@@ -33,7 +33,7 @@ const STEPS = [
     title: 'Asking a different question',
     preset: { theta: 0, phi: 0, basis: 'x' },
     html: `<p>Measuring along <b>x</b> asks "|+⟩ or |−⟩?" instead of "|0⟩ or |1⟩?". For |0⟩ that answer is 50/50.</p>
-      <p>Set θ to 90° (|+⟩) and measuring along x gives + every time. Which question you ask is part of the experiment.</p>`,
+      <p>Set θ to 90° with φ = 0 (the state |+⟩) and measuring along x gives + every time. Which question you ask is part of the experiment.</p>`,
   },
   {
     title: 'Your turn',

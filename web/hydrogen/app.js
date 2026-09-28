@@ -35,7 +35,8 @@ const STEPS = [
     title: 'p orbitals: two lobes',
     preset: { n: 2, l: 1, m: 0 },
     html: `<p>Now give the electron angular momentum (l = 1). The <b>2p<sub>z</sub></b> orbital has two lobes of opposite sign, with a flat node plane between them where ψ = 0.</p>
-      <p>There are three: p<sub>x</sub>, p<sub>y</sub> and p<sub>z</sub>, identical but pointing along different axes. Pick them with <b>m</b> in Try it, and drag the cloud to turn it.</p>`,
+      <p>There are three: p<sub>x</sub>, p<sub>y</sub> and p<sub>z</sub>, identical but pointing along different axes. Pick them with <b>Orientation</b> in Try it, and drag the cloud to turn it.</p>
+      <p>These are the real orbitals chemists draw. p<sub>z</sub> has a definite m = 0, while p<sub>x</sub> and p<sub>y</sub> are each an equal mix of m = +1 and m = −1.</p>`,
   },
   {
     title: 'Counting nodes',
@@ -47,7 +48,7 @@ const STEPS = [
     title: 'Energy depends only on n',
     preset: { n: 2, l: 1, m: 1 },
     html: ({ n }) => `<p>The energy is E<sub>n</sub> = −13.6 eV / n², whatever l and m are: 2s and all three 2p orbitals share E<sub>2</sub> = ${energyEV(2).toFixed(2)} eV. Level n holds n² orbitals, or 2n² electrons once spin is counted: 2, 8, 18, 32.</p>
-      <p>Those numbers are the lengths of the rows of the periodic table. The facts under the cloud check E<sub>${n}</sub> by solving the Schrödinger equation numerically, with the solver of the waves lessons.</p>`,
+      <p>These capacities set the pattern of the periodic table (its rows hold 2, 8, 8, 18, 18, 32 and 32 elements, because in many-electron atoms the subshells fill in a slightly different order). The facts under the cloud check E<sub>${n}</sub> by solving the Schrödinger equation numerically, with the solver of the waves lessons.</p>`,
   },
   {
     title: 'Your turn',
@@ -83,7 +84,7 @@ document.getElementById('try-slot').innerHTML = `
       <label class="field"><span class="label">n (shell)</span><select id="n">${[1, 2, 3, 4].map((k) => `<option value="${k}">${k}</option>`).join('')}</select></label>
       <label class="field"><span class="label">l (shape)</span><select id="l"></select></label>
     </div>
-    <label class="field"><span class="label">m (orientation)</span><select id="m"></select></label>
+    <label class="field"><span class="label">Orientation (real orbital)</span><select id="m"></select></label>
     <p class="hint" id="orbital-name"></p>
     <label class="field" style="display: flex; gap: 8px; align-items: center"><input id="spin" type="checkbox" checked> Turn the cloud slowly</label>
   </div>`;
@@ -336,10 +337,11 @@ function render() {
 
 // ----- controls -----
 
+// Real orbitals: p_x, p_y, d_xy, ... mix +m and -m, so only |m| is a good label (m = 0 is exact).
 const mLabel = (l, m) => {
   const name = orbitalName(2 + l, l, m);
   const sub = name.includes('_') ? name.split('_')[1] : '';
-  return `m = ${m}${sub ? `  (${L_NAMES[l]}${sub})` : ''}`;
+  return `${L_NAMES[l]}${sub}  (${m === 0 ? 'm = 0' : `|m| = ${Math.abs(m)}`})`;
 };
 
 function syncControls() {

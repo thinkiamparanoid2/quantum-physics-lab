@@ -35,7 +35,7 @@ const STEPS = [
     title: 'Many gentle touches',
     preset: { mode: 'env', envs: 6, angle: 50 },
     html: ({ envs, angle }) => `<p>Real environments learn a little at a time. Each of these ${envs} environment qubits is nudged only ${angle}°, so each learns only a bit. But the coherence multiplies down: cos(θ/2)<sup>N</sup> = ${Math.cos((angle * Math.PI) / 360) ** envs < 0.001 ? '< 0.001' : (Math.cos((angle * Math.PI) / 360) ** envs).toFixed(3)}.</p>
-      <p>With the billions of particles around a real object, coherence vanishes almost instantly. That is why cats are never seen in superposition.</p>`,
+      <p>With the billions of particles around a real object, coherence vanishes almost instantly. That is the main reason cats are never seen in superposition.</p>`,
   },
   {
     title: 'Dephasing: T₂',
