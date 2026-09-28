@@ -7,8 +7,9 @@ Two halves in one repo:
 
 - **Python lab** (`engine/`, `modules/`, `tests/`): Qiskit/PennyLane simulations, validated against
   exact diagonalization, with real-hardware runs planned under `hardware_runs/`.
-- **Teaching website** (`web/`): static HTML/CSS/JS (no build step, no framework) deployed on Vercel
-  with Root Directory = `web`. Everything runs client-side.
+- **Teaching website** (`web/`): static HTML/CSS/JS (no build step, no framework), live at
+  <https://quantum-physics-lab.vercel.app> (Vercel, Root Directory = `web`, deploys from `main`).
+  Everything runs client-side.
 
 ## Commands
 
@@ -36,8 +37,8 @@ Two halves in one repo:
   remember headless Edge and a hidden Browser pane don't run `requestAnimationFrame` animations.
 - **Line-ending noise**: regenerated pages may differ only in CRLF/LF. Check with
   `git diff --ignore-cr-at-eol` and discard rather than commit.
-- **Open decisions belong to the owner**: no LICENSE until they confirm (MIT suggested); Vercel
-  deployment (Root Directory `web`) is postponed until they ask.
+- **Decisions belong to the owner**: the project is MIT-licensed (`LICENSE`); a custom domain for
+  the Vercel site is optional and theirs to decide. Merging to `main` publishes the site.
 
 ## Git workflow
 
