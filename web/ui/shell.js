@@ -109,6 +109,11 @@ function renderFooter() {
 export function mountShell() {
   renderNav();
   renderFooter();
+  // The page script runs its first render in this same task; reveal the page just after it.
+  // The timer covers tabs that don't run animation frames (background tabs, headless browsers).
+  const reveal = () => document.documentElement.classList.remove('is-loading');
+  requestAnimationFrame(reveal);
+  setTimeout(reveal, 100);
 }
 
 // Present mode: hides the page chrome and turns the current step into a large caption.
