@@ -1,6 +1,176 @@
 // Teaching notes for "Algorithms".
 
 export const TEACHING = {
+  hhl: {
+    goals: [
+      'Follow the HHL algorithm: phase estimation, eigenvalue inversion by a controlled rotation, uncomputation and postselection.',
+      'Relate the success probability to the condition number.',
+      'Explain how finite clock precision limits accuracy.',
+      'List the conditions under which HHL’s speed-up holds.',
+    ],
+    prereqs: ['Phase estimation'],
+    misconceptions: [
+      { wrong: 'HHL outputs the solution vector x.', right: 'It outputs a quantum state ∝ A⁻¹|b⟩; reading all entries would take about N runs.' },
+      { wrong: 'HHL speeds up any linear system.', right: 'It needs efficient state preparation, a sparse or structured well-conditioned A, and only a few properties of x as output.' },
+      { wrong: 'The algorithm always succeeds.', right: 'It succeeds with probability C²‖A⁻¹b‖², which falls as the condition number grows.' },
+    ],
+    questions: [
+      {
+        q: 'What amplitude does the ancilla get on |1⟩ for eigenvalue λ?',
+        options: ['λ', 'C/λ', 'C λ', '1/λ²'],
+        answer: 1,
+        why: 'The controlled rotation is RY(2 arcsin(C/λ)).',
+      },
+      {
+        q: 'With eigenvalues 1 and 10, which component of b survives postselection more easily?',
+        options: ['The λ = 10 component', 'The λ = 1 component', 'Both equally', 'Neither'],
+        answer: 1,
+        why: 'Its amplitude C/λ is ten times larger.',
+      },
+      {
+        q: 'Why must b be loadable quickly for a speed-up?',
+        options: ['It needn’t', 'Preparing a general N-dimensional state takes about N steps, which would cost more than the solve', 'Because A is sparse', 'Because of the ancilla'],
+        answer: 1,
+        why: 'The claimed log N running time leaves no room for an N-step input stage.',
+      },
+    ],
+  },
+  'adiabatic-qc': {
+    goals: [
+      'Encode an optimisation problem as the ground state of an Ising Hamiltonian.',
+      'Describe the adiabatic algorithm: interpolate from an easy Hamiltonian to the problem Hamiltonian.',
+      'Relate the required run time to the minimum spectral gap.',
+      'Explain why small gaps make some instances hard, and what is known about quantum annealing.',
+    ],
+    prereqs: ['The adiabatic theorem and Berry phase'],
+    misconceptions: [
+      { wrong: 'Running slowly always guarantees the answer quickly.', right: 'The needed time scales like 1/Δ², which can grow exponentially with problem size.' },
+      { wrong: 'Quantum annealers have shown an exponential speed-up for optimisation.', right: 'No scaling advantage over the best classical heuristics has been established for useful problems.' },
+      { wrong: 'The adiabatic model is weaker than circuits.', right: 'With general Hamiltonians it is polynomially equivalent to the circuit model.' },
+    ],
+    questions: [
+      {
+        q: 'What does a very fast (sudden) anneal on n spins return?',
+        options: ['The answer', 'A uniformly random configuration', 'The highest-energy state', 'Nothing'],
+        answer: 1,
+        why: 'The state is still |+…+⟩, so every configuration has probability 1/2ⁿ.',
+      },
+      {
+        q: 'The minimum gap of an instance is 0.05. Roughly what run time does the rule of thumb suggest?',
+        options: ['20', '400', '0.05', '1'],
+        answer: 1,
+        why: '1/Δ² = 400 (and in practice somewhat more for high success).',
+      },
+      {
+        q: 'Why start from H_B = −ΣX?',
+        options: ['It is diagonal', 'Its ground state |+…+⟩ is easy to prepare and it does not commute with H_P', 'It has no gap', 'It equals H_P'],
+        answer: 1,
+        why: 'A simple known ground state, plus non-commutation so the interpolation can move the state.',
+      },
+    ],
+  },
+  'hamiltonian-simulation': {
+    goals: [
+      'Explain why e^{−iHt} for a sum of non-commuting Pauli terms needs approximation on a gate-based computer.',
+      'Compare first- and second-order Trotter formulas and their cost per step.',
+      'Describe qDRIFT and why its cost does not depend on the number of terms.',
+      'Choose between methods given the Hamiltonian and the accuracy needed.',
+    ],
+    prereqs: ['Simulating fields on quantum hardware'],
+    misconceptions: [
+      { wrong: 'qDRIFT is always better because it is randomised.', right: 'It is only first order; for few comparable terms or high accuracy, Trotter wins.' },
+      { wrong: 'The Trotter error is given by its commutator bound.', right: 'The bound is often loose; actual errors are frequently much smaller.' },
+      { wrong: 'A single qDRIFT run reproduces e^{−iHt}.', right: 'Only the average over runs (a channel) approximates it; each run is one random circuit.' },
+    ],
+    questions: [
+      {
+        q: 'Doubling the number of qDRIFT samples changes its error bound by…',
+        options: ['×1/4', '×1/2', '×2', 'nothing'],
+        answer: 1,
+        why: 'The bound is 2λ²t²/N.',
+      },
+      {
+        q: 'What does qDRIFT’s cost depend on instead of the number of terms?',
+        options: ['The largest coefficient', 'λ = Σ|h_j|', 'The number of qubits only', 'The commutators'],
+        answer: 1,
+        why: 'The number of samples scales with λ²t²/ε.',
+      },
+      {
+        q: 'Second-order Trotter infidelity falls how fast with the number of steps N?',
+        options: ['1/N', '1/N²', '1/N⁴', 'exponentially'],
+        answer: 2,
+        why: 'The state error is O(t³/N²), so the infidelity is O(1/N⁴).',
+      },
+    ],
+  },
+  simon: {
+    goals: [
+      'State Simon’s problem and its classical query cost.',
+      'Explain how one superposition query plus interference yields a linear equation for s.',
+      'Recover s from n − 1 independent equations by Gaussian elimination over GF(2).',
+      'Explain the exponential query separation and its link to Shor’s algorithm.',
+    ],
+    prereqs: ['Bernstein–Vazirani', 'Deutsch–Jozsa'],
+    misconceptions: [
+      { wrong: 'One run of Simon’s circuit reveals s.', right: 'Each run gives one random equation y · s = 0; about n runs are needed.' },
+      { wrong: 'The separation shows quantum computers beat classical ones for every such function.', right: 'It is a black-box (query) separation; explicit circuits can be inspected classically.' },
+      { wrong: 'The output register must be measured.', right: 'It can be ignored; it only needs to stay entangled with the input.' },
+    ],
+    questions: [
+      {
+        q: 'With n = 3 and s = 101, which outcome can Simon’s circuit produce?',
+        options: ['100', '010', '001', '111'],
+        answer: 1,
+        why: '010 · 101 = 0 (mod 2); the others give 1.',
+      },
+      {
+        q: 'Roughly how many classical queries does random collision search need for n = 40?',
+        options: ['40', 'about a million', 'about 2⁴⁰', '2'],
+        answer: 1,
+        why: 'About √(2⁴⁰) ≈ 10⁶ by the birthday bound.',
+      },
+      {
+        q: 'Which famous algorithm did Simon’s inspire?',
+        options: ['Grover', 'Shor', 'HHL', 'VQE'],
+        answer: 1,
+        why: 'Shor generalised the hidden-subgroup idea from XOR periods to modular periods.',
+      },
+    ],
+  },
+  'amplitude-estimation': {
+    goals: [
+      'State the amplitude estimation problem and the cost of estimating by sampling.',
+      'Explain how the Grover operator turns an amplitude into a phase.',
+      'Read the outcome distribution and the Brassard–Høyer–Mosca–Tapp error bound.',
+      'Explain why the speed-up is quadratic and what limits it in practice.',
+    ],
+    prereqs: ['Phase estimation', 'Grover search'],
+    misconceptions: [
+      { wrong: 'Amplitude estimation gives an exponential speed-up for Monte Carlo.', right: 'It is quadratic: 1/ε calls instead of 1/ε².' },
+      { wrong: 'Its root-mean-square error falls as 1/calls.', right: 'The guarantee is a high-probability bound; the canonical estimator has heavy tails.' },
+      { wrong: 'Any number of counting qubits is cheap.', right: 'Controlled powers of Q make the circuit deep, which noise punishes.' },
+    ],
+    questions: [
+      {
+        q: 'To reach error 10⁻³ by sampling takes about 10⁶ runs. Amplitude estimation needs about…',
+        options: ['10⁶ calls', '10³ calls', '30 calls', '1 call'],
+        answer: 1,
+        why: 'Error ∝ 1/calls instead of 1/√runs: about 10³.',
+      },
+      {
+        q: 'What are the eigenvalues of the Grover operator Q when a = sin²θ?',
+        options: ['±1', 'e^{±iθ}', 'e^{±2iθ}', 'sin θ and cos θ'],
+        answer: 2,
+        why: 'Q rotates by 2θ in the plane of good and bad states.',
+      },
+      {
+        q: 'With what probability does canonical amplitude estimation meet its error bound?',
+        options: ['Always', 'At least 8/π² ≈ 81%', 'About 50%', 'It depends on a only'],
+        answer: 1,
+        why: 'Brassard et al. guarantee success probability ≥ 8/π²; repeating and taking the median boosts it.',
+      },
+    ],
+  },
   'deutsch-jozsa': {
     goals: [
       'Use phase kickback to turn an oracle’s output into a phase.',

@@ -89,15 +89,15 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Amplitude estimation | ⬜ | |
-| Simon's algorithm | ⬜ | |
-| Hamiltonian simulation: Trotter and qDRIFT | ⬜ | |
-| Adiabatic quantum computing | ⬜ | |
-| HHL and its caveats | ⬜ | |
-| Building a qubit: the transmon | ⬜ | |
-| Pulses, leakage and DRAG | ⬜ | |
-| Randomized benchmarking | ⬜ | |
-| Error mitigation: readout and zero-noise extrapolation | ⬜ | |
+| Amplitude estimation | ✅ | circuit outcome distribution equals the Brassard–Høyer–Mosca–Tapp closed form to 10⁻¹² (m = 3, 5, 6; four amplitudes); their 8/π²-confidence bound holds for m = 2…10; averaged over a the confident error falls ~8× per 8× calls; sampling √ scaling; the RMS-tail caveat stated |
+| Simon's algorithm | ✅ | oracle two-to-one with period s; circuit distribution exactly uniform on {y : y·s = 0} for every s (n = 2…4); GF(2) solver recovers every s for n = 3…5; classical curve matches the birthday estimate √(π2ⁿ/2) |
+| Hamiltonian simulation: Trotter and qDRIFT | ✅ | qDRIFT channel computed exactly on density matrices equals the mean of 4000 sampled sequences within 4σ and stays under Campbell's bound; convergence ratios 4, 16 and 2 per doubling; single-term Hamiltonian exact for all methods; text numbers read off the computed curves |
+| Adiabatic quantum computing | ✅ | spectrum equals −ΣX at s = 0 and the sorted cost diagonal at s = 1; sudden limit exactly 1/64; large-gap instance > 99% at T = 64; small-gap instance (Δ = 0.048) < 70% at T = 512 but > 95% at T = 2048 |
+| HHL and its caveats | ✅ | postselected output equals A⁻¹b/‖A⁻¹b‖ to 10⁻¹⁰ and success equals C²‖A⁻¹b‖² for 20 random cases with exactly representable eigenvalues (2–4 clock qubits); off-grid eigenvalues reduce fidelity; larger κ lowers success; fine print cited (Aaronson 2015; Tang 2019; Chia et al. 2020; Costa et al. 2022) |
+| Building a qubit: the transmon | ✅ | charge-basis and twisted phase-grid solvers agree to 5×10⁻⁴; charging parabolas at E_J = 0; Koch et al.'s f₀₁ within 0.5%, anharmonicity → −E_C and charge dispersion within 5% (m = 0) and 15% (m = 1) at E_J/E_C = 100; quoted MHz/kHz values computed |
+| Pulses, leakage and DRAG | ✅ | two-level area theorem exact for 3–40 ns pulses; time step converged; DRAG optima found by scanning (β ≈ 1 for leakage, β ≈ 0.5 for gate error with a virtual Z), matching Gambetta et al. (2011); quoted error and leakage values computed |
+| Randomized benchmarking | ✅ | Clifford group of 24 closed under multiplication; twirled f equals closed forms (depolarizing 1 − p, damping (2√(1−γ) + 1 − γ)/3, over-rotation (1 + 2cos ε)/3); fitted f within 10⁻³ of the exact twirl for all three; SPAM changes A only |
+| Error mitigation: readout and zero-noise extrapolation | ✅ | density-matrix simulator equals the statevector engine; folding exact without noise; readout inversion exact; exponential ZNE exact under global depolarizing noise and within 0.004 under local noise (raw error 0.17); shot-overhead factor derived (√Σγ² ≈ 2.3) |
 | Real IBM hardware runs | ⏭ | Needs the owner's IBM Quantum account and credentials |
 
 ## Final passes
@@ -120,3 +120,4 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 - 2026-10-12: Physics review found a sign error in the Schwinger Hamiltonian (Python module, playground preset): with sites numbered from 0, the mass term and the charge in Gauss's law must both flip sign relative to Martinez et al.'s 1-based formulas. The old "bare vacuum" |0101…⟩ had maximal mass energy and flux on alternate links (energy +2.2 against a true minimum of −1.0 for N = 4). Fixed in all three places, references and plots regenerated, and a new test checks that the bare vacuum is the unique flux-free ground state at x = 0.
 - 2026-10-12: Phase 4 complete: eight fields lessons (phonons, Fock space, Jordan–Wigner, Schwinger pair creation, string breaking, transverse-field Ising, area law and MPS, fields on hardware) with Lanczos, free-fermion, TEBD and complex-SVD engines, each checked independently. The physics review also found and fixed the Schwinger sign error (see above) and corrected several step texts against the numbers. 169 web tests pass. Next: Phase 3, QML.
 - 2026-10-12: Phase 3 complete: seven QML lessons on a circuit engine with exact parameter-shift gradients, every model checked against PennyLane (values, gradients, Fourier coefficients, kernels, H₂ qchem Hamiltonians, QAOA). Lesson texts state the honest results (classical baselines often match or win). 180 web tests pass. Next: Phase 5, algorithms and hardware.
+- 2026-10-12: Phase 5 complete (except real IBM runs, which need the owner's account): amplitude estimation, Simon, Trotter and qDRIFT, adiabatic computing, HHL, transmon, DRAG, randomized benchmarking and error mitigation, each with its own engine and independent checks (closed forms, sampled-versus-exact channels, two-solver comparisons, published asymptotics). 200 web tests pass. Next: the final physics review of the older lessons, then documentation and publishing.
