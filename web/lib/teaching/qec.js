@@ -1,6 +1,40 @@
 // Teaching notes for "Quantum error correction".
 
 export const TEACHING = {
+  threshold: {
+    goals: [
+      'Read a threshold plot: logical against physical error rate for several distances.',
+      'Explain why curves for different distances cross at the threshold.',
+      'Define the suppression factor Λ and relate it to p/p_th.',
+      'Estimate the code size needed for a target logical error rate from Λ.',
+    ],
+    prereqs: ['The surface code', 'Decoding'],
+    misconceptions: [
+      { wrong: 'Adding more qubits to a code always helps.', right: 'Only below threshold; above it, larger codes fail more often.' },
+      { wrong: 'The threshold is a fixed property of the code.', right: 'It depends on the noise model and the decoder: about 10% for bit flips with perfect checks, about 3% with noisy checks, about 1% with circuit-level noise.' },
+      { wrong: 'Being just below threshold is enough for useful computing.', right: 'Near threshold Λ is close to 1 and codes must be huge; useful machines need Λ well above 2.' },
+    ],
+    questions: [
+      {
+        q: 'Below threshold, each step d → d + 2 divides the logical error rate by Λ. With Λ = 2 and P_L(7) = 10⁻³, what is P_L(13)?',
+        options: ['10⁻⁴', '1.25 × 10⁻⁴', '5 × 10⁻⁴', '10⁻⁶'],
+        answer: 1,
+        why: 'Three steps (7 → 9 → 11 → 13) divide by 2³ = 8: 10⁻³ / 8 = 1.25 × 10⁻⁴.',
+      },
+      {
+        q: 'Why do measurement errors lower the threshold?',
+        options: ['They flip the logical qubit directly', 'The syndrome itself can be wrong, so the decoder must also work out which measurements to trust', 'They make the code smaller', 'They do not change it'],
+        answer: 1,
+        why: 'Faulty checks add a time dimension to decoding: errors in space and time both have to be explained.',
+      },
+      {
+        q: 'Roughly how does P_L scale with p well below threshold for distance d?',
+        options: ['Linearly in p', 'As p^((d+1)/2)', 'As e^(−p)', 'Independent of p'],
+        answer: 1,
+        why: 'A failure needs about half the distance worth of errors to line up, each with probability p.',
+      },
+    ],
+  },
   decoding: {
     goals: [
       'Explain why a decoder sees only the syndrome and must infer a likely error.',

@@ -54,8 +54,8 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Stabilizers | ✅ | uses the tested tableau; canonical generators verified against statevectors |
 | Steane code and CSS codes | ✅ | full 13-qubit circuit corrects all 21 single-qubit X/Y/Z errors; syndrome = position in binary |
 | The surface code | 🔨 | lesson written and registered, not yet visually checked; code structure tested (commuting checks, anticommuting logicals) |
-| Decoding (matching, union-find) | 🔨 | engine done and tested (exact MWPM weights equal PyMatching on 240 samples; both decoders correct all errors up to (d−1)/2); lesson not written |
-| Threshold in the browser | 🔨 | engine done (thresholdScan for the worker; rates match PyMatching within 4σ); lesson not written |
+| Decoding (matching, union-find) | ✅ | exact MWPM weights equal PyMatching on 240 samples; both decoders correct all errors up to (d−1)/2; screenshots of the failing three-error case and union-find growth |
+| Threshold in the browser | ✅ | Monte Carlo in a Web Worker; code-capacity rates match PyMatching within 4σ, crossing near 10% (matching) and Λ ≈ 2 at p = 4%; scan reproducible per seed; Λ shown with binomial error bars; noisy checks use union-find (exact matching too slow in a browser) |
 | Fault tolerance: measurement errors | 🔨 | engine done (space-time graph, phenomenological threshold test); lesson not written |
 | Magic states and distillation | ⬜ | |
 | Toric code and anyons | ⬜ | |

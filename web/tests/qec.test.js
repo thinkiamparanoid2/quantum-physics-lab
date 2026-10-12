@@ -10,6 +10,7 @@ import {
   mwpm,
   spaceTimeGraph,
   surfaceCode,
+  thresholdScan,
   syndrome,
   trialCodeCapacity,
   trialPhenomenological,
@@ -108,4 +109,17 @@ test('with measurement errors (phenomenological noise) the threshold drops to a 
   };
   assert.ok(rate(5, 0.01) < rate(3, 0.01), 'p = 1%: d = 5 beats d = 3');
   assert.ok(rate(5, 0.06) > rate(3, 0.06), 'p = 6%: d = 5 loses');
+});
+
+test('the threshold lesson’s scan is reproducible, reports progress, and shows Λ > 1 below threshold', () => {
+  const seen = [];
+  const args = { distances: [3, 5, 7], ps: [0.03, 0.15], trials: 1500, decoder: 'uf', noise: 'code-capacity', seed: 7 };
+  const a = thresholdScan(args, (f) => seen.push(f));
+  const b = thresholdScan(args);
+  assert.deepEqual(a, b);
+  assert.equal(seen.length, 6);
+  assert.equal(seen.at(-1), 1);
+  const [r3, r5, r7] = a.map((r) => r.row);
+  assert.ok(r3[0].rate / r5[0].rate > 1.5 && r5[0].rate > r7[0].rate, `below threshold: ${r3[0].rate} ${r5[0].rate} ${r7[0].rate}`);
+  assert.ok(r7[1].rate > r3[1].rate, 'above threshold, d = 7 loses to d = 3');
 });

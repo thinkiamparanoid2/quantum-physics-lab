@@ -684,6 +684,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M10 10 A3 3 0 1 1 10.01 10 M38 38 A3 3 0 1 1 38.01 38 M10 10 C20 10 28 38 38 38 M38 10 A3 3 0 1 1 38.01 10 M38 10 H44',
   },
+  {
+    slug: 'threshold',
+    section: 'qec',
+    title: 'The threshold',
+    summary: 'Thousands of simulated memory experiments at distances 3, 5 and 7: below threshold bigger codes win, and Λ sets the cost.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 40 L42 10 M6 30 C20 30 30 22 42 8 M6 44 C24 40 34 24 42 6',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be
