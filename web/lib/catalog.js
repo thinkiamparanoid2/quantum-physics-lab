@@ -944,6 +944,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M4 32 C12 32 16 10 24 10 C32 10 36 32 44 32 M4 24 C12 24 14 16 18 18 C22 20 26 30 30 30 C34 30 36 24 44 24',
   },
+  {
+    slug: 'randomized-benchmarking',
+    section: 'hardware',
+    title: 'Randomized benchmarking',
+    summary: 'Random Clifford sequences and their inverse: an exponential decay whose rate is the average gate error, untouched by preparation and readout errors.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 12 C14 12 16 30 28 34 C34 36 38 36 42 36 M8 16 V20 M14 20 V24 M22 28 V32 M32 33 V37',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

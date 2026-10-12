@@ -1,6 +1,40 @@
 // Teaching notes for the hardware section.
 
 export const TEACHING = {
+  'randomized-benchmarking': {
+    goals: [
+      'Describe the randomized benchmarking protocol with Clifford sequences and an inverting gate.',
+      'Explain why the average survival decays as A f^m + B and relate f to the error per gate.',
+      'Explain why RB separates gate errors from state-preparation and measurement errors.',
+      'Discuss what RB does not capture: coherent error build-up in specific circuits, leakage, gate dependence.',
+    ],
+    prereqs: ['Decoherence and the Bloch sphere'],
+    misconceptions: [
+      { wrong: 'RB measures the error of one particular gate.', right: 'It measures the average error per Clifford; interleaved RB isolates a specific gate.' },
+      { wrong: 'Coherent errors break RB.', right: 'Twirling still gives an exponential decay; RB reports their average effect, which can understate their worst case.' },
+      { wrong: 'Readout errors bias the RB error rate.', right: 'They affect A and B only; the decay rate f is unaffected.' },
+    ],
+    questions: [
+      {
+        q: 'A fit gives f = 0.998. What is the error per Clifford?',
+        options: ['0.002', '0.001', '0.998', '0.004'],
+        answer: 1,
+        why: 'r = (1 − f)/2 = 0.001 for a single qubit.',
+      },
+      {
+        q: 'Why are Clifford gates used for the random sequences?',
+        options: ['They are fast', 'They form a unitary 2-design that twirls noise into a depolarizing channel, and the inverse is easy to compute', 'They have no errors', 'They are universal'],
+        answer: 1,
+        why: 'Twirling makes the decay a single exponential, and Clifford sequences can be inverted efficiently.',
+      },
+      {
+        q: 'What survival probability does a long sequence approach with depolarizing noise?',
+        options: ['0', '1/2', '1', 'f'],
+        answer: 1,
+        why: 'The state becomes maximally mixed: B = 1/2 for unital noise without SPAM errors.',
+      },
+    ],
+  },
   drag: {
     goals: [
       'Describe single-qubit gates as shaped microwave pulses in the rotating frame.',
