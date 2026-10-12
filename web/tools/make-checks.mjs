@@ -54,6 +54,7 @@ const GROUPS = [
   ['transmon.test.js', 'Transmon', 'Charge-basis and phase-grid solvers agree; charging parabolas without the junction; Koch et al.’s asymptotic frequency, anharmonicity and charge dispersion.'],
   ['pulses.test.js', 'Pulses and DRAG', 'Area theorem in the two-level limit; time-step convergence; DRAG leakage and error optima; slower pulses leak less.'],
   ['rb.test.js', 'Randomized benchmarking', 'Clifford group closure; twirled parameters in closed form; fitted decay against the exact twirl for depolarizing, damping and coherent noise; SPAM robustness.'],
+  ['mitigation.test.js', 'Error mitigation', 'Density-matrix simulator against the statevector; folding exact without noise; readout inversion exact; ZNE exact under global depolarizing noise and a large improvement under local noise.'],
   ['toric.test.js', 'Toric code and anyons', 'Checks, ground state and the −1 braiding phase, on the tableau and on an 18-qubit statevector.'],
   ['magic.test.js', 'Magic states', 'Distillation’s weight enumerator against MacWilliams, transversal T on the Reed–Muller code, 35p³ against Monte Carlo, and T injection.'],
   ['pages.test.js', 'Site structure', 'Lesson pages, teaching notes and this page itself.'],

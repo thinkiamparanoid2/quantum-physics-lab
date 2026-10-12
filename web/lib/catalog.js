@@ -954,6 +954,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M6 12 C14 12 16 30 28 34 C34 36 38 36 42 36 M8 16 V20 M14 20 V24 M22 28 V32 M32 33 V37',
   },
+  {
+    slug: 'error-mitigation',
+    section: 'hardware',
+    title: 'Error mitigation: readout and zero-noise extrapolation',
+    summary: 'Undo readout errors with a calibrated inverse, then add noise on purpose and extrapolate back to zero, and count the cost in shots.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 36 L18 28 L30 20 L42 12 M6 36 A3 3 0 1 1 6.01 36 M18 28 A3 3 0 1 1 18.01 28 M30 20 A3 3 0 1 1 30.01 20',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

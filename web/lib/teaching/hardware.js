@@ -1,6 +1,40 @@
 // Teaching notes for the hardware section.
 
 export const TEACHING = {
+  'error-mitigation': {
+    goals: [
+      'Distinguish error mitigation from error correction.',
+      'Correct readout errors by inverting a calibrated confusion matrix.',
+      'Explain zero-noise extrapolation with gate folding and compare extrapolation models.',
+      'Explain the sampling cost of mitigation and why it limits scale.',
+    ],
+    prereqs: ['Randomized benchmarking', 'Decoherence and the Bloch sphere'],
+    misconceptions: [
+      { wrong: 'Error mitigation removes errors from the quantum state.', right: 'It post-processes many noisy runs to estimate what a noiseless expectation value would be.' },
+      { wrong: 'Zero-noise extrapolation is exact.', right: 'It depends on a model of how results change with noise; it reduces bias without guarantees.' },
+      { wrong: 'Mitigation comes for free.', right: 'It amplifies statistical noise, so the number of shots grows, eventually exponentially with circuit size.' },
+    ],
+    questions: [
+      {
+        q: 'How does gate folding scale the noise by 3 without changing the ideal circuit?',
+        options: ['It runs each gate three times in parallel', 'It replaces G by G G† G', 'It slows the gates down', 'It adds random gates'],
+        answer: 1,
+        why: 'G†G is the identity ideally, so the result is unchanged while the gate noise triples.',
+      },
+      {
+        q: 'Readout mitigation uses the confusion matrix measured on…',
+        options: ['the circuit itself', 'prepared |0⟩ and |1⟩ states', 'random Cliffords', 'nothing; it is assumed'],
+        answer: 1,
+        why: 'Calibration circuits measure how often each prepared basis state is misread.',
+      },
+      {
+        q: 'Why is error mitigation described as a bridge rather than a solution?',
+        options: ['It only works on one qubit', 'Its sampling cost grows rapidly with circuit size and noise', 'It needs error-corrected hardware', 'It is not accurate at all'],
+        answer: 1,
+        why: 'The variance amplification makes large, noisy circuits impractical; error correction scales instead.',
+      },
+    ],
+  },
   'randomized-benchmarking': {
     goals: [
       'Describe the randomized benchmarking protocol with Clifford sequences and an inverting gate.',
