@@ -41,11 +41,17 @@ Implemented in [`hamiltonian.py`](hamiltonian.py):
 
 ```
 H = x * Σ_{n=0}^{N-2} (X_n X_{n+1} + Y_n Y_{n+1}) / 2      <- hopping (kinetic energy)
-  + (mass/2) * Σ_{n=0}^{N-1} (-1)^n Z_n                     <- staggered mass
+  - (mass/2) * Σ_{n=0}^{N-1} (-1)^n Z_n                     <- staggered mass
   + coupling * Σ_{n=0}^{N-2} L_n^2                          <- electric field energy
 
-  where L_n = Σ_{k=0}^{n} (Z_k + (-1)^k) / 2   (background field = 0)
+  where L_n = background - Σ_{k=0}^{n} (Z_k - (-1)^k) / 2
 ```
+
+These are Martinez et al.'s formulas with their sites 1…N renumbered 0…N−1, which flips the sign
+of every (−1)ⁿ. With these signs the bare vacuum |0101…⟩ has no particles, no charge and no
+electric flux, and it is the ground state when the hopping is switched off. (An earlier version
+of this module had the mass and charge terms with the opposite signs, which made |0101…⟩ the
+most excited bare configuration; `tests/test_schwinger_model.py` now checks the vacuum.)
 
 - **Hopping** is what creates, moves and annihilates particle-antiparticle pairs (a fermion
   hopping from an odd to an even site turns the bare vacuum into a pair). It doesn't commute
@@ -103,8 +109,8 @@ directly elsewhere in this repo.
 
 The bare vacuum is not an eigenstate of H, so after the quench pairs appear. How many depends
 on hopping `x` against the energy costs `mass` and `coupling`: for 6 sites the peak total
-particle number over t ≤ 8 is about 3.5 at `x = 1, mass = 0.5, coupling = 0.6`, drops to 0.5
-at `mass = 4`, drops to 0.9 at `coupling = 6`, and falls to 0.8 when the hopping is weakened
+particle number over t ≤ 8 is about 3.2 at `x = 1, mass = 0.5, coupling = 0.6`, drops to 0.5
+at `mass = 4`, drops to 0.7 at `coupling = 6`, and falls to 0.15 when the hopping is weakened
 to `x = 0.1`. The number oscillates rather than climbing
 steadily: this is a closed, finite system, so particles get created and reabsorbed rather than
 escaping.
