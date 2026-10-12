@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How it is checked: Quantum Physics Lab</title>
-  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 182 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
+  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 183 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
   <script>document.documentElement.classList.add('is-loading');try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="../styles/site.css">
@@ -16,7 +16,7 @@
         <p class="eyebrow">Is it right?</p>
         <h1>How it is checked</h1>
         <p class="lede">Every simulation is exact or checked against an independent method: a textbook formula, a second
-          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 182 automated checks (some run once per reference case) run on every change.</p>
+          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 183 automated checks (some run once per reference case) run on every change.</p>
       </div>
     </div>
     <div class="container checks-grid">
@@ -418,7 +418,7 @@
         <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/fields-hardware.test.js">web/tests/fields-hardware.test.js</a></p>
       </section>
       <section class="panel check-group">
-        <h2>Quantum machine learning <span class="muted">6</span></h2>
+        <h2>Quantum machine learning <span class="muted">7</span></h2>
         <p class="muted">Classifier values and parameter-shift gradients, Fourier coefficients, ZZ kernel, H₂ VQE and QAOA against PennyLane; amplitude encoding.</p>
         <ul>
           <li>the re-uploading classifier and its parameter-shift gradient equal PennyLane’s</li>
@@ -427,6 +427,7 @@
           <li>H₂ (STO-3G, PennyLane Hamiltonians): Hartree–Fock and the one-parameter VQE ansatz reach the HF and FCI energies</li>
           <li>QAOA p = 1 MaxCut expectations equal PennyLane’s</li>
           <li>amplitude encoding: the controlled-RY tree prepares exactly the normalised vector</li>
+          <li>on its training points a degree-L quantum model never beats the least-squares Fourier series of degree L</li>
         </ul>
         <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/qml.test.js">web/tests/qml.test.js</a></p>
       </section>

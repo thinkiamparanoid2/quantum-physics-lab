@@ -309,3 +309,50 @@ export function trainClassifier({ kind, layers, epochs, lr = 0.1, seed = 3 }, pr
   progress?.(1);
   return { train, test, history };
 }
+
+// ----- Fourier-series lesson -----
+
+export const TARGETS = {
+  'two-tone': (x) => 0.5 * Math.sin(x) + 0.4 * Math.cos(3 * x),
+  square: (x) => (Math.sin(x) >= 0 ? 0.8 : -0.8),
+  sawtooth: (x) => 0.8 * (((x / Math.PI + 1) % 2) - 1),
+  'cos 2x': (x) => 0.9 * Math.cos(2 * x),
+};
+
+// Least-squares trigonometric polynomial of degree K through samples (x_j, y_j): the best any
+// model with frequencies |k| ≤ K can do on these points. Returns the fitted function and its
+// coefficients a_0, a_k, b_k (f = a_0 + Σ a_k cos kx + b_k sin kx).
+export function classicalFourierFit(xs, ys, K) {
+  const basis = (x) => [1, ...Array.from({ length: K }, (_, k) => [Math.cos((k + 1) * x), Math.sin((k + 1) * x)]).flat()];
+  const m = 2 * K + 1;
+  const A = Array.from({ length: m }, () => new Array(m).fill(0));
+  const b = new Array(m).fill(0);
+  xs.forEach((x, j) => {
+    const phi = basis(x);
+    for (let r = 0; r < m; r++) {
+      b[r] += phi[r] * ys[j];
+      for (let c = 0; c < m; c++) A[r][c] += phi[r] * phi[c];
+    }
+  });
+  const w = solve(A, b);
+  const f = (x) => basis(x).reduce((s, p, i) => s + p * w[i], 0);
+  return { f, w };
+}
+
+// Fit the 1-qubit re-uploading model to a target with Adam (Web Worker), recording every epoch.
+export function fitFourier({ target, layers, epochs, lr = 0.08, seed = 2, samples = 40 }, progress) {
+  const xs = Array.from({ length: samples }, (_, j) => (2 * Math.PI * j) / samples);
+  const ys = xs.map(TARGETS[target]);
+  const data = xs.map((x, j) => ({ x, y: ys[j] }));
+  const f = (p, x) => fourierModel(layers, p, x);
+  // the landscape has local minima: keep the best of three seeded starts
+  let history = null;
+  for (let r = 0; r < 3; r++) {
+    const h = trainHistory(f, 2 * (layers + 1), data, { epochs, lr, seed: seed + 101 * r }).map(({ params, loss }) => ({ params, loss }));
+    if (!history || h[h.length - 1].loss < history[history.length - 1].loss) history = h;
+  }
+  const classical = classicalFourierFit(xs, ys, layers);
+  const classicalLoss = xs.reduce((s, x, j) => s + (classical.f(x) - ys[j]) ** 2, 0) / samples;
+  progress?.(1);
+  return { xs, ys, history, classicalW: classical.w, classicalLoss };
+}

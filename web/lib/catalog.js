@@ -824,6 +824,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M8 40 C14 20 30 12 42 8 M10 14 A2 2 0 1 1 10.01 14 M18 30 A2 2 0 1 1 18.01 30 M34 26 A2 2 0 1 1 34.01 26 M30 38 A2 2 0 1 1 30.01 38',
   },
+  {
+    slug: 'fourier-models',
+    section: 'qml',
+    title: 'Quantum models are Fourier series',
+    summary: 'Upload the data L times and the model can only contain frequencies up to L: watch it fit, and meet the classical series it cannot beat.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M4 24 C8 12 12 12 16 24 C20 36 24 36 28 24 C32 12 36 12 40 24 C42 30 44 32 46 30',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

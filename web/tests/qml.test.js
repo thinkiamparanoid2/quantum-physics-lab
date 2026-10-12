@@ -117,3 +117,15 @@ test('amplitude encoding: the controlled-RY tree prepares exactly the normalised
     v.forEach((x, b) => assert.ok(Math.abs(state.re[b] - x / n) < 1e-12 && Math.abs(state.im[b]) < 1e-12));
   }
 });
+
+test('on its training points a degree-L quantum model never beats the least-squares Fourier series of degree L', async () => {
+  const { fitFourier } = await import('../lib/vqc.js');
+  for (const [target, layers] of [
+    ['square', 1],
+    ['two-tone', 2],
+    ['sawtooth', 2],
+  ]) {
+    const r = fitFourier({ target, layers, epochs: 60 });
+    for (const h of r.history) assert.ok(h.loss >= r.classicalLoss - 1e-12, `${target} L=${layers}`);
+  }
+});

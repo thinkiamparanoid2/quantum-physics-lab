@@ -1,6 +1,40 @@
 // Teaching notes for the quantum machine learning section.
 
 export const TEACHING = {
+  'fourier-models': {
+    goals: [
+      'Show that a re-uploading quantum model is a Fourier series in its input.',
+      'Relate the number of data uploads to the frequencies the model can contain.',
+      'Explain why having the right frequencies does not guarantee the right coefficients.',
+      'Compare a quantum model with the classical least-squares Fourier series of the same degree.',
+    ],
+    prereqs: ['A classifier that trains while you watch'],
+    misconceptions: [
+      { wrong: 'More trainable gates let the model represent any function.', right: 'The data encoding fixes the available frequencies; trainable gates only set coefficients.' },
+      { wrong: 'A quantum model with the right frequencies can fit any target with them.', right: 'Its coefficients are constrained by the circuit; a small model may not reach every combination.' },
+      { wrong: 'Quantum models must outperform classical ones on these tasks.', right: 'On its training data a degree-L quantum model cannot beat the least-squares Fourier series of degree L.' },
+    ],
+    questions: [
+      {
+        q: 'A one-qubit model uploads x four times with RX(x). Which frequencies can its output contain?',
+        options: ['Only 4', '0 to 4', '0 to 8', 'Any'],
+        answer: 1,
+        why: 'Each upload contributes ±1/2 to the phase, so |k| ≤ 4.',
+      },
+      {
+        q: 'Uploading RX(2x) instead of RX(x) once gives frequencies…',
+        options: ['0 and 1', '0 and 2', '0, 1 and 2', 'Only 2'],
+        answer: 1,
+        why: 'The eigenvalue phases are ±x, so the differences are 0 and ±2.',
+      },
+      {
+        q: 'Why can the classical degree-L least-squares fit never lose to the quantum model on the training points?',
+        options: ['It uses more data', 'It is the optimum over all degree-L trigonometric polynomials, which include the quantum model', 'It is quantum-inspired', 'It isn’t; the quantum model can win'],
+        answer: 1,
+        why: 'The quantum model is one particular degree-L trigonometric polynomial; least squares finds the best one.',
+      },
+    ],
+  },
   'qml-classifier': {
     goals: [
       'Describe a variational classifier built from a data re-uploading circuit.',
