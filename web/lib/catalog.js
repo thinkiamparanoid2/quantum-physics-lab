@@ -814,6 +814,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M6 14 H18 M6 24 H18 M6 34 H18 M22 10 L30 24 L22 38 M34 24 A6 6 0 1 1 34.01 24',
   },
+  {
+    slug: 'qml-classifier',
+    section: 'qml',
+    title: 'A classifier that trains while you watch',
+    summary: 'A data re-uploading circuit learns a decision boundary with exact parameter-shift gradients; see why depth matters and test accuracy lags.',
+    level: 'Intermediate',
+    minutes: 10,
+    status: 'live',
+    icon: 'M8 40 C14 20 30 12 42 8 M10 14 A2 2 0 1 1 10.01 14 M18 30 A2 2 0 1 1 18.01 30 M34 26 A2 2 0 1 1 34.01 26 M30 38 A2 2 0 1 1 30.01 38',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

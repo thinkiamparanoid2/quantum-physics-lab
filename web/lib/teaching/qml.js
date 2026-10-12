@@ -1,6 +1,40 @@
 // Teaching notes for the quantum machine learning section.
 
 export const TEACHING = {
+  'qml-classifier': {
+    goals: [
+      'Describe a variational classifier built from a data re-uploading circuit.',
+      'Apply the parameter-shift rule to get exact gradients from circuit runs.',
+      'Follow gradient-based training and read loss and accuracy curves.',
+      'Distinguish training accuracy from test accuracy and explain why depth matters.',
+    ],
+    prereqs: ['Encoding data'],
+    misconceptions: [
+      { wrong: 'Parameter-shift is a finite-difference approximation.', right: 'For rotation gates it is exact: shifts of ±π/2 give the true derivative.' },
+      { wrong: 'More parameters always means a more expressive model.', right: 'For re-uploading models the number of data re-uploads limits which functions are possible.' },
+      { wrong: 'High training accuracy means the model has learned the pattern.', right: 'Only accuracy on unseen test data shows generalisation.' },
+    ],
+    questions: [
+      {
+        q: 'How many circuit evaluations does the parameter-shift rule need for the gradient of one output with 12 parameters?',
+        options: ['1', '12', '24', '144'],
+        answer: 2,
+        why: 'Two shifted runs per parameter.',
+      },
+      {
+        q: 'Why does the one-layer model fail on the circle dataset?',
+        options: ['Too few training points', 'It can only represent low-frequency functions of each feature', 'The optimizer is broken', 'Circles cannot be learned'],
+        answer: 1,
+        why: 'Each feature enters once, so the output contains only frequency 1 in it; a closed boundary needs more.',
+      },
+      {
+        q: 'A model scores 95% on training data and 70% on test data. This suggests…',
+        options: ['Underfitting', 'Overfitting', 'A perfect model', 'A bug in the test set'],
+        answer: 1,
+        why: 'It fits the training sample better than the underlying pattern.',
+      },
+    ],
+  },
   encoding: {
     goals: [
       'Describe basis, angle and amplitude encoding of classical data.',

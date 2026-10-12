@@ -299,3 +299,13 @@ export function solve(A, b) {
   }
   return M.map((row, i) => row[n] / row[i]);
 }
+
+// The classifier lesson's training run (Web Worker): data, then Adam on the re-uploading model.
+export function trainClassifier({ kind, layers, epochs, lr = 0.1, seed = 3 }, progress) {
+  const train = dataset(kind, 60, 1);
+  const test = dataset(kind, 100, 2);
+  const f = (p, x) => classify(layers, p, x);
+  const history = trainHistory(f, 4 * layers, train, { epochs, lr, seed, test });
+  progress?.(1);
+  return { train, test, history };
+}

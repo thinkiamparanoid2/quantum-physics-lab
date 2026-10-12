@@ -78,7 +78,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Lesson | Status | Independent check |
 |---|---|---|
 | Encoding data | ✅ | amplitude-encoding circuit prepares the normalised vector exactly (20 random cases); angle-encoding overlap equals Π cos² against the statevector |
-| A classifier that trains while you watch | ⬜ | |
+| A classifier that trains while you watch | ✅ | model output and parameter-shift gradients equal PennyLane (qml.grad) to 10⁻¹² for 1- and 3-layer circuits, and a finite difference; training deterministic per seed; accuracy claims read off the computed curves |
 | Quantum models are Fourier series | ⬜ | |
 | Quantum kernels | ⬜ | |
 | Barren plateaus, measured | ⬜ | |
