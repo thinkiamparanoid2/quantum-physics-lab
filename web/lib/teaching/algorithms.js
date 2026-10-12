@@ -1,6 +1,40 @@
 // Teaching notes for "Algorithms".
 
 export const TEACHING = {
+  simon: {
+    goals: [
+      'State Simon’s problem and its classical query cost.',
+      'Explain how one superposition query plus interference yields a linear equation for s.',
+      'Recover s from n − 1 independent equations by Gaussian elimination over GF(2).',
+      'Explain the exponential query separation and its link to Shor’s algorithm.',
+    ],
+    prereqs: ['Bernstein–Vazirani', 'Deutsch–Jozsa'],
+    misconceptions: [
+      { wrong: 'One run of Simon’s circuit reveals s.', right: 'Each run gives one random equation y · s = 0; about n runs are needed.' },
+      { wrong: 'The separation shows quantum computers beat classical ones for every such function.', right: 'It is a black-box (query) separation; explicit circuits can be inspected classically.' },
+      { wrong: 'The output register must be measured.', right: 'It can be ignored; it only needs to stay entangled with the input.' },
+    ],
+    questions: [
+      {
+        q: 'With n = 3 and s = 101, which outcome can Simon’s circuit produce?',
+        options: ['100', '010', '001', '111'],
+        answer: 1,
+        why: '010 · 101 = 0 (mod 2); the others give 1.',
+      },
+      {
+        q: 'Roughly how many classical queries does random collision search need for n = 40?',
+        options: ['40', 'about a million', 'about 2⁴⁰', '2'],
+        answer: 1,
+        why: 'About √(2⁴⁰) ≈ 10⁶ by the birthday bound.',
+      },
+      {
+        q: 'Which famous algorithm did Simon’s inspire?',
+        options: ['Grover', 'Shor', 'HHL', 'VQE'],
+        answer: 1,
+        why: 'Shor generalised the hidden-subgroup idea from XOR periods to modular periods.',
+      },
+    ],
+  },
   'amplitude-estimation': {
     goals: [
       'State the amplitude estimation problem and the cost of estimating by sampling.',

@@ -485,6 +485,16 @@ export const TOPICS = [
     icon: 'M8 14 H16 M20 14 H28 M32 14 H40 M8 24 H40 M12 32 V38 M24 32 V38 M36 32 V38',
   },
   {
+    slug: 'simon',
+    section: 'algorithms',
+    title: 'Simon’s algorithm',
+    summary: 'One query in superposition gives a linear equation for a hidden string: an exponential separation that inspired Shor.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 12 H42 M6 24 H42 M6 36 H42 M14 8 V40 M30 8 V40',
+  },
+  {
     slug: 'grover',
     section: 'algorithms',
     title: "Grover's search",
