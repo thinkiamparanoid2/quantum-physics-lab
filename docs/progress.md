@@ -70,7 +70,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | The Schwinger model: pair creation | ✅ | library equals the (corrected) playground preset; bare vacuum flux-free and the unique x = 0 ground state; real-time particle number against Qiskit (reference.json); step claims checked numerically (mass suppression, background-field enhancement) |
 | Confinement and string breaking | ✅ | Lanczos against dense diagonalisation; ground energies and particle numbers with static charges match an independent numpy bit-string build in the neutral sector to 10⁻⁸; slope ≈ g before breaking, about two extra particles after |
 | The transverse-field Ising model | ✅ | free-fermion ground energy and gap equal dense diagonalisation and Lanczos; Kibble–Zurek ramp by free fermions equals the periodic-chain statevector to 10⁻⁸, and 400 spins follow Dziarmaga's τ^(−1/2) law within 10%; half-chain entanglement grows with N only at h = J (steps match (c/6) log₂ N with c = ½) |
-| Entanglement area law and MPS | ⬜ | |
+| Entanglement area law and MPS | ✅ | complex SVD rebuilds matrices with orthonormal factors; MPS round trip exact at full χ and truncation infidelity ≤ discarded weight; TEBD error falls 16× when dt halves (second order) with matching entanglement; random state's half-chain entropy equals Page's value (4.29 vs 4.28 on 10 qubits); gapped state flat |
 | Simulating fields on quantum hardware | ⬜ | |
 
 ## Phase 3: quantum machine learning (branch `topic/qml`)

@@ -43,6 +43,7 @@ const GROUPS = [
   ['fock.test.js', 'Fock space and Jordan–Wigner', 'Commutation and anticommutation on every basis state; Jordan–Wigner matrix elements; qubit chain spectrum and dynamics against free fermions.'],
   ['schwinger.test.js', 'Schwinger model', 'Library against the playground preset; flux-free bare vacuum; Lanczos against dense diagonalisation; string-breaking energies against an independent numpy build.'],
   ['ising.test.js', 'Transverse-field Ising', 'Free-fermion energies and gap against dense diagonalisation and Lanczos; the Kibble–Zurek ramp against the statevector and the τ^(−1/2) law; entanglement scaling.'],
+  ['mps.test.js', 'Matrix product states', 'Complex SVD; MPS round trip and truncation bound; TEBD second-order convergence to exact evolution; area law and Page’s value.'],
   ['toric.test.js', 'Toric code and anyons', 'Checks, ground state and the −1 braiding phase, on the tableau and on an 18-qubit statevector.'],
   ['magic.test.js', 'Magic states', 'Distillation’s weight enumerator against MacWilliams, transversal T on the Reed–Muller code, 35p³ against Monte Carlo, and T injection.'],
   ['pages.test.js', 'Site structure', 'Lesson pages, teaching notes and this page itself.'],

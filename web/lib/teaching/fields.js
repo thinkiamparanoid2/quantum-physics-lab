@@ -1,6 +1,40 @@
 // Teaching notes for the fields section.
 
 export const TEACHING = {
+  'area-law': {
+    goals: [
+      'Measure entanglement across a cut and compare volume-law and area-law states.',
+      'Explain why ground states of gapped local Hamiltonians obey an area law.',
+      'Describe a matrix product state and how its bond dimension limits entanglement.',
+      'Explain why entanglement growth after a quench limits classical simulation with TEBD.',
+    ],
+    prereqs: ['Entanglement measures', 'The transverse-field Ising model'],
+    misconceptions: [
+      { wrong: 'Most quantum states are hard to describe only because they have many qubits.', right: 'It is their entanglement: lightly entangled states of many qubits are cheap as MPS.' },
+      { wrong: 'An MPS is an approximation that is never exact.', right: 'At full bond dimension it represents any state exactly; truncation is a controlled choice.' },
+      { wrong: 'TEBD can simulate any 1D dynamics efficiently.', right: 'After a global quench entanglement grows linearly, so the needed bond dimension grows exponentially in time.' },
+    ],
+    questions: [
+      {
+        q: 'An MPS has bond dimension χ = 8. What is the most entanglement it can hold across a cut?',
+        options: ['1 bit', '3 bits', '8 bits', 'Unlimited'],
+        answer: 1,
+        why: 'At most log₂ χ = 3 bits.',
+      },
+      {
+        q: 'How does the half-chain entanglement of a random 12-qubit state compare with a gapped ground state?',
+        options: ['About equal', 'Random: about 5.3 bits; gapped: well under 1 bit', 'Random: 0 bits', 'Gapped: 6 bits'],
+        answer: 1,
+        why: 'Random states follow a volume law (Page’s value), gapped ground states an area law.',
+      },
+      {
+        q: 'After a global quench, entanglement grows linearly in time. How must χ grow to keep TEBD accurate?',
+        options: ['Linearly', 'Exponentially', 'Not at all', 'Logarithmically'],
+        answer: 1,
+        why: 'S ≤ log₂ χ, so χ must grow like 2^S, exponentially in time.',
+      },
+    ],
+  },
   'ising-transition': {
     goals: [
       'Describe the competition between Ising coupling and transverse field and the resulting quantum phase transition.',

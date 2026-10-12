@@ -784,6 +784,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M8 12 V24 M8 12 L5 16 M8 12 L11 16 M20 36 V24 M20 36 L17 32 M20 36 L23 32 M32 24 H44 M44 24 L40 21 M44 24 L40 27',
   },
+  {
+    slug: 'area-law',
+    section: 'fields',
+    title: 'Entanglement area law and MPS',
+    summary: 'Why ground states are lightly entangled, how matrix product states exploit it, and how entanglement growth limits TEBD.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M6 24 H42 M10 18 H16 V30 H10 Z M21 18 H27 V30 H21 Z M32 18 H38 V30 H32 Z',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be
