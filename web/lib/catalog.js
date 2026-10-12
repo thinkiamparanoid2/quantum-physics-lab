@@ -694,6 +694,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M6 40 L42 10 M6 30 C20 30 30 22 42 8 M6 44 C24 40 34 24 42 6',
   },
+  {
+    slug: 'fault-tolerance',
+    section: 'qec',
+    title: 'Fault tolerance: noisy measurements',
+    summary: 'When the checks themselves can lie: repeat them, watch for changes, and decode in space and time.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M8 8 V40 M20 8 V40 M32 8 V40 M44 8 V40 M8 16 H44 M8 28 H44 M20 16 L32 28',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

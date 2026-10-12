@@ -8118,5 +8118,79 @@
    "shots": 40000,
    "fails": 7774
   }
+ ],
+ "phenomenological": [
+  {
+   "code": "repetition",
+   "d": 3,
+   "rounds": 3,
+   "p": 0.03,
+   "shots": 20000,
+   "fails": 555
+  },
+  {
+   "code": "repetition",
+   "d": 3,
+   "rounds": 3,
+   "p": 0.06,
+   "shots": 20000,
+   "fails": 1832
+  },
+  {
+   "code": "repetition",
+   "d": 5,
+   "rounds": 5,
+   "p": 0.03,
+   "shots": 20000,
+   "fails": 159
+  },
+  {
+   "code": "repetition",
+   "d": 5,
+   "rounds": 5,
+   "p": 0.06,
+   "shots": 20000,
+   "fails": 1026
+  },
+  {
+   "code": "repetition",
+   "d": 7,
+   "rounds": 7,
+   "p": 0.03,
+   "shots": 20000,
+   "fails": 46
+  },
+  {
+   "code": "repetition",
+   "d": 7,
+   "rounds": 7,
+   "p": 0.06,
+   "shots": 20000,
+   "fails": 674
+  },
+  {
+   "code": "surface",
+   "d": 3,
+   "rounds": 3,
+   "p": 0.02,
+   "shots": 20000,
+   "fails": 1011
+  },
+  {
+   "code": "surface",
+   "d": 3,
+   "rounds": 3,
+   "p": 0.04,
+   "shots": 20000,
+   "fails": 3148
+  },
+  {
+   "code": "surface",
+   "d": 5,
+   "rounds": 5,
+   "p": 0.02,
+   "shots": 20000,
+   "fails": 884
+  }
  ]
 }

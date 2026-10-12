@@ -56,7 +56,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | The surface code | 🔨 | lesson written and registered, not yet visually checked; code structure tested (commuting checks, anticommuting logicals) |
 | Decoding (matching, union-find) | ✅ | exact MWPM weights equal PyMatching on 240 samples; both decoders correct all errors up to (d−1)/2; screenshots of the failing three-error case and union-find growth |
 | Threshold in the browser | ✅ | Monte Carlo in a Web Worker; code-capacity rates match PyMatching within 4σ, crossing near 10% (matching) and Λ ≈ 2 at p = 4%; scan reproducible per seed; Λ shown with binomial error bars; noisy checks use union-find (exact matching too slow in a browser) |
-| Fault tolerance: measurement errors | 🔨 | engine done (space-time graph, phenomenological threshold test); lesson not written |
+| Fault tolerance: measurement errors | ✅ | repetition code in space-time (flat picture); detection events equal the ends of the fault edges; matching corrects every 1- and 2-fault pattern (exhaustive, d = 5, 5 rounds); logical rates match PyMatching (repetitions mode) within 4σ for repetition d = 3, 5, 7 and surface d = 3, 5 |
 | Magic states and distillation | ⬜ | |
 | Toric code and anyons | ⬜ | |
 

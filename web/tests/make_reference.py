@@ -274,7 +274,43 @@ def qec_reference():
             residual = (errs + corr) % 2
             fails = int(residual[:, :d].sum(axis=1).astype(int).__mod__(2).sum())
             rates.append({"d": d, "p": p, "shots": shots, "fails": fails})
-    return {"samples": samples, "rates": rates}
+    # phenomenological noise: X errors (prob p) on every data qubit before every round, every check
+    # misread with prob p except in the last round (the data readout), decoded in space-time.
+    # Same model as trialPhenomenological; PyMatching handles the time direction with `repetitions`.
+    phenomenological = []
+    cases = [("repetition", d, p) for d in (3, 5, 7) for p in (0.03, 0.06)] + [("surface", 3, 0.02), ("surface", 3, 0.04), ("surface", 5, 0.02)]
+    for kind, d, p in cases:
+        if kind == "repetition":
+            H = np.zeros((d - 1, d), dtype=np.uint8)
+            for i in range(d - 1):
+                H[i, i] = H[i, i + 1] = 1
+            logical = [0]
+        else:
+            checks = rotated_surface_code_z_checks(d)
+            H = np.zeros((len(checks), d * d), dtype=np.uint8)
+            for r, qs in enumerate(checks):
+                H[r, qs] = 1
+            logical = list(range(d))
+        layers = d + 1
+        matching = pymatching.Matching(H, repetitions=layers, timelike_weights=1, weights=1)
+        shots = 20000
+        fails = 0
+        for _ in range(shots):
+            err = np.zeros(H.shape[1], dtype=np.uint8)
+            raw = np.zeros((H.shape[0], layers), dtype=np.uint8)
+            for t in range(layers):
+                err ^= (rng.random(H.shape[1]) < p).astype(np.uint8)
+                raw[:, t] = H @ err % 2
+                if t < layers - 1:
+                    raw[:, t] ^= (rng.random(H.shape[0]) < p).astype(np.uint8)
+            diff = raw.copy()
+            diff[:, 1:] = (raw[:, 1:] - raw[:, :-1]) % 2
+            corr = matching.decode(diff)
+            residual = (err + corr) % 2
+            fails += int(residual[logical].sum() % 2)
+        phenomenological.append({"code": kind, "d": d, "rounds": d, "p": p, "shots": shots, "fails": fails})
+        print(kind, d, p, fails / shots)
+    return {"samples": samples, "rates": rates, "phenomenological": phenomenological}
 
 
 TOPICS = {

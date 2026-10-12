@@ -8,10 +8,13 @@ import {
   logicalFlip,
   matchingGraph,
   mwpm,
+  repetitionCode,
+  sampleFaults,
   spaceTimeGraph,
+  spaceTimeRun,
   surfaceCode,
-  thresholdScan,
   syndrome,
+  thresholdScan,
   trialCodeCapacity,
   trialPhenomenological,
   unionFind,
@@ -122,4 +125,61 @@ test('the threshold lesson’s scan is reproducible, reports progress, and shows
   const [r3, r5, r7] = a.map((r) => r.row);
   assert.ok(r3[0].rate / r5[0].rate > 1.5 && r5[0].rate > r7[0].rate, `below threshold: ${r3[0].rate} ${r5[0].rate} ${r7[0].rate}`);
   assert.ok(r7[1].rate > r3[1].rate, 'above threshold, d = 7 loses to d = 3');
+});
+
+test('a space-time run lights detection events exactly at the ends of its fault edges', () => {
+  const rng = seededRandom(5);
+  for (const code of [repetitionCode(5), surfaceCode(3), surfaceCode(5)]) {
+    const st = spaceTimeGraph(code, code.d);
+    for (let k = 0; k < 50; k++) {
+      const faults = sampleFaults(st, 0.08, 0.08, rng);
+      const odd = new Uint8Array(st.nodes);
+      for (const f of faults) {
+        odd[st.edges[f].a] ^= 1;
+        odd[st.edges[f].b] ^= 1;
+      }
+      const expected = [];
+      odd.forEach((v, node) => v && node !== st.boundary && expected.push(node));
+      assert.deepEqual(spaceTimeRun(st, faults).defects, expected);
+    }
+  }
+});
+
+test('in space-time, matching corrects every pattern of one or two faults (repetition code, d = 5, 5 rounds)', () => {
+  const code = repetitionCode(5);
+  const st = spaceTimeGraph(code, 5);
+  const E = st.edges.length;
+  for (let a = 0; a < E; a++) {
+    for (let b = a; b < E; b++) {
+      const faults = a === b ? [a] : [a, b];
+      const run = spaceTimeRun(st, faults);
+      const corr = correctionOf(st, mwpm(st, run.defects).edges, code.n);
+      const residual = run.err.map((v, q) => v ^ corr[q]);
+      assert.ok(!logicalFlip(code, residual, 'X'), `faults ${faults}`);
+    }
+  }
+});
+
+test('with measurement errors, logical error rates match PyMatching (repetition and surface codes)', () => {
+  const rng = seededRandom(21);
+  for (const r of ref.phenomenological) {
+    const code = r.code === 'repetition' ? repetitionCode(r.d) : surfaceCode(r.d);
+    const st = spaceTimeGraph(code, r.rounds);
+    const shots = 4000;
+    let fails = 0;
+    let fallback = 0;
+    for (let k = 0; k < shots; k++) {
+      const run = spaceTimeRun(st, sampleFaults(st, r.p, r.p, rng));
+      const m = mwpm(st, run.defects);
+      if (!m) fallback++;
+      const corr = correctionOf(st, m ? m.edges : unionFind(st, run.defects).edges, code.n);
+      if (logicalFlip(code, run.err.map((v, q) => v ^ corr[q]), 'X')) fails++;
+    }
+    // the rare run with more than MWPM_LIMIT detection events falls back to union-find
+    assert.ok(fallback < shots / 50, `${r.code} d=${r.d}: ${fallback} runs too big for exact matching`);
+    const pj = fails / shots;
+    const pp = r.fails / r.shots;
+    const sigma = Math.sqrt((pj * (1 - pj)) / shots + (pp * (1 - pp)) / r.shots);
+    assert.ok(Math.abs(pj - pp) < 4 * sigma, `${r.code} d=${r.d} p=${r.p}: ${pj} vs ${pp} (σ ${sigma.toFixed(4)})`);
+  }
 });

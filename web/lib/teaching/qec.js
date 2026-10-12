@@ -1,6 +1,40 @@
 // Teaching notes for "Quantum error correction".
 
 export const TEACHING = {
+  'fault-tolerance': {
+    goals: [
+      'Explain why syndrome measurements must be repeated when the measurements themselves are noisy.',
+      'Define detection events as changes in a check between consecutive rounds.',
+      'Describe data faults and measurement faults as edges of a space-time graph.',
+      'Explain what makes a circuit fault-tolerant and why measurement errors lower the threshold.',
+    ],
+    prereqs: ['The surface code', 'Decoding'],
+    misconceptions: [
+      { wrong: 'A lit check always means a data qubit is wrong.', right: 'The check may have been misread; only a change that persists in later rounds points to a data error.' },
+      { wrong: 'Measuring the checks more often just adds more chances for error.', right: 'Repetition is what lets the decoder separate misreads (one-round blips) from real flips (lasting changes).' },
+      { wrong: 'Fault tolerance means no component ever fails.', right: 'It means any single fault leads to at most a correctable error, so failures need many faults at once.' },
+    ],
+    questions: [
+      {
+        q: 'Check c is misread in one round only. Which detection events appear?',
+        options: ['None', 'One, at that round', 'Two: at that round and the next', 'One per later round'],
+        answer: 2,
+        why: 'The reading changes when the misread starts and changes back one round later: two events stacked in time.',
+      },
+      {
+        q: 'In a decoder’s answer, what does a time-like edge (between rounds) tell you to do to the data?',
+        options: ['Flip the qubit under that check', 'Nothing: it marks a measurement that was wrong', 'Repeat the round', 'Flip every qubit'],
+        answer: 1,
+        why: 'Time-like edges explain events as misreads; only space-like edges act on data qubits.',
+      },
+      {
+        q: 'Roughly how much does adding measurement errors lower the surface-code threshold?',
+        options: ['Not at all', 'From about 10% to about 3% (phenomenological), and to about 1% with full circuit noise', 'To zero', 'It raises it'],
+        answer: 1,
+        why: 'The decoding problem gains a time dimension with more ways to fail, so the threshold drops.',
+      },
+    ],
+  },
   threshold: {
     goals: [
       'Read a threshold plot: logical against physical error rate for several distances.',

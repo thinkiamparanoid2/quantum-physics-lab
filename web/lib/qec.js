@@ -35,6 +35,14 @@ export function surfaceCode(d) {
   return { d, n: d * d, checks, logicalX, logicalZ };
 }
 
+// The bit-flip repetition code on a line of d qubits: checks Z_i Z_{i+1} between neighbours.
+// Same shape as surfaceCode, so matchingGraph and spaceTimeGraph work on it unchanged. Logical Z
+// is Z on any one qubit (qubit 0 here); logical X is X on all of them.
+export function repetitionCode(d) {
+  const checks = Array.from({ length: d - 1 }, (_, i) => ({ type: 'Z', qubits: [i, i + 1], i: 0, j: i + 1 }));
+  return { d, n: d, checks, logicalX: Array.from({ length: d }, (_, i) => i), logicalZ: [0] };
+}
+
 // The matching graph for errors of one Pauli type: X errors are seen by Z checks and vice versa.
 // Nodes are the checks of the detecting type plus one boundary node; each data qubit is an edge
 // between the checks it touches (or to the boundary if it touches only one).
@@ -311,6 +319,44 @@ export function spaceTimeGraph(code, rounds) {
     if (t + 1 < layers) for (let c = 0; c < m; c++) edges.push({ a: t * m + c, b: (t + 1) * m + c, q: -1, t });
   }
   return finishGraph({ nodes: boundary + 1, boundary, edges, checks: base.checks, layers, perLayer: m, base });
+}
+
+// A run of the phenomenological model written as a set of faults, each an edge of the space-time
+// graph: a data edge (q >= 0) in layer t flips qubit q just before round t is measured; a time edge
+// (q = -1) between layers t and t + 1 misreads its check in round t. Returns the measured syndrome
+// of every round (the last round is the perfect data readout), the detection events (where a
+// round differs from the one before) and the final error on the data qubits.
+export function spaceTimeRun(st, faults) {
+  const m = st.perLayer;
+  const n = Math.max(...st.base.edges.map((e) => e.q)) + 1;
+  const err = new Uint8Array(n);
+  const raw = [];
+  const defects = [];
+  let prev = new Uint8Array(m);
+  for (let t = 0; t < st.layers; t++) {
+    for (const k of faults) {
+      const e = st.edges[k];
+      if (e.t === t && e.q >= 0) err[e.q] ^= 1;
+    }
+    const syn = Uint8Array.from(syndrome(st.base, err));
+    for (const k of faults) {
+      const e = st.edges[k];
+      if (e.t === t && e.q < 0) syn[e.a - t * m] ^= 1;
+    }
+    for (let c = 0; c < m; c++) if (syn[c] !== prev[c]) defects.push(t * m + c);
+    raw.push(syn);
+    prev = syn;
+  }
+  return { raw, defects, err };
+}
+
+// Random faults for spaceTimeRun: each data edge with probability p, each time edge with q.
+export function sampleFaults(st, p, q, rng) {
+  const out = [];
+  st.edges.forEach((e, k) => {
+    if (rng() < (e.q >= 0 ? p : q)) out.push(k);
+  });
+  return out;
 }
 
 export function trialPhenomenological(code, st, p, q, decoder, rng) {
