@@ -476,3 +476,24 @@ export function optimiseQaoa(n, edges, p) {
   }
   return best;
 }
+
+// ----- classical surrogate for the re-uploading classifier -----
+
+// The L-layer classifier is a Fourier series in (x₁, x₂) with frequencies |k₁|, |k₂| ≤ L. Fit a
+// classical linear model on exactly those features by ridge regression (Schreiber, Eisert & Meyer
+// 2023; Landman et al. 2022 use random subsets of them).
+export function fourierFeatures(L) {
+  const ks = [];
+  for (let k1 = -L; k1 <= L; k1++) for (let k2 = -L; k2 <= L; k2++) if (k1 > 0 || (k1 === 0 && k2 > 0)) ks.push([k1, k2]);
+  return (x) => [1, ...ks.flatMap(([a, b]) => [Math.cos(a * x[0] + b * x[1]), Math.sin(a * x[0] + b * x[1])])];
+}
+
+export function fourierSurrogate(train, L, lambda = 0.01) {
+  const phi = fourierFeatures(L);
+  const F = train.map((p) => phi(p.x));
+  const m = F[0].length;
+  const A = Array.from({ length: m }, (_, r) => Array.from({ length: m }, (_, c) => F.reduce((s, f) => s + f[r] * f[c], 0) + (r === c ? lambda : 0)));
+  const b = Array.from({ length: m }, (_, r) => F.reduce((s, f, i) => s + f[r] * train[i].y, 0));
+  const w = solve(A, b);
+  return { features: m, f: (x) => phi(x).reduce((s, v, i) => s + v * w[i], 0) };
+}

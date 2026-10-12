@@ -3335,3 +3335,19 @@ body.present .card-toggle {
 .tally tr.current td {
   background: color-mix(in srgb, var(--accent) 14%, transparent);
 }
+
+/* an evidence table with long text cells */
+.tally.evidence {
+  font: 14px/1.5 var(--font-sans);
+}
+.tally.evidence th,
+.tally.evidence td {
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+}
+.tally.evidence td:first-child,
+.tally.evidence td:last-child {
+  font-weight: 600;
+  min-width: 10em;
+}

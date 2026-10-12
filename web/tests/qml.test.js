@@ -170,3 +170,12 @@ test('the H₂ data shipped with the site equal the PennyLane reference', async 
     assert.deepEqual(h.terms, r.terms);
   });
 });
+
+test('the classical Fourier surrogate uses exactly the frequencies an L-layer classifier can produce', async () => {
+  const { fourierFeatures, classify, fourierCoefficients } = await import('../lib/vqc.js');
+  assert.equal(fourierFeatures(3)([0.1, 0.2]).length, 49); // 1 + 2 × 24 half-plane frequencies
+  // along a line x₂ = 0 the classifier has no frequency above L in x₁
+  const params = Array.from({ length: 12 }, (_, k) => 0.7 * k - 2);
+  const co = fourierCoefficients((t) => classify(3, params, [t, 0]), 6);
+  for (const c of co) if (Math.abs(c.k) > 3) assert.ok(Math.hypot(c.re, c.im) < 1e-12);
+});

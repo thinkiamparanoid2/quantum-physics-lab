@@ -1,6 +1,40 @@
 // Teaching notes for the quantum machine learning section.
 
 export const TEACHING = {
+  'qml-advantage': {
+    goals: [
+      'Build a classical surrogate with the same Fourier features as a quantum classifier and compare them.',
+      'Explain dequantisation and the data-access caveats of linear-algebra speed-ups.',
+      'Summarise the evidence for and against advantage in quantum machine learning.',
+      'Identify the settings where advantages are proven: structured problems and quantum data.',
+    ],
+    prereqs: ['Quantum models are Fourier series', 'Quantum kernels'],
+    misconceptions: [
+      { wrong: 'Quantum machine learning gives exponential speed-ups on ordinary data.', right: 'No such speed-up is established for classical data in practice; many claims have been dequantised.' },
+      { wrong: 'If a classical model matches a quantum one, the quantum model is useless.', right: 'It removes a speed-up claim for that task; quantum models may still act as useful priors.' },
+      { wrong: 'There is no proven quantum advantage in learning at all.', right: 'There is, for specially structured problems and for learning from quantum data.' },
+    ],
+    questions: [
+      {
+        q: 'Why can a classical model match a re-uploading quantum classifier?',
+        options: ['It uses more data', 'The quantum model is a Fourier series whose frequencies are known, so a classical model can use the same features', 'Classical computers are faster', 'Quantum models are random'],
+        answer: 1,
+        why: 'The encoding fixes the frequency spectrum; a linear model on those features spans the same function class.',
+      },
+      {
+        q: 'What did Tang (2019) show?',
+        options: ['A quantum speed-up for recommendations', 'A classical algorithm matching the quantum recommendation algorithm for low-rank data', 'That QRAM is easy to build', 'Barren plateaus'],
+        answer: 1,
+        why: 'This "dequantisation" removed the exponential gap under the same data-access assumptions.',
+      },
+      {
+        q: 'Which setting has the strongest evidence for a learning advantage?',
+        options: ['Image classification', 'Learning from quantum data produced by experiments', 'Linear regression on tables', 'Recommendation systems'],
+        answer: 1,
+        why: 'Huang et al. (Science, 2022) proved and demonstrated exponential savings in experiments needed.',
+      },
+    ],
+  },
   'vqe-qaoa': {
     goals: [
       'Describe the variational quantum eigensolver loop and the variational principle.',

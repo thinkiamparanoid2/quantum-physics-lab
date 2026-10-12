@@ -864,6 +864,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M8 32 C14 10 22 40 28 30 C32 24 38 26 44 26 M8 40 H44',
   },
+  {
+    slug: 'qml-advantage',
+    section: 'qml',
+    title: 'Is there an advantage?',
+    summary: 'A quantum classifier beside its classical twin, and the evidence for and against quantum advantage in learning, with references.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M24 6 L42 40 H6 Z M24 18 V30 M24 34 V35',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be
