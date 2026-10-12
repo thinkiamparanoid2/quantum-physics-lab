@@ -774,6 +774,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M8 24 A4 4 0 1 1 8.01 24 M40 24 A4 4 0 1 1 40.01 24 M12 24 H20 M28 24 H36 M20 20 L24 28 L28 20',
   },
+  {
+    slug: 'ising-transition',
+    section: 'fields',
+    title: 'The transverse-field Ising model',
+    summary: 'A quantum phase transition at h = J: order and disorder, a closing gap, entanglement that grows only at criticality, and the kinks left by crossing it too fast.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M8 12 V24 M8 12 L5 16 M8 12 L11 16 M20 36 V24 M20 36 L17 32 M20 36 L23 32 M32 24 H44 M44 24 L40 21 M44 24 L40 27',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

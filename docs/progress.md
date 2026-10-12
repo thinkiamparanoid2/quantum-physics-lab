@@ -69,7 +69,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Jordan–Wigner | ✅ | Z-string operators reproduce every fermion matrix element (4 modes); qubit chain spectrum equals sums of −2t cos(kπ/(N+1)) in every particle-number sector (N = 6); qubit dynamics equal free-fermion orbital densities to 10⁻⁹ |
 | The Schwinger model: pair creation | ✅ | library equals the (corrected) playground preset; bare vacuum flux-free and the unique x = 0 ground state; real-time particle number against Qiskit (reference.json); step claims checked numerically (mass suppression, background-field enhancement) |
 | Confinement and string breaking | ✅ | Lanczos against dense diagonalisation; ground energies and particle numbers with static charges match an independent numpy bit-string build in the neutral sector to 10⁻⁸; slope ≈ g before breaking, about two extra particles after |
-| The transverse-field Ising model | ⬜ | |
+| The transverse-field Ising model | ✅ | free-fermion ground energy and gap equal dense diagonalisation and Lanczos; Kibble–Zurek ramp by free fermions equals the periodic-chain statevector to 10⁻⁸, and 400 spins follow Dziarmaga's τ^(−1/2) law within 10%; half-chain entanglement grows with N only at h = J (steps match (c/6) log₂ N with c = ½) |
 | Entanglement area law and MPS | ⬜ | |
 | Simulating fields on quantum hardware | ⬜ | |
 

@@ -1,6 +1,40 @@
 // Teaching notes for the fields section.
 
 export const TEACHING = {
+  'ising-transition': {
+    goals: [
+      'Describe the competition between Ising coupling and transverse field and the resulting quantum phase transition.',
+      'Distinguish the ordered and paramagnetic phases by their correlations.',
+      'Explain the closing gap at the critical point and why entanglement grows with system size only there.',
+      'Explain the Kibble–Zurek mechanism and its τ^(−1/2) kink scaling for this model.',
+    ],
+    prereqs: ['Jordan–Wigner: fermions as qubits'],
+    misconceptions: [
+      { wrong: 'A quantum phase transition is driven by temperature.', right: 'It happens at zero temperature, tuned by a parameter (here h/J) that changes the ground state.' },
+      { wrong: 'In the ordered phase ⟨Z⟩ ≠ 0 on a finite chain.', right: 'The finite-chain ground state is a symmetric cat state with ⟨Z⟩ = 0; order shows up in ⟨Z₀ Z_r⟩.' },
+      { wrong: 'A slow enough ramp always avoids defects.', right: 'In an infinite system the gap closes at the transition, so any finite-speed ramp leaves kinks.' },
+    ],
+    questions: [
+      {
+        q: 'Where is the critical point of H = −J Σ ZZ − h Σ X?',
+        options: ['h = 0', 'h = J', 'h = 2J', 'There is none'],
+        answer: 1,
+        why: 'Kramers–Wannier duality maps h/J to J/h; the self-dual point h = J is critical.',
+      },
+      {
+        q: 'Doubling the ramp time τ multiplies the kink density by about…',
+        options: ['1/2', '1/√2', '1/4', '2'],
+        answer: 1,
+        why: 'Kink density scales as τ^(−1/2) for the transverse-field Ising chain.',
+      },
+      {
+        q: 'How does the half-chain entanglement of the ground state behave at h = J?',
+        options: ['Zero', 'Constant in N', 'Grows like log N', 'Grows like N'],
+        answer: 2,
+        why: 'At criticality S ≈ (c/6) log N with c = ½; away from it the area law holds and S saturates.',
+      },
+    ],
+  },
   schwinger: {
     goals: [
       'Describe the lattice Schwinger model: staggered fermions, Gauss’s law and the qubit Hamiltonian.',
