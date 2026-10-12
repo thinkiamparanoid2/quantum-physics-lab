@@ -794,6 +794,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M6 24 H42 M10 18 H16 V30 H10 Z M21 18 H27 V30 H21 Z M32 18 H38 V30 H32 Z',
   },
+  {
+    slug: 'fields-hardware',
+    section: 'fields',
+    title: 'Simulating fields on quantum hardware',
+    summary: 'What a Schwinger-model simulation costs in gates, how Trotter error falls with steps, and why noise makes more steps stop helping.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 14 H42 M6 24 H42 M6 34 H42 M14 14 V24 M24 24 V34 M34 14 V34',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

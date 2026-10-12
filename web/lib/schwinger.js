@@ -8,10 +8,18 @@
 // particles, odd sites antiparticles; the bare vacuum |0101…⟩ has no particles and no flux.
 // The same Hamiltonian as modules/schwinger_model/hamiltonian.py and the playground preset.
 
-import { makeOperator } from './dynamics.js';
+import { evolveExact, makeOperator, trotterStep } from './dynamics.js';
 import { lanczosGround, zExpectations } from './manybody.js';
 
-export function schwingerModel(N, { x = 1, mass = 0.5, g = 0.6, background = 0, charges = [] } = {}) {
+export function schwingerModel(N, opts = {}) {
+  const { terms, linkConstants } = schwingerTerms(N, opts);
+  let vacuum = 0;
+  for (let n = 1; n < N; n += 2) vacuum |= 1 << n;
+  return { N, terms, op: makeOperator(terms, N), linkConstants, vacuum };
+}
+
+// The Pauli terms alone (no 2^N operator), so gate counts can be made for long chains.
+export function schwingerTerms(N, { x = 1, mass = 0.5, g = 0.6, background = 0, charges = [] } = {}) {
   const terms = new Map();
   const add = (xmask, zmask, c) => {
     const k = `${xmask},${zmask}`;
@@ -34,10 +42,7 @@ export function schwingerModel(N, { x = 1, mass = 0.5, g = 0.6, background = 0, 
     for (let k = 0; k <= n; k++) add(0, 1 << k, -g * c);
     for (let j = 0; j <= n; j++) for (let k = j + 1; k <= n; k++) add(0, (1 << j) | (1 << k), g * 0.5);
   }
-  const list = [...terms.values()].filter((t) => Math.abs(t.coeff) > 1e-14);
-  let vacuum = 0;
-  for (let n = 1; n < N; n += 2) vacuum |= 1 << n;
-  return { N, terms: list, op: makeOperator(list, N), linkConstants: links, vacuum };
+  return { terms: [...terms.values()].filter((t) => Math.abs(t.coeff) > 1e-14), linkConstants: links };
 }
 
 // Observables from ⟨Z_k⟩: particles per site, and the electric field on each link.
@@ -85,5 +90,35 @@ export function stringPotential({ N, x, mass, g }, progress) {
     out.push({ length: l, energy: r.energy - r0.energy, extra: o.total - o0.total, ...o, a: cp.a, b: cp.b });
     progress?.((i + 1) / lengths.length);
   });
+  return out;
+}
+
+// Trotter error after time T, starting from the bare vacuum: infidelity with the exact state and
+// the error in the particle number, for each number of steps and order 1 or 2.
+export function trotterStudy({ N, x = 1, mass = 0.5, g = 0.6, T, stepsList }) {
+  const model = schwingerModel(N, { x, mass, g });
+  const dim = 1 << N;
+  const er = new Float64Array(dim);
+  const ei = new Float64Array(dim);
+  er[model.vacuum] = 1;
+  evolveExact(model.op, er, ei, T);
+  const exactN = observables(model, zExpectations(N, er, ei)).total;
+  const out = {};
+  for (const order of [1, 2]) {
+    out[order] = stepsList.map((steps) => {
+      const re = new Float64Array(dim);
+      const im = new Float64Array(dim);
+      re[model.vacuum] = 1;
+      for (let k = 0; k < steps; k++) trotterStep(model.terms, re, im, T / steps, order);
+      let or = 0;
+      let oi = 0;
+      for (let b = 0; b < dim; b++) {
+        or += er[b] * re[b] + ei[b] * im[b];
+        oi += er[b] * im[b] - ei[b] * re[b];
+      }
+      const n = observables(model, zExpectations(N, re, im)).total;
+      return { steps, infidelity: Math.max(0, 1 - (or * or + oi * oi)), particleError: Math.abs(n - exactN) };
+    });
+  }
   return out;
 }

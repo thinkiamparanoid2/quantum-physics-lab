@@ -1,6 +1,40 @@
 // Teaching notes for the fields section.
 
 export const TEACHING = {
+  'fields-hardware': {
+    goals: [
+      'Explain how Trotterisation turns a lattice Hamiltonian into a gate sequence and count its CNOTs.',
+      'Explain why eliminating the gauge field makes the Schwinger circuit grow like N².',
+      'Compare first- and second-order Trotter error scaling.',
+      'Explain the trade-off between Trotter error and gate noise, and why an optimum number of steps exists.',
+    ],
+    prereqs: ['The Schwinger model: pair creation'],
+    misconceptions: [
+      { wrong: 'More Trotter steps always give a better result.', right: 'On noisy hardware each step adds gate errors; beyond an optimum, more steps make it worse.' },
+      { wrong: 'Current quantum computers already beat classical computers at these simulations.', right: 'At these sizes a laptop is faster; the experiments develop methods for larger, error-corrected machines.' },
+      { wrong: 'Second order is always the better choice.', right: 'It usually is for small errors, but it costs more gates per step; the best choice depends on size, time and noise.' },
+    ],
+    questions: [
+      {
+        q: 'How many CNOTs does a rotation by a weight-3 Pauli string need in the standard compilation?',
+        options: ['2', '3', '4', '6'],
+        answer: 2,
+        why: 'Two CNOT ladders of w − 1 = 2 gates each: 4.',
+      },
+      {
+        q: 'Halving the time step of a first-order Trotter circuit reduces the infidelity by about…',
+        options: ['2×', '4×', '8×', '16×'],
+        answer: 1,
+        why: 'First-order error in the state scales as dt, so the infidelity scales as dt².',
+      },
+      {
+        q: 'Why does the gate count per step grow like N² for the Schwinger model as simulated here?',
+        options: ['Hopping is long-range', 'Gauss’s law turns the electric energy into ZZ terms between all pairs of sites', 'The mass term is nonlocal', 'Jordan–Wigner strings'],
+        answer: 1,
+        why: 'Eliminating the gauge field leaves a long-range interaction between every pair of sites.',
+      },
+    ],
+  },
   'area-law': {
     goals: [
       'Measure entanglement across a cut and compare volume-law and area-law states.',
