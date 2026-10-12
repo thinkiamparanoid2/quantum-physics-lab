@@ -1,6 +1,106 @@
 // Teaching notes for "Many particles and approximations".
 
 export const TEACHING = {
+  'quantum-statistics': {
+    goals: [
+      'Write the Fermi–Dirac, Bose–Einstein and Boltzmann occupations and the role of μ.',
+      'Explain the Fermi energy and why only fermions near it respond to heating.',
+      'Explain Bose–Einstein condensation and N₀/N = 1 − (T/T_c)³ in a trap.',
+      'State when quantum statistics reduces to classical statistics.',
+    ],
+    prereqs: ['Identical particles', 'The Boltzmann factor'],
+    misconceptions: [
+      { wrong: 'At absolute zero all fermions sit in the lowest state.', right: 'Pauli exclusion forces them up to the Fermi energy; the lowest state holds at most one per spin.' },
+      { wrong: 'A Bose–Einstein condensate forms because the bosons attract each other.', right: 'It happens even for non-interacting bosons: it is a consequence of the statistics alone.' },
+    ],
+    questions: [
+      {
+        q: 'At T = 0, the Fermi–Dirac occupation of a state just above the Fermi energy is…',
+        options: ['1', '½', '0', 'it depends on N'],
+        answer: 2,
+        why: 'At T = 0, f is a step: 1 below E_F and 0 above.',
+      },
+      {
+        q: 'In a 3D trap at T = T_c/2, what fraction of an ideal Bose gas is condensed (large N)?',
+        options: ['1/2', '7/8', '1/8', '3/4'],
+        answer: 1,
+        why: 'N₀/N = 1 − (1/2)³ = 7/8.',
+      },
+      {
+        q: 'When do fermions, bosons and classical particles behave alike?',
+        options: ['At low temperature', 'When every state is sparsely occupied (high T or low density)', 'Never', 'Only in one dimension'],
+        answer: 1,
+        why: 'When f ≪ 1 the ±1 in the denominators is negligible and all reduce to Boltzmann.',
+      },
+    ],
+  },
+  adiabatic: {
+    goals: [
+      'State the adiabatic theorem and the condition for "slow".',
+      'Read an avoided crossing and predict adiabatic versus diabatic outcomes.',
+      'Use the Landau–Zener formula P = exp(−πΔ²/2ħα).',
+      'Describe Berry’s geometric phase as −Ω/2 for a spin-½.',
+    ],
+    prereqs: ['Magnetic resonance', 'Bloch sphere'],
+    misconceptions: [
+      { wrong: 'Adiabatic means no heat exchange, as in thermodynamics.', right: 'In quantum mechanics it means changing slowly enough that the system stays in the same instantaneous eigenstate.' },
+      { wrong: 'Levels of the same symmetry can cross freely.', right: 'Any coupling between them opens a gap: the levels avoid each other.' },
+    ],
+    questions: [
+      {
+        q: 'Sweeping through an avoided crossing very slowly, the system ends…',
+        options: ['in the state it started in (same basis state)', 'in the instantaneous ground state', 'in an equal superposition', 'excited'],
+        answer: 1,
+        why: 'The adiabatic theorem: it follows the ground state, which changes character across the crossing.',
+      },
+      {
+        q: 'With Δ = 1 and α = π/2 (ħ = 1), the Landau–Zener jump probability is…',
+        options: ['e^(−1)', 'e^(−π)', '1/2', 'e^(−2)'],
+        answer: 0,
+        why: 'P = exp(−πΔ²/2α) = exp(−π/π) = e^(−1) ≈ 0.37.',
+      },
+      {
+        q: 'A field is carried slowly around a cone with solid angle Ω. The spin’s Berry phase is…',
+        options: ['Ω', '−Ω/2', '2π', 'zero, since the loop was slow'],
+        answer: 1,
+        why: 'For spin ½ following the field, γ = −Ω/2, independent of the loop’s duration.',
+      },
+    ],
+  },
+  'golden-rule': {
+    goals: [
+      'Compute first-order transition probabilities 4|V|² sin²(ωt/2)/ω².',
+      'Explain how summing over a dense band gives a constant rate.',
+      'State Fermi’s golden rule Γ = 2π|V|²ρ(E)/ħ and its conditions.',
+      'Explain recurrences in a finite system and why decay needs a continuum.',
+      'Relate a lifetime τ = 1/Γ to a Lorentzian natural line width Γ.',
+    ],
+    prereqs: ['Perturbation theory', 'Magnetic resonance (two-level dynamics)'],
+    misconceptions: [
+      { wrong: 'Transitions to states of different energy never happen.', right: 'They do at short times; energy conservation emerges only over times long compared with ħ/ΔE.' },
+      { wrong: 'Exponential decay is exact for any quantum system.', right: 'It is an approximation, valid for a continuum of final states and intermediate times; at very short times the decay is quadratic.' },
+    ],
+    questions: [
+      {
+        q: 'Halving the density of final states ρ changes the decay rate by…',
+        options: ['×2', '×½', '×¼', 'no change'],
+        answer: 1,
+        why: 'Γ = 2π|V|²ρ is proportional to ρ.',
+      },
+      {
+        q: 'At very short times, the probability of having left the initial state grows like…',
+        options: ['t', 't²', 'e^(−t)', '√t'],
+        answer: 1,
+        why: 'Each amplitude grows linearly in t, so probabilities grow as t² (the origin of the quantum Zeno effect).',
+      },
+      {
+        q: 'A level is coupled to a band with spacing δ. When does the probability first come back?',
+        options: ['Never', 'At t = 2π/δ', 'At t = 1/Γ', 'At t = δ'],
+        answer: 1,
+        why: 'All band phases realign after 2π/δ: the recurrence time of a discrete spectrum.',
+      },
+    ],
+  },
   bands: {
     goals: [
       'Explain how N coupled wells split each level into N levels, which become a band.',

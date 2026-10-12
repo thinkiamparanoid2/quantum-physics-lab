@@ -120,7 +120,17 @@ export function drawCircuit(container, { n, ops, applied, current = [], labels =
     if (op.if) {
       const conds = conditionsOf(op);
       const sub = (k) => String(k).replace(/\d/g, (d) => '₀₁₂₃₄₅₆₇₈₉'[d]);
-      const text = conds.length === 1 ? `if m${conds[0].bit}=${conds[0].value}` : `if ${conds.map((c) => `m${sub(c.bit)}`).join('')}=${conds.map((c) => c.value).join('')}`;
+      // Three or more conditions don't fit above a gate; show just the bit pattern (the bits are
+      // in the gate's accessible label and the lesson text).
+      const text =
+        conds.length === 1
+          ? `if m${conds[0].bit}=${conds[0].value}`
+          : conds.length === 2
+            ? `if ${conds.map((c) => `m${sub(c.bit)}`).join('')}=${conds.map((c) => c.value).join('')}`
+            : `if ${conds
+                .map((c) => c.value)
+                .reverse()
+                .join('')}`;
       el('text', { x, y: Y(op.target) - BOX / 2 - 6, class: 'gate-sub cond' }, g, text);
     }
 
@@ -146,5 +156,6 @@ function describe(op) {
   if (op.gate === 'SWAP') return `Swap qubits ${op.targets.join(' and ')}`;
   if (op.gate === 'BLOCK') return `${op.label} on qubits ${op.targets.join(', ')}`;
   const ctrl = op.controls?.length ? `controlled by qubit ${op.controls.join(', ')}, ` : '';
-  return `${name} gate, ${ctrl}on qubit ${op.target}`;
+  const cond = op.if ? `, if ${conditionsOf(op).map((c) => `m${c.bit} = ${c.value}`).join(' and ')}` : '';
+  return `${name} gate, ${ctrl}on qubit ${op.target}${cond}`;
 }

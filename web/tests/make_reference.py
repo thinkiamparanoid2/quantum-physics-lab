@@ -229,9 +229,94 @@ def entanglement_reference():
     }
 
 
+# ----- surface code decoding (web/lib/qec.js) -----
+
+
+def rotated_surface_code_z_checks(d):
+    """Z-type checks of the rotated surface code, built independently of the JavaScript with the
+    same convention: faces (i, j), i, j = 0..d; (i + j) odd is Z-type; weight-2 Z faces only on the
+    left and right edges. Returns a list of qubit lists (qubit = row * d + col)."""
+    checks = []
+    for i in range(d + 1):
+        for j in range(d + 1):
+            if (i + j) % 2 == 0:
+                continue
+            qs = [a * d + b for a, b in ((i - 1, j - 1), (i - 1, j), (i, j - 1), (i, j)) if 0 <= a < d and 0 <= b < d]
+            if len(qs) == 4 or (len(qs) == 2 and j in (0, d) and i not in (0, d)):
+                checks.append(qs)
+    return checks
+
+
+def qec_reference():
+    import pymatching
+
+    rng = np.random.default_rng(7)
+    samples = []
+    rates = []
+    for d in (3, 5, 7):
+        checks = rotated_surface_code_z_checks(d)
+        H = np.zeros((len(checks), d * d), dtype=np.uint8)
+        for r, qs in enumerate(checks):
+            H[r, qs] = 1
+        matching = pymatching.Matching(H)
+        for p in (0.05, 0.1):
+            for _ in range(40):
+                err = (rng.random(d * d) < p).astype(np.uint8)
+                syn = H @ err % 2
+                _, weight = matching.decode(syn, return_weight=True)
+                samples.append({"d": d, "error": err.tolist(), "weight": float(weight)})
+        # logical error rates (logical Z = row 0, so an X residual with odd parity on row 0 fails)
+        for p in (0.06, 0.12):
+            shots = 40000
+            errs = (rng.random((shots, d * d)) < p).astype(np.uint8)
+            syns = errs @ H.T % 2
+            corr = matching.decode_batch(syns)
+            residual = (errs + corr) % 2
+            fails = int(residual[:, :d].sum(axis=1).astype(int).__mod__(2).sum())
+            rates.append({"d": d, "p": p, "shots": shots, "fails": fails})
+    # phenomenological noise: X errors (prob p) on every data qubit before every round, every check
+    # misread with prob p except in the last round (the data readout), decoded in space-time.
+    # Same model as trialPhenomenological; PyMatching handles the time direction with `repetitions`.
+    phenomenological = []
+    cases = [("repetition", d, p) for d in (3, 5, 7) for p in (0.03, 0.06)] + [("surface", 3, 0.02), ("surface", 3, 0.04), ("surface", 5, 0.02)]
+    for kind, d, p in cases:
+        if kind == "repetition":
+            H = np.zeros((d - 1, d), dtype=np.uint8)
+            for i in range(d - 1):
+                H[i, i] = H[i, i + 1] = 1
+            logical = [0]
+        else:
+            checks = rotated_surface_code_z_checks(d)
+            H = np.zeros((len(checks), d * d), dtype=np.uint8)
+            for r, qs in enumerate(checks):
+                H[r, qs] = 1
+            logical = list(range(d))
+        layers = d + 1
+        matching = pymatching.Matching(H, repetitions=layers, timelike_weights=1, weights=1)
+        shots = 20000
+        fails = 0
+        for _ in range(shots):
+            err = np.zeros(H.shape[1], dtype=np.uint8)
+            raw = np.zeros((H.shape[0], layers), dtype=np.uint8)
+            for t in range(layers):
+                err ^= (rng.random(H.shape[1]) < p).astype(np.uint8)
+                raw[:, t] = H @ err % 2
+                if t < layers - 1:
+                    raw[:, t] ^= (rng.random(H.shape[0]) < p).astype(np.uint8)
+            diff = raw.copy()
+            diff[:, 1:] = (raw[:, 1:] - raw[:, :-1]) % 2
+            corr = matching.decode(diff)
+            residual = (err + corr) % 2
+            fails += int(residual[logical].sum() % 2)
+        phenomenological.append({"code": kind, "d": d, "rounds": d, "p": p, "shots": shots, "fails": fails})
+        print(kind, d, p, fails / shots)
+    return {"samples": samples, "rates": rates, "phenomenological": phenomenological}
+
+
 TOPICS = {
     "dynamics": ("reference.json", dynamics_reference),
     "entanglement": ("reference-entanglement.json", entanglement_reference),
+    "qec": ("reference-qec.json", qec_reference),
 }
 
 

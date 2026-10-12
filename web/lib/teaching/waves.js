@@ -1,6 +1,105 @@
 // Teaching notes for "Waves and the Schrödinger equation".
 
 export const TEACHING = {
+  'particle-on-ring': {
+    goals: [
+      'Derive integer angular momentum from single-valuedness of ψ on a ring.',
+      'Explain the ±n degeneracy and why standing waves on a ring carry no current.',
+      'Predict the revival time 4πR² (ħ = m = 1) from the n² spectrum.',
+      'Describe the Aharonov–Bohm shift Eₙ = (n − Φ/Φ₀)²/2R² and persistent currents.',
+    ],
+    prereqs: ['Particle in a box', 'Probability current'],
+    misconceptions: [
+      { wrong: 'Like a box, a ring has a zero-point energy.', right: 'With no walls, n = 0 (a constant ψ) is allowed and has zero energy.' },
+      { wrong: 'A magnetic field must act on the particle to change its energy.', right: 'A flux through the hole changes the spectrum even where the field on the ring is zero (Aharonov–Bohm).' },
+    ],
+    questions: [
+      {
+        q: 'On a ring of radius 1 (ħ = m = 1), what is the energy of the n = 2 state?',
+        options: ['1', '2', '4', '0.5'],
+        answer: 1,
+        why: 'Eₙ = n²/(2R²) = 4/2 = 2.',
+      },
+      {
+        q: 'Why must n be an integer?',
+        options: ['Energy conservation', 'ψ must return to itself after going once around', 'The ring has walls', 'Spin'],
+        answer: 1,
+        why: 'e^(in(φ + 2π)) = e^(inφ) requires e^(2πin) = 1.',
+      },
+      {
+        q: 'At flux Φ = ½ flux quantum, which two levels are degenerate in the ground state?',
+        options: ['n = 0 and n = −1', 'n = 0 and n = 1', 'n = 1 and n = −1', 'None'],
+        answer: 1,
+        why: '(0 − ½)² = (1 − ½)² = ¼, so n = 0 and n = 1 have the same lowest energy.',
+      },
+    ],
+  },
+  'delta-potential': {
+    goals: [
+      'Derive the derivative jump ψ′(0⁺) − ψ′(0⁻) = −2αψ(0) at a delta spike (ħ = m = 1).',
+      'Find the single bound state E = −α²/2 and its size 1/α.',
+      'Compute T = 1/(1 + α²/2E) and explain why it is the same for attractive and repulsive spikes.',
+      'Describe bonding and antibonding states of the double delta.',
+    ],
+    prereqs: ['Particle in a box', 'Tunnelling and scattering'],
+    misconceptions: [
+      { wrong: 'A very weak attractive spike has no bound state.', right: 'In one dimension any attractive potential binds at least one state; only its size grows as α shrinks.' },
+      { wrong: 'A well always lets waves through more easily than a barrier.', right: 'For a delta spike T depends only on α², so the two transmit identically.' },
+    ],
+    questions: [
+      {
+        q: 'Doubling α changes the bound-state energy by a factor of…',
+        options: ['2', '4', '1/2', '√2'],
+        answer: 1,
+        why: 'E = −α²/2 scales as α².',
+      },
+      {
+        q: 'At E = α²/2, the transmission through the spike is…',
+        options: ['0', '25%', '50%', '100%'],
+        answer: 2,
+        why: 'T = 1/(1 + α²/2E) = 1/(1 + 1) = 1/2.',
+      },
+      {
+        q: 'Two attractive spikes at ±a with αa = 0.4 have how many bound states?',
+        options: ['0', '1', '2', 'Infinitely many'],
+        answer: 1,
+        why: 'The odd state needs αa > 1/2, so only the even (bonding) state survives.',
+      },
+    ],
+  },
+  'probability-current': {
+    goals: [
+      'Define the probability current j = (ħ/m) Im(ψ*∂ψ/∂x) and interpret it as density × velocity.',
+      'Show that real wavefunctions (stationary states) carry no current.',
+      'Use the continuity equation to account for probability crossing a point.',
+      'Explain why transmission at a step is a ratio of currents, not of amplitudes.',
+    ],
+    prereqs: ['Wave packets', 'Tunnelling and scattering'],
+    misconceptions: [
+      { wrong: 'A stationary state in a box has the particle moving back and forth.', right: 'Its current is zero everywhere; nothing about |ψ|² changes in time.' },
+      { wrong: 'The transmission probability is |t|², the squared amplitude of the transmitted wave.', right: 'Only when the speeds on both sides are equal; in general T = (v_out/v_in)|t|².' },
+    ],
+    questions: [
+      {
+        q: 'ψ = A e^(ikx) with ħ = m = 1 carries current…',
+        options: ['0', '|A|² k', '|A|²', 'k/|A|²'],
+        answer: 1,
+        why: 'Im(ψ*ψ′) = |A|² k.',
+      },
+      {
+        q: 'ψ = e^(ikx) + r e^(−ikx) on the left of a barrier carries current…',
+        options: ['k', 'k(1 − |r|²)', 'k(1 + |r|²)', '0'],
+        answer: 1,
+        why: 'The incident and reflected waves contribute k and −k|r|²; the cross terms carry no net current.',
+      },
+      {
+        q: 'Probability beyond a point grows at rate 0.02 per second. What is the current at that point?',
+        options: ['0.02, flowing right', '0.02, flowing left', '0', 'It can’t be known'],
+        answer: 0,
+        why: 'Continuity: dP(x > x₀)/dt = j(x₀).',
+      },
+    ],
+  },
   'wave-packets': {
     goals: [
       'Relate a packet’s wavelength to its momentum and its width to the spread of momenta.',

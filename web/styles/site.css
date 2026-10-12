@@ -1381,6 +1381,12 @@ body.present .present-exit {
   padding-bottom: 4px;
 }
 
+/* Long circuits keep their natural size and scroll sideways (the view follows the current gate)
+   instead of shrinking until the gates are unreadable. */
+.circuit-scroll > svg.circuit {
+  max-width: none;
+}
+
 .circuit {
   display: block;
   font: 13px var(--font-sans);
@@ -3245,4 +3251,65 @@ body.present .card-toggle {
   font-family: var(--font-sans);
   font-weight: 600;
   color: var(--muted);
+}
+
+/* ---------- Stabilizer tables and code lattices ---------- */
+
+.stab-table {
+  border-collapse: separate;
+  border-spacing: 3px;
+  font: 600 14px var(--mono);
+}
+
+.stab-table th {
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 0 6px;
+  text-align: center;
+}
+
+.stab-table th.sign {
+  text-align: right;
+  font: 600 15px var(--mono);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.stab-table .gen-name {
+  font: 500 12px var(--font-sans);
+  color: var(--muted);
+  margin-right: 8px;
+}
+
+.stab-table td.pauli {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--faint);
+}
+
+.stab-table td.p-X {
+  background: color-mix(in srgb, var(--amp-neg) 30%, transparent);
+  color: var(--text);
+}
+
+.stab-table td.p-Z {
+  background: color-mix(in srgb, var(--accent-2) 28%, transparent);
+  color: var(--text);
+}
+
+.stab-table td.p-Y {
+  background: color-mix(in srgb, var(--marked) 32%, transparent);
+  color: var(--text);
+}
+
+.stab-table tr.flipped th.sign {
+  color: var(--marked);
+}
+
+.stab-table tr.flipped td.pauli {
+  outline: 2px solid var(--marked);
 }

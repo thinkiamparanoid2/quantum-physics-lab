@@ -346,3 +346,34 @@ export function barrierTransmission(E, V0, a) {
   const q = Math.sqrt(2 * (E - V0));
   return 1 / (1 + (V0 * V0 * Math.sin(q * a) ** 2) / (4 * E * (E - V0)));
 }
+
+// ----- probability current -----
+
+// j(x) = (hbar/m) Im(psi* dpsi/dx), with a central difference for the derivative (one-sided at
+// the two ends of the grid), in units hbar = m = 1. Sharp steps in V create tiny components of very
+// high momentum that a coarse time step can't follow; smooth potential edges (see
+// smoothBarrier) keep the current accurate.
+export function probabilityCurrent(grid, psi) {
+  const n = grid.n;
+  const j = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    const l = Math.max(0, i - 1);
+    const r = Math.min(n - 1, i + 1);
+    const h = (r - l) * grid.dx;
+    const dr = (psi.re[r] - psi.re[l]) / h;
+    const di = (psi.im[r] - psi.im[l]) / h;
+    j[i] = psi.re[i] * di - psi.im[i] * dr;
+  }
+  return j;
+}
+
+// A barrier of height V0 on [a, b] with tanh edges of width w (smooth on the scale of the grid,
+// sharp on the scale of a wavelength).
+export const smoothBarrier = (V0, a, b, w = 0.08) => (x) => V0 * 0.25 * (1 + Math.tanh((x - a) / w)) * (1 - Math.tanh((x - b) / w));
+
+// Probability to the right of x = gate.
+export function probabilityBeyond(grid, psi, gate) {
+  let p = 0;
+  for (let i = 0; i < grid.n; i++) if (grid.x[i] > gate) p += (psi.re[i] ** 2 + psi.im[i] ** 2) * grid.dx;
+  return p;
+}

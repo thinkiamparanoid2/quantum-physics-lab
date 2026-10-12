@@ -37,28 +37,28 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Probability current | ⬜ | |
-| The delta potential | ⬜ | |
-| A particle on a ring | ⬜ | |
-| Angular momentum and ladder operators | ⬜ | |
-| Adding angular momenta | ⬜ | |
-| Time-dependent perturbation theory and Fermi's golden rule | ⬜ | |
-| The adiabatic theorem and Landau–Zener | ⬜ | |
-| Quantum statistics at finite temperature | ⬜ | |
+| Probability current | ✅ | j = k for plane waves; ∫j dx = ⟨p⟩; flux through a gate equals the crossed probability (smooth barrier edges; found and documented that sharp edges need dt ≲ 0.002) |
+| The delta potential | ✅ | E = −α²/2, kink condition, T = k²/(k²+α²) and double-delta levels against the grid solvers |
+| A particle on a ring | ✅ | exact revival at 4πR², half revival = shift by π; flux-shifted levels against a finite-difference ring with a Peierls phase |
+| Angular momentum and ladder operators | ✅ | [Jx,Jy] = iJz, J² = j(j+1); exp(−iβJy) from eigenvectors equals Wigner’s formula |
+| Adding angular momenta | ✅ | Racah CG values and orthonormality; diagonalising J² reproduces |CG| and multiplicities |
+| Time-dependent perturbation theory and Fermi's golden rule | ✅ | first order within its depletion error; e^(−Γt) with Γ = 2πV²/δ; recurrence at 2π/δ; Lorentzian line shape with self-energy shift to 2% |
+| The adiabatic theorem and Landau–Zener | ✅ | LZ formula within 0.01 at four rates; adiabatic and sudden limits; Berry phase −Ω/2 at four cone angles |
+| Quantum statistics at finite temperature | ✅ | μ reproduces N; FD/BE → Boltzmann when dilute; Sommerfeld μ(T) in a trap; BEC fraction with finite-N correction |
 
 ## Phase 2: error-correction track (branch `topic/error-correction-track`)
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Stabilizer simulator engine (tableau) | ⬜ | |
-| Stabilizers | ⬜ | |
-| Steane code and CSS codes | ⬜ | |
-| The surface code | ⬜ | |
-| Decoding (matching, union-find) | ⬜ | |
-| Threshold in the browser | ⬜ | |
-| Fault tolerance: measurement errors | ⬜ | |
-| Magic states and distillation | ⬜ | |
-| Toric code and anyons | ⬜ | |
+| Stabilizer simulator engine (tableau) | ✅ | stabilizers checked against statevectors on random Clifford circuits; deterministic/random measurements agree; 300-qubit GHZ |
+| Stabilizers | ✅ | uses the tested tableau; canonical generators verified against statevectors |
+| Steane code and CSS codes | ✅ | full 13-qubit circuit corrects all 21 single-qubit X/Y/Z errors; syndrome = position in binary |
+| The surface code | 🔨 | lesson written and registered, not yet visually checked; code structure tested (commuting checks, anticommuting logicals) |
+| Decoding (matching, union-find) | ✅ | exact MWPM weights equal PyMatching on 240 samples; both decoders correct all errors up to (d−1)/2; screenshots of the failing three-error case and union-find growth |
+| Threshold in the browser | ✅ | Monte Carlo in a Web Worker; code-capacity rates match PyMatching within 4σ, crossing near 10% (matching) and Λ ≈ 2 at p = 4%; scan reproducible per seed; Λ shown with binomial error bars; noisy checks use union-find (exact matching too slow in a browser) |
+| Fault tolerance: measurement errors | ✅ | repetition code in space-time (flat picture); detection events equal the ends of the fault edges; matching corrects every 1- and 2-fault pattern (exhaustive, d = 5, 5 rounds); logical rates match PyMatching (repetitions mode) within 4σ for repetition d = 3, 5, 7 and surface d = 3, 5 |
+| Magic states and distillation | ✅ | weight enumerator of the undetected patterns equals the MacWilliams transform of the simplex code (A₃ = 35); 15 T gates act as logical T† on the Reed–Muller code (15-qubit statevector); 35p³ and acceptance 1 − 15p limits; Monte Carlo within 4σ; break-even 14.1%; injection gives T|ψ⟩ for both outcomes |
+| Toric code and anyons | ✅ | checks commute, rank 2L² − 2 (L = 3, 4, 5); ground state built with a spanning-tree circuit, all checks +1 on the tableau and on an 18-qubit statevector; strings light only their ends; e around one m gives exactly −|ψ⟩ (statevector), around two or none +1; wrapping loops flip logical qubits with no anyons |
 
 ## Phase 4: quantum fields on a lattice (branch `topic/quantum-fields`)
 
@@ -114,3 +114,6 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 - 2026-10-12: roadmap written (`docs/roadmap.md`), tracker created.
 - 2026-10-12: Phase 0 done: UI restructure, learning layer, teacher notes, topics and checks pages, worker helper, citation file. 75 web tests pass.
 - 2026-10-12: Phase 1 done: five quantum-information lessons, `lib/linalg.js` (Hermitian eigensolver, SVD), entanglement view in every multi-qubit circuit lesson and the sandbox. 99 web tests pass.
+- 2026-10-12: Phase F done: eight QM-core lessons. 123 web tests pass.
+- 2026-10-12: Phase 2 in progress: tableau simulator, surface-code library with two decoders checked against PyMatching, lessons for stabilizers, Steane code and the surface code. 135 web tests pass. Next: surface-code screenshot check, then decoding, threshold, fault tolerance, magic states, toric code.
+- 2026-10-12: Phase 2 complete: decoding, threshold (Monte Carlo in a worker), fault tolerance (space-time decoding, phenomenological rates checked against PyMatching), magic states (15-to-1, MacWilliams and statevector checks), toric code (braiding phase on tableau and statevector). 149 web tests pass. Next: Phase 4, fields on a lattice.
