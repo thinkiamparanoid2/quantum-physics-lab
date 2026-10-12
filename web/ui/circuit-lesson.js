@@ -276,8 +276,13 @@ export function runCircuitLesson(def) {
     shown = { re: Float64Array.from(state.re), im: Float64Array.from(state.im) };
     const ctx = { state: target.state, bits: target.bits, probs: target.probs, preProbs: target.preProbs, params, step, index, n, theme: th, shownState: state };
 
+    const value = (v) => (typeof v === 'function' ? v(ctx) : v);
     lesson.render(
-      steps.map((s, i) => ({ title: s.title, html: i === index ? (typeof s.html === 'function' ? s.html(ctx) : s.html) : '' })),
+      steps.map((s, i) =>
+        i === index
+          ? { title: s.title, html: value(s.html), focus: s.focus, math: value(s.math), predict: s.predict }
+          : { title: s.title, html: '' },
+      ),
       index,
     );
 

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="checks">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How it is checked: Quantum Physics Lab</title>
+  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 81 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
+  <script>document.documentElement.classList.add('is-loading');try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../styles/site.css">
+</head>
+<body>
+  <main>
+    <div class="container lesson-head">
+      <div>
+        <p class="eyebrow">Is it right?</p>
+        <h1>How it is checked</h1>
+        <p class="lede">Every simulation is exact or checked against an independent method: a textbook formula, a second
+          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 81 automated checks (some run once per reference case) run on every change.</p>
+      </div>
+    </div>
+    <div class="container checks-grid">
+      <section class="panel check-group">
+        <h2>Statevector engine <span class="muted">6</span></h2>
+        <p class="muted">Gates, measurement and collapse, classical control, textbook formatting.</p>
+        <ul>
+          <li>measurement collapses the state with the right probabilities</li>
+          <li>measuring one half of a Bell pair fixes the other half</li>
+          <li>classically controlled gates only fire on the right bit</li>
+          <li>ketOrder lists basis states in reading order</li>
+          <li>swap exchanges qubits and the seeded RNG is repeatable</li>
+          <li>states are written the way a textbook would</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/circuit.test.js">web/tests/circuit.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Bloch-sphere geometry <span class="muted">5</span></h2>
+        <p class="muted">Every single-qubit gate as a rotation of the Bloch arrow.</p>
+        <ul>
+          <li>Bloch vectors of the six cardinal states</li>
+          <li>an entangled qubit has a zero-length Bloch vector</li>
+          <li>rotationOf recovers axis and angle, and predicts what the gate does to the arrow</li>
+          <li>rotationMatrix matches the gate it came from, and any fraction of it</li>
+          <li>Bloch angles and global phase removal</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/bloch.test.js">web/tests/bloch.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Hamiltonian dynamics <span class="muted">5</span></h2>
+        <p class="muted">Exact evolution and Trotter circuits against numpy, scipy and the Qiskit Schwinger Hamiltonian.</p>
+        <ul>
+          <li>exact and Trotter dynamics match numpy: (each reference case)</li>
+          <li>Schwinger preset matches the Qiskit Hamiltonian (particle number and energy)</li>
+          <li>parser accepts the documented syntax</li>
+          <li>parser rejects malformed input with a readable message</li>
+          <li>commuting Hamiltonian has zero Trotter error</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/dynamics.test.js">web/tests/dynamics.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Algorithms <span class="muted">5</span></h2>
+        <p class="muted">Deutsch–Jozsa, Bernstein–Vazirani, the QFT, phase estimation and Shor.</p>
+        <ul>
+          <li>Deutsch-Jozsa: |0...0> has probability 1 for constant and 0 for balanced functions</li>
+          <li>Bernstein-Vazirani reads the secret string in one query</li>
+          <li>QFT matches the discrete Fourier transform, and the inverse undoes it</li>
+          <li>phase estimation: exact binary fractions give a certain answer, others peak nearby</li>
+          <li>Shor's algorithm factors 15</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/algorithms.test.js">web/tests/algorithms.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Grover’s search <span class="muted">7</span></h2>
+        <p class="muted">The circuit against the closed-form rotation picture.</p>
+        <ul>
+          <li>gates: H twice is identity, X flips the right qubit, CNOT makes a Bell state</li>
+          <li>gates preserve the norm, including complex and controlled ones</li>
+          <li>diffuser reflects every amplitude about the average</li>
+          <li>success probability after k rounds is sin^2((2k+1) theta)</li>
+          <li>optimal rounds reach the first (fewest-queries) peak of the success probability</li>
+          <li>the state stays in the Grover plane and rotates by 2 theta per round</li>
+          <li>step sequence and sampling</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/grover.test.js">web/tests/grover.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Protocols <span class="muted">4</span></h2>
+        <p class="muted">Teleportation, superdense coding and BB84.</p>
+        <ul>
+          <li>teleportation delivers the message to Bob for every measurement outcome</li>
+          <li>before Bob's correction, his qubit alone carries no information</li>
+          <li>superdense coding: Bob always reads the two bits Alice encoded</li>
+          <li>BB84: no eavesdropper, no errors; intercept-and-resend causes about 25% errors</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/protocols.test.js">web/tests/protocols.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Circuit sandbox <span class="muted">5</span></h2>
+        <p class="muted">Link format and every lesson circuit surviving the trip into the sandbox.</p>
+        <ul>
+          <li>encode and decode round-trip, including angles</li>
+          <li>a control dot plus X makes a Bell pair</li>
+          <li>controlled swap works and malformed columns produce warnings</li>
+          <li>lesson circuits survive the trip into the sandbox</li>
+          <li>setCell keeps one cell per wire per column and trims empty columns</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/sandbox.test.js">web/tests/sandbox.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Wave mechanics <span class="muted">6</span></h2>
+        <p class="muted">Eigenstates, split-operator evolution, shooting and transmission against exact results.</p>
+        <ul>
+          <li>FFT matches a direct DFT and inverts</li>
+          <li>particle in a box: E_n = n^2 pi^2 / (2 L^2), orthonormal states with n-1 nodes</li>
+          <li>harmonic oscillator: E_n = n + 1/2, and the shooting method agrees</li>
+          <li>Gaussian packet: minimum uncertainty, then free spreading as sigma(t) = sigma sqrt(1 + (t / 2 sigma^2)^2)</li>
+          <li>a coherent state in the oscillator swings like a classical ball without spreading</li>
+          <li>transmission matches the exact rectangular-barrier formula, below and above the top</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/wave.test.js">web/tests/wave.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Formula parser <span class="muted">2</span></h2>
+        <p class="muted">The safe V(x) parser, including rejected input.</p>
+        <ul>
+          <li>formulas evaluate with the usual precedence</li>
+          <li>bad formulas give readable errors, and nothing outside the grammar runs</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/expr.test.js">web/tests/expr.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Spin and atoms <span class="muted">9</span></h2>
+        <p class="muted">Stern–Gerlach, magnetic resonance and hydrogen.</p>
+        <ul>
+          <li>measuring spin along a tilted axis gives cos^2(theta/2)</li>
+          <li>Stern-Gerlach chains: z then z keeps everything, z x z brings spin down back</li>
+          <li>magnetic resonance: exact rotating-field solution matches direct integration and Rabi</li>
+          <li>spin echo: spread-out spins refocus at twice the pulse spacing</li>
+          <li>hydrogen radial functions are normalised, orthogonal and give &lt;r> = (3n^2 - l(l+1))/2</li>
+          <li>real spherical harmonics are orthonormal on the sphere</li>
+          <li>the radial Schrodinger equation, solved numerically, gives E = -1/(2 n^2)</li>
+          <li>hydrogen spectrum: energies and the Balmer lines (vacuum wavelengths)</li>
+          <li>sampled electron clouds follow |psi|^2</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/atoms.test.js">web/tests/atoms.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>The founding experiments <span class="muted">5</span></h2>
+        <p class="muted">Photoelectric effect, double slit, Mach–Zehnder, bomb tester and Compton scattering.</p>
+        <ul>
+          <li>photoelectric effect: E = hf, threshold, stopping voltage and Millikan's h/e</li>
+          <li>double slit: fringe spacing lambda L / d, marked paths add intensities</li>
+          <li>Mach-Zehnder matches the same circuit built from gates: Rx(-pi/2), phase, Rx(-pi/2)</li>
+          <li>bomb tester: a live bomb is found without exploding a quarter of the time; Zeno pushes it to 1</li>
+          <li>Compton scattering: shift h/mc (1 - cos theta), with energy and momentum both conserved</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/experiments.test.js">web/tests/experiments.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Nonlocality, noise and error correction <span class="muted">5</span></h2>
+        <p class="muted">CHSH, density matrices, decoherence and the repetition and Shor codes.</p>
+        <ul>
+          <li>CHSH: classical strategies top out at 3/4, quantum reaches 1/2 + sqrt2/4</li>
+          <li>density matrices: Bloch round trip, purity, entropy, partial trace of a Bell pair</li>
+          <li>decoherence: each environment qubit multiplies the coherence by cos(angle/2)</li>
+          <li>repetition code: 3p^2 - 2p^3, and bigger codes help only below p = 1/2</li>
+          <li>Shor's code corrects any single-qubit error, including arbitrary rotations</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/noise.test.js">web/tests/noise.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Many particles and approximations <span class="muted">5</span></h2>
+        <p class="muted">Bands, identical particles, perturbation theory, the variational method and WKB.</p>
+        <ul>
+          <li>Kronig-Penney bands agree with the levels of a long chain of wells</li>
+          <li>identical particles: fermions avoid each other, bosons bunch, same state forbidden for fermions</li>
+          <li>perturbation theory: a linear field on the oscillator shifts every level by -F^2/2 at second order</li>
+          <li>variational method: exact for the oscillator, an upper bound for the quartic well</li>
+          <li>WKB: exact for the oscillator, close for a V-shaped well, and a tunnelling estimate</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/approx.test.js">web/tests/approx.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Site structure <span class="muted">5</span></h2>
+        <p class="muted">Lesson pages, teaching notes and this page itself.</p>
+        <ul>
+          <li>no lesson reuses an id owned by the lesson frame</li>
+          <li>no lesson declares the same id twice</li>
+          <li>every lesson has teaching notes with well-formed questions</li>
+          <li>the catalog is consistent with the pages on disk</li>
+          <li>the checks page lists every test (run node web/tools/make-checks.mjs)</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/pages.test.js">web/tests/pages.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Python lab: engine <span class="muted">2</span></h2>
+        <p class="muted">Qiskit and PennyLane, against exact diagonalization.</p>
+        <ul>
+          <li>trotter matches exact for two qubit ising</li>
+          <li>trotter accuracy improves with more steps</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/tests/test_engine.py">tests/test_engine.py</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Python lab: schwinger model <span class="muted">4</span></h2>
+        <p class="muted">Qiskit and PennyLane, against exact diagonalization.</p>
+        <ul>
+          <li>hamiltonian is hermitian for several sizes</li>
+          <li>two site matches hand derivation</li>
+          <li>vacuum has zero particle number</li>
+          <li>particle number operator eigenvalues are zero or one</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/tests/test_schwinger_model.py">tests/test_schwinger_model.py</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Python lab: schwinger model pennylane <span class="muted">1</span></h2>
+        <p class="muted">Qiskit and PennyLane, against exact diagonalization.</p>
+        <ul>
+          <li>pennylane matches qiskit up to identity shift</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/tests/test_schwinger_model_pennylane.py">tests/test_schwinger_model_pennylane.py</a></p>
+      </section>
+    </div>
+  </main>
+  <script type="module">import { mountShell } from '../ui/shell.js'; mountShell();</script>
+</body>
+</html>

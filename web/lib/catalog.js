@@ -17,8 +17,8 @@ export const SECTIONS = [
   {
     id: 'atoms',
     ket: '|0010⟩',
-    title: 'Spin and atoms',
-    blurb: 'Spin as the first quantum property ever measured, magnetic resonance, and the hydrogen atom with its orbitals and colours of light.',
+    title: 'Spin, angular momentum and atoms',
+    blurb: 'Spin as the first quantum property ever measured, angular momentum and how it adds, magnetic resonance, and the hydrogen atom.',
   },
   {
     id: 'approx',
@@ -33,28 +33,92 @@ export const SECTIONS = [
     blurb: 'The simplest quantum system, and the three ideas quantum computing builds on: superposition, interference and entanglement.',
   },
   {
-    id: 'protocols',
+    id: 'information',
     ket: '|0101⟩',
+    title: 'Quantum information',
+    blurb: 'Entanglement you can measure, mixed states and noisy channels, measurements beyond yes and no, and what can never be copied.',
+  },
+  {
+    id: 'protocols',
+    ket: '|0110⟩',
     title: 'Protocols',
     blurb: 'Using entanglement to move and protect information in ways classical physics cannot.',
   },
   {
     id: 'algorithms',
-    ket: '|0110⟩',
+    ket: '|0111⟩',
     title: 'Algorithms',
-    blurb: 'Where the speedups come from, one algorithm at a time.',
+    blurb: 'Where the speedups come from, one algorithm at a time, and where they don’t.',
   },
   {
     id: 'noise',
-    ket: '|0111⟩',
-    title: 'Nonlocality, noise and error correction',
-    blurb: 'Why no hidden instructions can explain entanglement, how real qubits lose their quantumness, and how to protect them.',
+    ket: '|1000⟩',
+    title: 'Nonlocality and noise',
+    blurb: 'Why no hidden instructions can explain entanglement, and how real qubits lose their quantumness.',
+  },
+  {
+    id: 'qec',
+    ket: '|1001⟩',
+    title: 'Quantum error correction',
+    blurb: 'Protecting qubits by spreading them out: from three-qubit codes to the surface code, decoders and fault tolerance.',
+  },
+  {
+    id: 'hardware',
+    ket: '|1010⟩',
+    title: 'Real quantum hardware',
+    blurb: 'How a qubit is built, how a gate is really a pulse, and how errors are measured and mitigated.',
+  },
+  {
+    id: 'qml',
+    ket: '|1011⟩',
+    title: 'Quantum machine learning',
+    blurb: 'Circuits that learn: encodings, classifiers, kernels, the trouble with training, and an honest look at advantage.',
+  },
+  {
+    id: 'fields',
+    ket: '|1100⟩',
+    title: 'Quantum fields on a lattice',
+    blurb: 'From coupled oscillators to particles, fermions as qubits, pair creation, confinement, phase transitions and tensor networks.',
   },
   {
     id: 'tools',
-    ket: '|1000⟩',
+    ket: '|1101⟩',
     title: 'Tools',
     blurb: 'Open-ended spaces to build circuits, draw potentials and simulate physics yourself.',
+  },
+];
+
+// Learning tracks: ordered groups of sections, the paths shown on the landing page.
+export const TRACKS = [
+  {
+    id: 'qm',
+    title: 'Quantum mechanics',
+    blurb: 'The undergraduate course, made visible: from the photoelectric effect to approximation methods.',
+    sections: ['experiments', 'waves', 'atoms', 'approx'],
+  },
+  {
+    id: 'qc',
+    title: 'Quantum computing',
+    blurb: 'Qubits, entanglement, quantum information, protocols and the algorithms, one gate at a time.',
+    sections: ['foundations', 'information', 'protocols', 'algorithms'],
+  },
+  {
+    id: 'qec',
+    title: 'Noise and error correction',
+    blurb: 'Why qubits fail, how codes protect them, and how real devices are built and benchmarked.',
+    sections: ['noise', 'qec', 'hardware'],
+  },
+  {
+    id: 'qml',
+    title: 'Quantum machine learning',
+    blurb: 'Train circuits live, see what they can and cannot learn, and weigh the claims.',
+    sections: ['qml'],
+  },
+  {
+    id: 'fields',
+    title: 'Quantum fields and many-body physics',
+    blurb: 'Lattice field theory and quantum many-body physics, simulated exactly in your browser.',
+    sections: ['fields'],
   },
 ];
 
@@ -402,7 +466,7 @@ export const TOPICS = [
   },
   {
     slug: 'error-correction',
-    section: 'noise',
+    section: 'qec',
     title: 'Quantum error correction',
     summary: 'Spread one qubit over three, find the error without looking at the data, and fix it.',
     level: 'Advanced',
@@ -412,7 +476,7 @@ export const TOPICS = [
   },
   {
     slug: 'shor-code',
-    section: 'noise',
+    section: 'qec',
     title: 'Shor’s nine-qubit code',
     summary: 'The first code that fixes any error on any one qubit, and why bigger codes win below a threshold.',
     level: 'Advanced',
@@ -451,6 +515,19 @@ export const TOPICS = [
     icon: 'M4 30 C10 10, 16 10, 22 26 S34 40, 44 16',
   },
 ];
+
+// Site order is section order, then the order of entries within a section, so a new lesson can be
+// added anywhere in TOPICS. Array.prototype.sort is stable.
+const sectionIndex = Object.fromEntries(SECTIONS.map((s, i) => [s.id, i]));
+TOPICS.sort((a, b) => sectionIndex[a.section] - sectionIndex[b.section]);
+
+export const topicsIn = (sectionId) => TOPICS.filter((t) => t.section === sectionId);
+
+// Sections and tracks that have at least one topic (planned sections stay hidden until then).
+export const usedSections = () => SECTIONS.filter((s) => topicsIn(s.id).length > 0);
+export const usedTracks = () => TRACKS.filter((tr) => tr.sections.some((id) => topicsIn(id).length > 0));
+
+export const trackOf = (sectionId) => TRACKS.find((tr) => tr.sections.includes(sectionId)) ?? null;
 
 export function topic(slug) {
   return TOPICS.find((t) => t.slug === slug);

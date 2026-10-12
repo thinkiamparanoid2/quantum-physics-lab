@@ -77,9 +77,11 @@ export class BlochView {
     const { ctx, w, h } = prep(this.canvas);
     const small = Math.min(w, h) < 200;
     const margin = this.labels === 'none' ? 10 : small ? 22 : 34;
-    const R = Math.max(20, Math.min(w, h) / 2 - margin);
+    // Keep a strip at the bottom for the note so it never sits on the |1⟩ label.
+    const noteSpace = this.note ? (small ? 12 : 16) : 0;
+    const R = Math.max(20, Math.min(w, h - noteSpace) / 2 - margin);
     const cx = w / 2;
-    const cy = h / 2 + (this.title ? 6 : 0);
+    const cy = (h - noteSpace) / 2 + (this.title ? 6 : 0);
     const P = (v) => this.project(v, cx, cy, R);
 
     const glow = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R);

@@ -35,3 +35,49 @@ test('no lesson declares the same id twice', () => {
   }
   assert.deepEqual(dupes, [], `duplicate ids:\n${dupes.join('\n')}`);
 });
+
+test('every lesson has teaching notes with well-formed questions', async () => {
+  const { TOPICS } = await import('../lib/catalog.js');
+  const { teachingFor } = await import('../lib/teaching/index.js');
+  const problems = [];
+  for (const t of TOPICS) {
+    if (t.section === 'tools' || t.status !== 'live') continue;
+    const n = teachingFor(t.slug);
+    if (!n) {
+      problems.push(`${t.slug}: no teaching notes`);
+      continue;
+    }
+    if (!n.goals?.length) problems.push(`${t.slug}: no goals`);
+    if (!n.questions?.length) problems.push(`${t.slug}: no questions`);
+    for (const [i, q] of (n.questions ?? []).entries()) {
+      if (!(q.options?.length >= 2) || !Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length || !q.why) {
+        problems.push(`${t.slug}: question ${i + 1} is malformed`);
+      }
+    }
+  }
+  assert.deepEqual(problems, []);
+});
+
+test('the catalog is consistent with the pages on disk', async () => {
+  const { SECTIONS, TOPICS } = await import('../lib/catalog.js');
+  const sections = new Set(SECTIONS.map((s) => s.id));
+  const slugs = new Set();
+  const problems = [];
+  for (const t of TOPICS) {
+    if (!sections.has(t.section)) problems.push(`${t.slug}: unknown section ${t.section}`);
+    if (slugs.has(t.slug)) problems.push(`${t.slug}: duplicate slug`);
+    slugs.add(t.slug);
+    if (t.status === 'live') {
+      for (const f of ['app.js', 'index.html']) {
+        if (!existsSync(new URL(`../${t.slug}/${f}`, import.meta.url))) problems.push(`${t.slug}: missing ${f}`);
+      }
+    }
+  }
+  assert.deepEqual(problems, []);
+});
+
+test('the checks page lists every test (run node web/tools/make-checks.mjs)', async () => {
+  const { checksHtml } = await import('../tools/make-checks.mjs');
+  const onDisk = readFileSync(new URL('../checks/index.html', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+  assert.equal(onDisk, checksHtml(), 'web/checks/index.html is out of date');
+});
