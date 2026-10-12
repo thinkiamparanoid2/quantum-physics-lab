@@ -132,7 +132,7 @@ def schwinger_case(sites, x, mass, coupling, total_time, frames):
     return {"sites": sites, "x": x, "mass": mass, "coupling": coupling, "totalTime": total_time, "frames": frames, "samples": samples}
 
 
-def main():
+def dynamics_reference():
     cases = [
         generic_case(
             "two qubits with Y terms",
@@ -161,10 +161,88 @@ def main():
             8,
         ),
     ]
-    reference = {"generic": cases, "schwinger": schwinger_case(4, 1.0, 0.5, 0.6, 6.0, 60)}
-    out = Path(__file__).with_name("reference.json")
-    out.write_text(json.dumps(reference, indent=1))
-    print(f"Wrote {out}")
+    return {"generic": cases, "schwinger": schwinger_case(4, 1.0, 0.5, 0.6, 6.0, 60)}
+
+
+# ----- entanglement (web/lib/entanglement.js) -----
+
+
+def reduced_density_np(psi, n, keep):
+    """Partial trace with numpy tensors. Qubit q is bit q of the index, i.e. tensor axis n-1-q.
+    The result's index has bit i = qubit keep[i], so its axes are ordered keep[-1], ..., keep[0]."""
+    t = psi.reshape([2] * n)
+    keep_axes = [n - 1 - q for q in reversed(keep)]
+    rest = [a for a in range(n) if a not in keep_axes]
+    t = np.transpose(t, keep_axes + rest).reshape(2 ** len(keep), -1)
+    return t @ t.conj().T
+
+
+def entropy_np(rho):
+    w = np.linalg.eigvalsh(rho)
+    w = w[w > 1e-15]
+    return float(-np.sum(w * np.log2(w)))
+
+
+def concurrence_np(rho):
+    """Wootters' formula via the non-Hermitian route: sqrt of the eigenvalues of rho rho~."""
+    yy = np.kron(PAULI["Y"], PAULI["Y"])
+    tilde = yy @ rho.conj() @ yy
+    w = np.sqrt(np.abs(np.linalg.eigvals(rho @ tilde)))
+    w = np.sort(w)[::-1]
+    return float(max(0.0, w[0] - w[1] - w[2] - w[3]))
+
+
+def negativity_np(rho):
+    # Partial transpose on qubit 1 (the more significant bit of the 4x4 index).
+    t = rho.reshape(2, 2, 2, 2)  # (q1, q0, q1', q0')
+    pt = np.transpose(t, (2, 1, 0, 3)).reshape(4, 4)
+    w = np.linalg.eigvalsh(pt)
+    return float(-np.sum(w[w < 0]))
+
+
+def entanglement_reference():
+    rng = np.random.default_rng(20261012)
+    n = 4
+    psi = rng.normal(size=2**n) + 1j * rng.normal(size=2**n)
+    psi /= np.linalg.norm(psi)
+    partitions = [[0], [1], [3], [0, 1], [0, 2], [1, 3], [0, 1, 2]]
+    entropies = [entropy_np(reduced_density_np(psi, n, part)) for part in partitions]
+    pairs = [[a, b] for a in range(n) for b in range(a + 1, n)]
+    pair_c = [concurrence_np(reduced_density_np(psi, n, pair)) for pair in pairs]
+    # a random two-qubit mixed state (Ginibre)
+    g = rng.normal(size=(4, 4)) + 1j * rng.normal(size=(4, 4))
+    mixed = g @ g.conj().T
+    mixed /= np.trace(mixed)
+    return {
+        "state": {"n": n, "re": psi.real.tolist(), "im": psi.imag.tolist()},
+        "partitions": partitions,
+        "entropies": entropies,
+        "pairs": pairs,
+        "pairConcurrence": pair_c,
+        "mixed": {
+            "re": mixed.real.flatten().tolist(),
+            "im": mixed.imag.flatten().tolist(),
+            "concurrence": concurrence_np(mixed),
+            "negativity": negativity_np(mixed),
+            "entropy": entropy_np(mixed),
+        },
+    }
+
+
+TOPICS = {
+    "dynamics": ("reference.json", dynamics_reference),
+    "entanglement": ("reference-entanglement.json", entanglement_reference),
+}
+
+
+def main():
+    """python web/tests/make_reference.py [topic ...]   (default: every topic)"""
+    chosen = sys.argv[1:] or list(TOPICS)
+    for topic in chosen:
+        name, build = TOPICS[topic]
+        out = Path(__file__).with_name(name)
+        out.write_text(json.dumps(build(), indent=1))
+        print(f"Wrote {out}")
 
 
 if __name__ == "__main__":

@@ -29,6 +29,9 @@ export class BlochView {
     this.axis = null;
     this.axisLabel = '';
     this.note = '';
+    // Optional extra drawing in the sphere's 3D frame: overlay(ctx, project, { th }), where
+    // project([x, y, z]) returns { sx, sy, depth } (depth > 0 faces the viewer).
+    this.overlay = null;
     if (interactive) this.enableDrag();
   }
 
@@ -138,6 +141,12 @@ export class BlochView {
         ctx.fillStyle = p.depth < -0.3 ? withAlpha(th.muted, 0.5) : th.muted;
         ctx.fillText(label, p.sx, p.sy);
       });
+    }
+
+    if (this.overlay) {
+      ctx.save();
+      this.overlay(ctx, P, { th });
+      ctx.restore();
     }
 
     if (this.axis) {

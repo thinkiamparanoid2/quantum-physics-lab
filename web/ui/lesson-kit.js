@@ -10,7 +10,8 @@
 //     { type: 'button', label, primary?, onClick(api) }   an action, not a setting
 //     { type: 'note', html }
 //   ],
-//   cards: [{ id, title, legend?, kind: 'canvas' (default) | 'html', height?, cls? }],
+//   cards: [{ id, title, legend?, kind: 'canvas' (default) | 'html', height?, cls?, folded? }],
+//   Any control may add show: (settings) => boolean to appear only when it applies.
 //   steps: [{ title, html, preset?, focus?, math?, predict?, play? }]   html and math may be (api) => string
 //   compute?(settings, previous) -> model     rerun whenever a setting changes
 //   draw(api)                                 redraw everything from api
@@ -74,6 +75,7 @@ export function runLesson(def) {
   for (const card of def.cards ?? []) {
     const fig = document.createElement('figure');
     fig.className = `panel card${card.cls ? ` ${card.cls}` : ''}`;
+    if (card.folded) fig.dataset.defaultFolded = 'true';
     fig.innerHTML = `<figcaption class="card-head"><h2>${card.title}</h2><span class="legend">${card.legend ?? ''}</span></figcaption>`;
     let body;
     if (card.kind === 'html') {
@@ -101,7 +103,7 @@ export function runLesson(def) {
       .map((c, i) =>
         c.type === 'button'
           ? `<button type="button" class="btn${c.primary ? ' btn-primary' : ''} kit-action" data-action="${i}">${c.label}</button>`
-          : `<div class="param-group">${controlHtml(c)}</div>`,
+          : `<div class="param-group" data-ctl="${i}">${controlHtml(c)}</div>`,
       )
       .join('')}`;
     const actions = [...tc.querySelectorAll('.kit-action')];
@@ -135,6 +137,11 @@ export function runLesson(def) {
   }
 
   function syncControls() {
+    visible.forEach((c, i) => {
+      if (!c.show) return;
+      const group = trySlot.querySelector(`[data-ctl="${i}"]`);
+      if (group) group.hidden = !c.show(settings);
+    });
     for (const c of controls) {
       if (!c.id) continue;
       const v = settings[c.id];

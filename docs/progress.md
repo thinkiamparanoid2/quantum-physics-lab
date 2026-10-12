@@ -27,11 +27,11 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Entanglement, measured (+ entanglement view in circuit lessons) | ⬜ | |
-| Density matrices and quantum channels | ⬜ | |
-| Generalized measurement and state discrimination | ⬜ | |
-| No-cloning and monogamy | ⬜ | |
-| Quantum walks | ⬜ | |
+| Entanglement, measured (+ entanglement view in circuit lessons) | ✅ | Bell/Werner/GHZ/W exact values; entropies and concurrences against numpy (`reference-entanglement.json`); Hermitian eigensolver and SVD tested |
+| Density matrices and quantum channels | ✅ | Σ K†K = I; Bloch maps against textbook forms; every Stinespring circuit reproduces its Kraus channel |
+| Generalized measurement and state discrimination | ✅ | Helstrom bound for any priors; IDP never wrong with P = 1 − s; Neumark unitary orthogonal and reproduces the POVM |
+| No-cloning and monogamy | ✅ | CNOT copier F = (1 + z²)/2; Bužek–Hillery copies (2/3)r, F = 5/6; CKW on random states; three-tangle equal from every qubit |
+| Quantum walks | ✅ | ⟨x²⟩/t² → 1 − 1/√2; full dephasing = binomial walk exactly; density-matrix and pure evolutions agree |
 
 ## Phase F: finish the QM core (branch `topic/qm-core`)
 
@@ -113,3 +113,4 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 - 2026-10-12: roadmap written (`docs/roadmap.md`), tracker created.
 - 2026-10-12: Phase 0 done: UI restructure, learning layer, teacher notes, topics and checks pages, worker helper, citation file. 75 web tests pass.
+- 2026-10-12: Phase 1 done: five quantum-information lessons, `lib/linalg.js` (Hermitian eigensolver, SVD), entanglement view in every multi-qubit circuit lesson and the sandbox. 99 web tests pass.

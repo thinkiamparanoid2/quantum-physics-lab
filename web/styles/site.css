@@ -3186,3 +3186,63 @@ body.present .card-toggle {
   font: 600 18px var(--mono);
   font-variant-numeric: tabular-nums;
 }
+
+.ball-canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 460px;
+  max-height: 460px;
+}
+
+.kraus-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  margin-bottom: 8px;
+}
+
+.kraus-row .label {
+  display: block;
+  font: 600 13px var(--mono);
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.mini-matrix {
+  border-collapse: collapse;
+  font: 14px var(--mono);
+  border-left: 2px solid var(--border-strong);
+  border-right: 2px solid var(--border-strong);
+}
+
+.mini-matrix td {
+  padding: 3px 10px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tally {
+  border-collapse: collapse;
+  font: 14px var(--mono);
+  margin-bottom: 8px;
+}
+
+.tally th,
+.tally td {
+  padding: 5px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+}
+
+.tally th[scope='row'] {
+  text-align: left;
+  font-family: var(--font-sans);
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.tally thead th {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--muted);
+}

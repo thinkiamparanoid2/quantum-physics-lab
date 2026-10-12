@@ -8,7 +8,8 @@
 //   math     HTML for a collapsible "Show the maths" panel under the explanation
 //   predict  { q, options: [...], answer, why }: asked before moving on (predict, then observe)
 // Every card (figure.card with a .card-head h2) can be folded by its reader; that choice is
-// remembered per lesson and wins over a step's focus.
+// remembered per lesson and wins over a step's focus. A card with data-default-folded="true"
+// starts folded (used for optional views).
 
 import { SECTIONS, lessonNumber, nextTopic, topic } from '../lib/catalog.js';
 import { teachingFor } from '../lib/teaching/index.js';
@@ -112,7 +113,7 @@ export function mountLesson({ slug, onNavigate, sandbox = false }) {
   const cardKey = (card) => card.querySelector('.card-head h2')?.textContent.trim() ?? '';
   const applyFold = (card) => {
     const key = card.dataset.cardKey;
-    const folded = manual.has(key) ? manual.get(key) : focus ? !focus.includes(key) : false;
+    const folded = manual.has(key) ? manual.get(key) : focus ? !focus.includes(key) : card.dataset.defaultFolded === 'true';
     if (card.classList.contains('folded') !== folded) {
       card.classList.toggle('folded', folded);
       card.querySelector('.card-toggle')?.setAttribute('aria-expanded', String(!folded));

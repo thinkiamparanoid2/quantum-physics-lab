@@ -7,6 +7,7 @@ import { ANGLE_GATES, MAX_QUBITS, cellAt, decode, encode, fromOps, setCell, toOp
 import { BlochView } from '../ui/bloch.js';
 import { theme } from '../ui/charts.js';
 import { drawDials, drawPhaseWheel } from '../ui/dials.js';
+import { drawEntanglement } from '../ui/entanglement-view.js';
 import { Sampler } from '../ui/sampler.js';
 import { mountShell, shareButton } from '../ui/shell.js';
 
@@ -75,6 +76,10 @@ stage.insertAdjacentHTML(
   <figure class="panel card">
     <figcaption class="card-head"><h2>Each qubit on its own</h2><span class="legend">a shorter arrow means the qubit is entangled with the others</span></figcaption>
     <div class="bloch-row" id="blochs"></div>
+  </figure>
+  <figure class="panel card" id="ent-card">
+    <figcaption class="card-head"><h2>Entanglement</h2><span class="legend">entropy of each qubit with the rest · concurrence of each pair</span></figcaption>
+    <canvas id="ent" class="chart" role="img" aria-label="Entanglement of each qubit and each pair"></canvas>
   </figure>
   <figure class="panel card">
     <figcaption class="card-head"><h2>Measure every qubit</h2><span class="legend">samples the circuit's output</span></figcaption>
@@ -301,6 +306,12 @@ function renderResults() {
     view.note = n > 1 ? (len < 0.02 ? 'no direction of its own' : len < 0.995 ? `arrow length ${len.toFixed(2)}` : '') : '';
     view.draw(th);
   });
+
+  $('ent-card').hidden = n < 2;
+  if (n >= 2) {
+    $('ent').style.height = `${Math.max(150, n * 26 + 44)}px`;
+    drawEntanglement($('ent'), { theme: th, state: run.state });
+  }
 
   sampler.setDistribution(pre, n, `${encode(model)}|${cursor}|${seed}`);
   sampler.draw(th);

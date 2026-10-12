@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How it is checked: Quantum Physics Lab</title>
-  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 81 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
+  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 105 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
   <script>document.documentElement.classList.add('is-loading');try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="../styles/site.css">
@@ -16,7 +16,7 @@
         <p class="eyebrow">Is it right?</p>
         <h1>How it is checked</h1>
         <p class="lede">Every simulation is exact or checked against an independent method: a textbook formula, a second
-          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 81 automated checks (some run once per reference case) run on every change.</p>
+          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 105 automated checks (some run once per reference case) run on every change.</p>
       </div>
     </div>
     <div class="container checks-grid">
@@ -191,6 +191,72 @@
           <li>the checks page lists every test (run node web/tools/make-checks.mjs)</li>
         </ul>
         <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/pages.test.js">web/tests/pages.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>channels <span class="muted">4</span></h2>
+        
+        <ul>
+          <li>every channel is trace preserving: sum of K†K is the identity</li>
+          <li>the Bloch-ball maps have their textbook form</li>
+          <li>each Stinespring circuit, with the environment traced out, reproduces its channel</li>
+          <li>repeated noise flows to the fixed point: the centre, or |0> for amplitude damping</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/channels.test.js">web/tests/channels.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>cloning <span class="muted">4</span></h2>
+        
+        <ul>
+          <li>the CNOT copier copies |0> and |1> but gives fidelity (1 + z²)/2 in general</li>
+          <li>the optimal universal cloner gives both copies Bloch vector (2/3) r, fidelity 5/6, for every input</li>
+          <li>CKW monogamy: C²(A,B) + C²(A,C) &lt;= C²(A,BC), with the same three-tangle from every qubit</li>
+          <li>GHZ has three-tangle 1 and no pairwise entanglement; W has tangle 0 and C² = 4/9 per pair</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/cloning.test.js">web/tests/cloning.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>discrimination <span class="muted">3</span></h2>
+        
+        <ul>
+          <li>the Helstrom measurement reaches ½(1 + √(1 − 4 q0 q1 s²)) for any priors</li>
+          <li>the unambiguous POVM is never wrong, is conclusive with probability 1 − s, and is a valid POVM</li>
+          <li>Neumark: one projective measurement on qubit + ancilla realises the three-outcome POVM</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/discrimination.test.js">web/tests/discrimination.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>entanglement <span class="muted">6</span></h2>
+        
+        <ul>
+          <li>a Bell pair carries one ebit; a product state none</li>
+          <li>cos(t/2)|00> + sin(t/2)|11> has C = sin t and the Schmidt coefficients cos(t/2), sin(t/2)</li>
+          <li>Wootters concurrence equals 2|ad - bc| for random pure states, and S(A) = S(B)</li>
+          <li>Werner states are entangled only above p = 1/3</li>
+          <li>GHZ has no pairwise entanglement; W has C = 2/3 for every pair</li>
+          <li>entropies and concurrences match numpy on a random 4-qubit state</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/entanglement.test.js">web/tests/entanglement.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>linalg <span class="muted">3</span></h2>
+        
+        <ul>
+          <li>the Hermitian eigensolver gives A v = λ v with orthonormal v</li>
+          <li>degenerate eigenvalues are found exactly (the 2-qubit identity plus a projector)</li>
+          <li>the SVD reconstructs any real matrix with orthonormal factors</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/linalg.test.js">web/tests/linalg.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>walk <span class="muted">4</span></h2>
+        
+        <ul>
+          <li>the quantum walk conserves probability and the symmetric coin gives a symmetric walk</li>
+          <li>a quantum walk spreads ballistically: &lt;x²>/t² → 1 − 1/√2, against t for a classical walk</li>
+          <li>full coin dephasing turns the quantum walk into the classical random walk exactly</li>
+          <li>the density-matrix walk with no noise matches the pure walk, and stays normalised with noise</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/walk.test.js">web/tests/walk.test.js</a></p>
       </section>
       <section class="panel check-group">
         <h2>Python lab: engine <span class="muted">2</span></h2>

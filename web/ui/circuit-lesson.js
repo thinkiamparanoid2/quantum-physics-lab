@@ -20,6 +20,7 @@ import { BlochView } from './bloch.js';
 import { theme } from './charts.js';
 import { drawCircuit } from './circuit-view.js';
 import { drawDials, drawPhaseWheel } from './dials.js';
+import { drawEntanglement } from './entanglement-view.js';
 import { mountLesson } from './lesson.js';
 import { Sampler } from './sampler.js';
 import { encode, fromOps } from '../lib/sandbox.js';
@@ -102,6 +103,20 @@ export function runCircuitLesson(def) {
       row.append(canvas);
       blochViews.push(new BlochView(canvas, { title: def.labels?.[q] ?? `q${q}`, labels: n > 2 ? 'poles' : 'all' }));
     }
+  }
+
+  // Entanglement view: entropy of each qubit with the rest, concurrence of each pair. Optional, so
+  // it starts folded.
+  let entCanvas = null;
+  if (n >= 2 && def.entanglement !== false) {
+    const c = card(stage, 'Entanglement', 'entropy of each qubit with the rest · concurrence of each pair');
+    c.dataset.defaultFolded = 'true';
+    entCanvas = document.createElement('canvas');
+    entCanvas.className = 'chart';
+    entCanvas.style.height = `${Math.max(150, n * 26 + 44)}px`;
+    entCanvas.setAttribute('role', 'img');
+    entCanvas.setAttribute('aria-label', 'Entanglement of each qubit and each pair');
+    c.append(entCanvas);
   }
 
   let sampler = null;
@@ -333,6 +348,9 @@ export function runCircuitLesson(def) {
       view.note = n > 1 ? (len < 0.02 ? 'no direction of its own' : len < 0.995 ? `arrow length ${len.toFixed(2)}` : '') : '';
       view.draw(th);
     });
+    if (entCanvas && !entCanvas.closest('.card').classList.contains('folded')) {
+      drawEntanglement(entCanvas, { theme: th, state: target.state, labels: def.labels });
+    }
     if (sampler) {
       const qubits = def.sampler.qubits;
       const probs = qubits ? registerProbs(target.preProbs, typeof qubits === 'function' ? qubits(params) : qubits) : target.preProbs;
