@@ -924,6 +924,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M24 6 L42 40 H6 Z M24 18 V30 M24 34 V35',
   },
+  {
+    slug: 'transmon',
+    section: 'hardware',
+    title: 'Building a qubit: the transmon',
+    summary: 'A Josephson junction and a capacitor make an anharmonic oscillator: charge noise suppressed exponentially, levels a few gigahertz apart.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 30 C14 30 16 12 24 12 C32 12 34 30 42 30 M10 26 H38 M13 20 H35',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be
