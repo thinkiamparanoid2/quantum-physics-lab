@@ -58,7 +58,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Threshold in the browser | ✅ | Monte Carlo in a Web Worker; code-capacity rates match PyMatching within 4σ, crossing near 10% (matching) and Λ ≈ 2 at p = 4%; scan reproducible per seed; Λ shown with binomial error bars; noisy checks use union-find (exact matching too slow in a browser) |
 | Fault tolerance: measurement errors | ✅ | repetition code in space-time (flat picture); detection events equal the ends of the fault edges; matching corrects every 1- and 2-fault pattern (exhaustive, d = 5, 5 rounds); logical rates match PyMatching (repetitions mode) within 4σ for repetition d = 3, 5, 7 and surface d = 3, 5 |
 | Magic states and distillation | ✅ | weight enumerator of the undetected patterns equals the MacWilliams transform of the simplex code (A₃ = 35); 15 T gates act as logical T† on the Reed–Muller code (15-qubit statevector); 35p³ and acceptance 1 − 15p limits; Monte Carlo within 4σ; break-even 14.1%; injection gives T|ψ⟩ for both outcomes |
-| Toric code and anyons | ⬜ | |
+| Toric code and anyons | ✅ | checks commute, rank 2L² − 2 (L = 3, 4, 5); ground state built with a spanning-tree circuit, all checks +1 on the tableau and on an 18-qubit statevector; strings light only their ends; e around one m gives exactly −|ψ⟩ (statevector), around two or none +1; wrapping loops flip logical qubits with no anyons |
 
 ## Phase 4: quantum fields on a lattice (branch `topic/quantum-fields`)
 
@@ -116,3 +116,4 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 - 2026-10-12: Phase 1 done: five quantum-information lessons, `lib/linalg.js` (Hermitian eigensolver, SVD), entanglement view in every multi-qubit circuit lesson and the sandbox. 99 web tests pass.
 - 2026-10-12: Phase F done: eight QM-core lessons. 123 web tests pass.
 - 2026-10-12: Phase 2 in progress: tableau simulator, surface-code library with two decoders checked against PyMatching, lessons for stabilizers, Steane code and the surface code. 135 web tests pass. Next: surface-code screenshot check, then decoding, threshold, fault tolerance, magic states, toric code.
+- 2026-10-12: Phase 2 complete: decoding, threshold (Monte Carlo in a worker), fault tolerance (space-time decoding, phenomenological rates checked against PyMatching), magic states (15-to-1, MacWilliams and statevector checks), toric code (braiding phase on tableau and statevector). 149 web tests pass. Next: Phase 4, fields on a lattice.

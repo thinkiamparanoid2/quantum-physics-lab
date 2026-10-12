@@ -1,6 +1,40 @@
 // Teaching notes for "Quantum error correction".
 
 export const TEACHING = {
+  'toric-code': {
+    goals: [
+      'Describe the toric code: qubits on edges, star and plaquette checks, two logical qubits.',
+      'Explain e and m anyons as violated checks at the ends of strings.',
+      'Compute the braiding phase of an e around an m from the loop operator.',
+      'Explain topological protection: logical operators are loops around the torus.',
+    ],
+    prereqs: ['Stabilizers', 'The surface code'],
+    misconceptions: [
+      { wrong: 'An anyon is a real particle sitting in the hardware.', right: 'It is a pattern of violated checks, an excitation of the code; on a chip it is just a syndrome.' },
+      { wrong: 'The braiding sign depends on the exact path taken.', right: 'Only on how the paths wind: Z on any loop equals the product of the plaquettes inside it.' },
+      { wrong: 'With no anyons present, the encoded qubits are untouched.', right: 'A string wrapping the torus leaves no anyons but flips a logical qubit.' },
+    ],
+    questions: [
+      {
+        q: 'How many independent checks does an L × L toric code have?',
+        options: ['2L²', '2L² − 1', '2L² − 2', 'L²'],
+        answer: 2,
+        why: 'All stars multiply to the identity, and so do all plaquettes, so two checks are redundant, leaving two logical qubits.',
+      },
+      {
+        q: 'An e is carried around a loop enclosing three m anyons. What phase does the state pick up?',
+        options: ['+1', '−1', 'i', 'e^(3iπ/4)'],
+        answer: 1,
+        why: '(−1)³ = −1: each enclosed m contributes a factor −1.',
+      },
+      {
+        q: 'Why is the toric code’s logical information protected from local noise?',
+        options: ['The qubits are shielded', 'Logical operators must wrap around the torus, so local errors cannot reach them undetected', 'Anyons cannot move', 'The checks are measured very fast'],
+        answer: 1,
+        why: 'Any operator acting on a small region either creates detectable anyons or is a product of checks.',
+      },
+    ],
+  },
   'magic-states': {
     goals: [
       'Explain why Clifford gates alone cannot give a quantum advantage and why T is needed.',

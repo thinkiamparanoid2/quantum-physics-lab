@@ -714,6 +714,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M24 6 L28 18 L41 18 L31 26 L35 39 L24 31 L13 39 L17 26 L7 18 L20 18 Z',
   },
+  {
+    slug: 'toric-code',
+    section: 'qec',
+    title: 'Toric code and anyons',
+    summary: 'The surface code on a torus: e and m anyons at the ends of strings, a −1 from braiding, and logical qubits in loops.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M24 12 C10 12 4 18 4 24 C4 30 10 36 24 36 C38 36 44 30 44 24 C44 18 38 12 24 12 Z M16 24 C20 20 28 20 32 24 M18 22 C21 26 27 26 30 22',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be
