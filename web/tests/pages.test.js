@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 
 // The shared lesson frame (tools/make-pages.mjs) owns these ids. A lesson that reuses one gets the
@@ -80,4 +81,30 @@ test('the checks page lists every test (run node web/tools/make-checks.mjs)', as
   const { checksHtml } = await import('../tools/make-checks.mjs');
   const onDisk = readFileSync(new URL('../checks/index.html', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
   assert.equal(onDisk, checksHtml(), 'web/checks/index.html is out of date');
+});
+
+test('every page script and module compiles as an ES module', () => {
+  const root = new URL('..', import.meta.url);
+  const files = [];
+  for (const d of readdirSync(root, { withFileTypes: true })) {
+    if (!d.isDirectory()) continue;
+    const app = new URL(`${d.name}/app.js`, root);
+    if (existsSync(app)) files.push(app);
+  }
+  for (const dir of ['ui', 'lib', 'lib/teaching']) {
+    for (const f of readdirSync(new URL(`${dir}/`, root))) if (f.endsWith('.js')) files.push(new URL(`${dir}/${f}`, root));
+  }
+  assert.ok(files.length > 50);
+  // one child process compiles them all as ES modules (vm.SourceTextModule needs the flag)
+  const script = `const vm = require('node:vm'); const fs = require('node:fs');
+    for (const f of process.argv.slice(1)) {
+      try { new vm.SourceTextModule(fs.readFileSync(f, 'utf8'), { identifier: f }); }
+      catch (e) { console.error(f + ': ' + e.message); process.exitCode = 1; }
+    }`;
+  const paths = files.map((u) => decodeURIComponent(u.pathname).replace(/^[/]([A-Za-z]:)/, '$1'));
+  try {
+    execFileSync(process.execPath, ['--experimental-vm-modules', '--no-warnings', '-e', script, ...paths], { stdio: 'pipe' });
+  } catch (e) {
+    assert.fail(String(e.stderr || e.message).slice(0, 800));
+  }
 });

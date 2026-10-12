@@ -40,6 +40,7 @@ const GROUPS = [
   ['qec.test.js', 'Surface code and decoders', 'Matching weights and logical error rates against PyMatching, with perfect and with noisy measurements; threshold behaviour.'],
   ['steane.test.js', 'Steane’s code', 'Every single-qubit error on every position corrected by the full circuit.'],
   ['fields.test.js', 'Fields on a lattice', 'Chain modes against diagonalisation; two coupled quantum oscillators in a Fock basis against the phonon formula.'],
+  ['fock.test.js', 'Fock space and Jordan–Wigner', 'Commutation and anticommutation on every basis state; Jordan–Wigner matrix elements; qubit chain spectrum and dynamics against free fermions.'],
   ['toric.test.js', 'Toric code and anyons', 'Checks, ground state and the −1 braiding phase, on the tableau and on an 18-qubit statevector.'],
   ['magic.test.js', 'Magic states', 'Distillation’s weight enumerator against MacWilliams, transversal T on the Reed–Muller code, 35p³ against Monte Carlo, and T injection.'],
   ['pages.test.js', 'Site structure', 'Lesson pages, teaching notes and this page itself.'],

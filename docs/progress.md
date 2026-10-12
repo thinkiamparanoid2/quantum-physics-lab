@@ -65,8 +65,8 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Lesson | Status | Independent check |
 |---|---|---|
 | From oscillators to particles | ✅ | mode frequencies equal a numerical diagonalisation of the spring matrix; modes orthonormal; two coupled quantum oscillators diagonalised in a truncated Fock basis reproduce ω₊(n₊+½) + ω₋(n₋+½) (error falls from 4×10⁻² to 4×10⁻⁵ as the cutoff goes 8 → 14) |
-| Fock space, bosons and fermions | ⬜ | |
-| Jordan–Wigner | ⬜ | |
+| Fock space, bosons and fermions | ✅ | [a_i, a†_j] = δ_ij on every state with up to 3 bosons per mode; {c_i, c†_j} = δ_ij and {c_i, c_j} = 0 on all 16 states of 4 modes; exclusion and exchange sign |
+| Jordan–Wigner | ✅ | Z-string operators reproduce every fermion matrix element (4 modes); qubit chain spectrum equals sums of −2t cos(kπ/(N+1)) in every particle-number sector (N = 6); qubit dynamics equal free-fermion orbital densities to 10⁻⁹ |
 | The Schwinger model: pair creation | ⬜ | |
 | Confinement and string breaking | ⬜ | |
 | The transverse-field Ising model | ⬜ | |

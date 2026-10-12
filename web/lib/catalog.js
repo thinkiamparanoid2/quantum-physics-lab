@@ -734,6 +734,26 @@ export const TOPICS = [
     status: 'live',
     icon: 'M4 24 H8 L10 20 L14 28 L16 24 H20 M28 24 H32 L34 20 L38 28 L40 24 H44 M24 24 A4 4 0 1 1 24.01 24',
   },
+  {
+    slug: 'fock-space',
+    section: 'fields',
+    title: 'Fock space, bosons and fermions',
+    summary: 'Click creation and annihilation operators onto occupation numbers: √n factors for bosons, exclusion and signs for fermions.',
+    level: 'Intermediate',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 34 H18 V14 H6 Z M30 34 H42 V14 H30 Z M12 28 A3 3 0 1 1 12.01 28 M12 20 A3 3 0 1 1 12.01 20 M36 24 A3 3 0 1 1 36.01 24',
+  },
+  {
+    slug: 'jordan-wigner',
+    section: 'fields',
+    title: 'Jordan–Wigner: fermions as qubits',
+    summary: 'Fermion signs carried by strings of Z gates, and a fermion chain simulated on qubits, matched exactly by free-fermion theory.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M4 18 H12 V30 H4 Z M14 18 H22 V30 H14 Z M24 18 H32 V30 H24 Z M34 18 H44 V30 H34 Z',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

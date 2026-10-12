@@ -3313,3 +3313,20 @@ body.present .card-toggle {
 .stab-table tr.flipped td.pauli {
   outline: 2px solid var(--marked);
 }
+
+/* Fock-space lesson: operator buttons and the equation line */
+.fock-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.fock-buttons .btn {
+  min-width: 48px;
+  font-family: var(--mono, ui-monospace, monospace);
+}
+.fock-eq {
+  font-size: 1.05rem;
+  margin: 6px 0;
+  overflow-wrap: anywhere;
+}
