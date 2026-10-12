@@ -1,6 +1,105 @@
 // Teaching notes for "Quantum error correction".
 
 export const TEACHING = {
+  'surface-code': {
+    goals: [
+      'Describe the rotated surface code: data qubits, local X and Z checks, one logical qubit.',
+      'Predict which checks light up for X, Z and Y errors, and for chains of errors.',
+      'Identify stabilizer loops (harmless) and logical chains (undetectable failures).',
+      'Relate the distance d to the number of errors the code corrects.',
+    ],
+    prereqs: ['Stabilizers', 'Steane’s seven-qubit code'],
+    misconceptions: [
+      { wrong: 'The syndrome shows exactly which qubits failed.', right: 'It shows only the ends of error chains; the decoder must infer the path.' },
+      { wrong: 'If no check lights up, there is no error.', right: 'A chain spanning the patch lights nothing but flips the logical qubit.' },
+    ],
+    questions: [
+      {
+        q: 'How many checks does a distance-5 rotated surface code have?',
+        options: ['20', '24', '25', '50'],
+        answer: 1,
+        why: 'd² − 1 = 24 checks on 25 data qubits leave one logical qubit.',
+      },
+      {
+        q: 'Three X errors in a vertical line in the bulk light how many checks?',
+        options: ['6', '3', '2', '0'],
+        answer: 2,
+        why: 'Interior checks see two flips and cancel; only the two ends of the chain stay lit.',
+      },
+      {
+        q: 'How many errors can a distance-7 surface code always correct?',
+        options: ['1', '3', '6', '7'],
+        answer: 1,
+        why: '⌊(d − 1)/2⌋ = 3.',
+      },
+    ],
+  },
+  'steane-code': {
+    goals: [
+      'Build the Steane code from the classical [7,4] Hamming code (a CSS code).',
+      'Extract X and Z syndromes with ancillas and read them as the error’s position in binary.',
+      'Explain why distance 3 corrects one error and fails for two.',
+      'Name the transversal logical gates of the Steane code.',
+    ],
+    prereqs: ['Stabilizers', 'Shor’s nine-qubit code'],
+    misconceptions: [
+      { wrong: 'Measuring the ancillas collapses the encoded message.', right: 'They only measure parities of checks, which are the same for both logical states.' },
+      { wrong: 'A Y error needs its own checks.', right: 'Y = iXZ is caught by both the Z checks (as an X) and the X checks (as a Z).' },
+    ],
+    questions: [
+      {
+        q: 'A single X error on data qubit d5 gives Z-check bits (4 2 1) of…',
+        options: ['101', '110', '011', '000'],
+        answer: 1,
+        why: 'Qubit i lights up the binary of i + 1 = 6 = 110.',
+      },
+      {
+        q: 'How many physical qubits does the Steane code use per logical qubit (not counting ancillas)?',
+        options: ['3', '5', '7', '9'],
+        answer: 2,
+        why: 'It is a [[7,1,3]] code: 7 physical, 1 logical, distance 3.',
+      },
+      {
+        q: 'Which logical gate is NOT transversal on the Steane code?',
+        options: ['H', 'CNOT', 'S', 'T'],
+        answer: 3,
+        why: 'No code has a transversal universal gate set (Eastin–Knill); for Steane, T needs magic-state injection.',
+      },
+    ],
+  },
+  stabilizers: {
+    goals: [
+      'Describe a stabilizer state by n independent commuting Pauli generators.',
+      'Update stabilizers under H, S and CNOT by conjugation.',
+      'Explain a stabilizer code: n − k checks, k logical qubits, logical operators.',
+      'Read a syndrome as the set of generators that anticommute with an error; state Gottesman–Knill.',
+    ],
+    prereqs: ['Quantum error correction (three-qubit code)', 'Pauli matrices'],
+    misconceptions: [
+      { wrong: 'Measuring a stabilizer disturbs the encoded state.', right: 'The code space is a +1 eigenspace of every stabilizer, so measuring them reveals only the error, not the logical state.' },
+      { wrong: 'Any circuit can be simulated efficiently with stabilizers.', right: 'Only Clifford circuits (H, S, CNOT, Pauli measurements); a T gate breaks the formalism.' },
+    ],
+    questions: [
+      {
+        q: 'How many independent stabilizer generators does a state of 6 qubits have?',
+        options: ['3', '6', '12', '64'],
+        answer: 1,
+        why: 'A stabilizer state of n qubits has exactly n independent generators.',
+      },
+      {
+        q: 'H is applied to qubit 0 of a state stabilized by Z₀Z₁. The new stabilizer is…',
+        options: ['Z₀Z₁', 'X₀Z₁', 'X₀X₁', 'Y₀Z₁'],
+        answer: 1,
+        why: 'H Z H = X, so Z₀Z₁ becomes X₀Z₁.',
+      },
+      {
+        q: 'A code on 9 qubits has 8 independent stabilizers. How many logical qubits does it encode?',
+        options: ['0', '1', '8', '9'],
+        answer: 1,
+        why: 'k = n − (number of independent stabilizers) = 9 − 8 = 1 (Shor’s code).',
+      },
+    ],
+  },
   'error-correction': {
     goals: [
       'Encode one qubit into three without copying it (no-cloning).',

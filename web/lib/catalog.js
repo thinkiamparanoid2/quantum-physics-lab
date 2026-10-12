@@ -644,6 +644,36 @@ export const TOPICS = [
     status: 'live',
     icon: 'M4 40 H44 M24 40 V34 M24 34 L10 14 M24 34 L38 14 M10 14 L6 8 M38 14 L42 8',
   },
+  {
+    slug: 'stabilizers',
+    section: 'qec',
+    title: 'Stabilizers',
+    summary: 'Describe a quantum state by the operators that leave it alone: how gates update them, how errors flip their signs, and why Clifford circuits are easy to simulate.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M6 10 H42 M6 20 H42 M6 30 H42 M6 40 H42 M14 6 V44 M24 6 V44 M34 6 V44',
+  },
+  {
+    slug: 'steane-code',
+    section: 'qec',
+    title: 'Steane’s seven-qubit code',
+    summary: 'Two classical Hamming codes make one quantum code: a 13-qubit circuit that finds and fixes any single-qubit error from six measured bits.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M24 6 L40 38 H8 Z M24 6 V38 M8 38 L32 22 M40 38 L16 22',
+  },
+  {
+    slug: 'surface-code',
+    section: 'qec',
+    title: 'The surface code',
+    summary: 'A grid of qubits checked by local parities: click to place errors, watch the checks light up, and find the chains that flip the logical qubit.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M8 8 H40 V40 H8 Z M24 8 V40 M8 24 H40 M16 16 A2 2 0 1 1 16.01 16 M32 32 A2 2 0 1 1 32.01 32',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

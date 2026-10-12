@@ -229,9 +229,58 @@ def entanglement_reference():
     }
 
 
+# ----- surface code decoding (web/lib/qec.js) -----
+
+
+def rotated_surface_code_z_checks(d):
+    """Z-type checks of the rotated surface code, built independently of the JavaScript with the
+    same convention: faces (i, j), i, j = 0..d; (i + j) odd is Z-type; weight-2 Z faces only on the
+    left and right edges. Returns a list of qubit lists (qubit = row * d + col)."""
+    checks = []
+    for i in range(d + 1):
+        for j in range(d + 1):
+            if (i + j) % 2 == 0:
+                continue
+            qs = [a * d + b for a, b in ((i - 1, j - 1), (i - 1, j), (i, j - 1), (i, j)) if 0 <= a < d and 0 <= b < d]
+            if len(qs) == 4 or (len(qs) == 2 and j in (0, d) and i not in (0, d)):
+                checks.append(qs)
+    return checks
+
+
+def qec_reference():
+    import pymatching
+
+    rng = np.random.default_rng(7)
+    samples = []
+    rates = []
+    for d in (3, 5, 7):
+        checks = rotated_surface_code_z_checks(d)
+        H = np.zeros((len(checks), d * d), dtype=np.uint8)
+        for r, qs in enumerate(checks):
+            H[r, qs] = 1
+        matching = pymatching.Matching(H)
+        for p in (0.05, 0.1):
+            for _ in range(40):
+                err = (rng.random(d * d) < p).astype(np.uint8)
+                syn = H @ err % 2
+                _, weight = matching.decode(syn, return_weight=True)
+                samples.append({"d": d, "error": err.tolist(), "weight": float(weight)})
+        # logical error rates (logical Z = row 0, so an X residual with odd parity on row 0 fails)
+        for p in (0.06, 0.12):
+            shots = 40000
+            errs = (rng.random((shots, d * d)) < p).astype(np.uint8)
+            syns = errs @ H.T % 2
+            corr = matching.decode_batch(syns)
+            residual = (errs + corr) % 2
+            fails = int(residual[:, :d].sum(axis=1).astype(int).__mod__(2).sum())
+            rates.append({"d": d, "p": p, "shots": shots, "fails": fails})
+    return {"samples": samples, "rates": rates}
+
+
 TOPICS = {
     "dynamics": ("reference.json", dynamics_reference),
     "entanglement": ("reference-entanglement.json", entanglement_reference),
+    "qec": ("reference-qec.json", qec_reference),
 }
 
 

@@ -50,13 +50,13 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Stabilizer simulator engine (tableau) | ⬜ | |
-| Stabilizers | ⬜ | |
-| Steane code and CSS codes | ⬜ | |
-| The surface code | ⬜ | |
-| Decoding (matching, union-find) | ⬜ | |
-| Threshold in the browser | ⬜ | |
-| Fault tolerance: measurement errors | ⬜ | |
+| Stabilizer simulator engine (tableau) | ✅ | stabilizers checked against statevectors on random Clifford circuits; deterministic/random measurements agree; 300-qubit GHZ |
+| Stabilizers | ✅ | uses the tested tableau; canonical generators verified against statevectors |
+| Steane code and CSS codes | ✅ | full 13-qubit circuit corrects all 21 single-qubit X/Y/Z errors; syndrome = position in binary |
+| The surface code | 🔨 | lesson written and registered, not yet visually checked; code structure tested (commuting checks, anticommuting logicals) |
+| Decoding (matching, union-find) | 🔨 | engine done and tested (exact MWPM weights equal PyMatching on 240 samples; both decoders correct all errors up to (d−1)/2); lesson not written |
+| Threshold in the browser | 🔨 | engine done (thresholdScan for the worker; rates match PyMatching within 4σ); lesson not written |
+| Fault tolerance: measurement errors | 🔨 | engine done (space-time graph, phenomenological threshold test); lesson not written |
 | Magic states and distillation | ⬜ | |
 | Toric code and anyons | ⬜ | |
 
@@ -115,3 +115,4 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 - 2026-10-12: Phase 0 done: UI restructure, learning layer, teacher notes, topics and checks pages, worker helper, citation file. 75 web tests pass.
 - 2026-10-12: Phase 1 done: five quantum-information lessons, `lib/linalg.js` (Hermitian eigensolver, SVD), entanglement view in every multi-qubit circuit lesson and the sandbox. 99 web tests pass.
 - 2026-10-12: Phase F done: eight QM-core lessons. 123 web tests pass.
+- 2026-10-12: Phase 2 in progress: tableau simulator, surface-code library with two decoders checked against PyMatching, lessons for stabilizers, Steane code and the surface code. 135 web tests pass. Next: surface-code screenshot check, then decoding, threshold, fault tolerance, magic states, toric code.

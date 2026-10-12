@@ -36,6 +36,9 @@ const GROUPS = [
   ['decay.test.js', 'Fermi’s golden rule', 'First-order theory, exponential decay, recurrences and the Lorentzian line shape.'],
   ['adiabatic.test.js', 'Adiabatic evolution', 'Landau–Zener transitions and Berry’s phase.'],
   ['statistics.test.js', 'Quantum statistics', 'Chemical potentials, the Sommerfeld expansion and Bose–Einstein condensation.'],
+  ['stabilizer.test.js', 'Stabilizer simulator', 'The tableau simulator against the statevector engine on random Clifford circuits.'],
+  ['qec.test.js', 'Surface code and decoders', 'Matching weights and logical error rates against PyMatching; threshold behaviour.'],
+  ['steane.test.js', 'Steane’s code', 'Every single-qubit error on every position corrected by the full circuit.'],
   ['pages.test.js', 'Site structure', 'Lesson pages, teaching notes and this page itself.'],
 ];
 
