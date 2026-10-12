@@ -50,6 +50,7 @@ const GROUPS = [
   ['simon.test.js', 'Simon’s algorithm', 'Two-to-one oracle; outcome distribution uniform on y·s = 0 for every s; GF(2) recovery of s.'],
   ['hamsim.test.js', 'Trotter and qDRIFT', 'Exact qDRIFT channel against 4000 sampled sequences and Campbell’s bound; convergence orders 1/N², 1/N⁴ and 1/N.'],
   ['aqc.test.js', 'Adiabatic quantum computing', 'Spectrum end points; sudden limit 1/2ⁿ; success on a large-gap instance and a small-gap one against 1/Δ².'],
+  ['hhl.test.js', 'HHL', 'Postselected state equals A⁻¹b/‖A⁻¹b‖ and success equals C²‖A⁻¹b‖² when the clock holds the eigenvalues exactly; inexact and ill-conditioned cases.'],
   ['toric.test.js', 'Toric code and anyons', 'Checks, ground state and the −1 braiding phase, on the tableau and on an 18-qubit statevector.'],
   ['magic.test.js', 'Magic states', 'Distillation’s weight enumerator against MacWilliams, transversal T on the Reed–Muller code, 35p³ against Monte Carlo, and T injection.'],
   ['pages.test.js', 'Site structure', 'Lesson pages, teaching notes and this page itself.'],

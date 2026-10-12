@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How it is checked: Quantum Physics Lab</title>
-  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 195 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
+  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 197 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
   <script>document.documentElement.classList.add('is-loading');try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="../styles/site.css">
@@ -16,7 +16,7 @@
         <p class="eyebrow">Is it right?</p>
         <h1>How it is checked</h1>
         <p class="lede">Every simulation is exact or checked against an independent method: a textbook formula, a second
-          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 195 automated checks (some run once per reference case) run on every change.</p>
+          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 197 automated checks (some run once per reference case) run on every change.</p>
       </div>
     </div>
     <div class="container checks-grid">
@@ -470,6 +470,15 @@
           <li>annealing: the sudden limit gives 1/2ⁿ, slow runs find the answer, and a small gap demands a long run</li>
         </ul>
         <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/aqc.test.js">web/tests/aqc.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>HHL <span class="muted">2</span></h2>
+        <p class="muted">Postselected state equals A⁻¹b/‖A⁻¹b‖ and success equals C²‖A⁻¹b‖² when the clock holds the eigenvalues exactly; inexact and ill-conditioned cases.</p>
+        <ul>
+          <li>HHL: with eigenvalues the clock can hold exactly, the postselected state is A⁻¹b/‖A⁻¹b‖ and succeeds with probability C²‖A⁻¹b‖²</li>
+          <li>HHL: eigenvalues between clock values give an imperfect answer, and ill-conditioned systems succeed rarely</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/hhl.test.js">web/tests/hhl.test.js</a></p>
       </section>
       <section class="panel check-group">
         <h2>Toric code and anyons <span class="muted">5</span></h2>

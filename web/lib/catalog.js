@@ -555,6 +555,16 @@ export const TOPICS = [
     icon: 'M6 36 C16 36 20 14 30 14 C36 14 40 18 42 18 M6 30 C16 30 20 20 30 22 C36 24 40 30 42 30',
   },
   {
+    slug: 'hhl',
+    section: 'algorithms',
+    title: 'HHL and its caveats',
+    summary: 'Solve a 2 × 2 linear system gate by gate: phase estimation, inverting eigenvalues, postselection, and the fine print that decides when it pays off.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M8 12 H24 V36 H8 Z M30 24 H42 M36 18 L42 24 L36 30',
+  },
+  {
     slug: 'shor',
     section: 'algorithms',
     title: "Shor's algorithm",

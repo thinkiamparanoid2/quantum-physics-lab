@@ -1,6 +1,40 @@
 // Teaching notes for "Algorithms".
 
 export const TEACHING = {
+  hhl: {
+    goals: [
+      'Follow the HHL algorithm: phase estimation, eigenvalue inversion by a controlled rotation, uncomputation and postselection.',
+      'Relate the success probability to the condition number.',
+      'Explain how finite clock precision limits accuracy.',
+      'List the conditions under which HHL’s speed-up holds.',
+    ],
+    prereqs: ['Phase estimation'],
+    misconceptions: [
+      { wrong: 'HHL outputs the solution vector x.', right: 'It outputs a quantum state ∝ A⁻¹|b⟩; reading all entries would take about N runs.' },
+      { wrong: 'HHL speeds up any linear system.', right: 'It needs efficient state preparation, a sparse or structured well-conditioned A, and only a few properties of x as output.' },
+      { wrong: 'The algorithm always succeeds.', right: 'It succeeds with probability C²‖A⁻¹b‖², which falls as the condition number grows.' },
+    ],
+    questions: [
+      {
+        q: 'What amplitude does the ancilla get on |1⟩ for eigenvalue λ?',
+        options: ['λ', 'C/λ', 'C λ', '1/λ²'],
+        answer: 1,
+        why: 'The controlled rotation is RY(2 arcsin(C/λ)).',
+      },
+      {
+        q: 'With eigenvalues 1 and 10, which component of b survives postselection more easily?',
+        options: ['The λ = 10 component', 'The λ = 1 component', 'Both equally', 'Neither'],
+        answer: 1,
+        why: 'Its amplitude C/λ is ten times larger.',
+      },
+      {
+        q: 'Why must b be loadable quickly for a speed-up?',
+        options: ['It needn’t', 'Preparing a general N-dimensional state takes about N steps, which would cost more than the solve', 'Because A is sparse', 'Because of the ancilla'],
+        answer: 1,
+        why: 'The claimed log N running time leaves no room for an N-step input stage.',
+      },
+    ],
+  },
   'adiabatic-qc': {
     goals: [
       'Encode an optimisation problem as the ground state of an Ising Hamiltonian.',

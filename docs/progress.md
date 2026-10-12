@@ -93,7 +93,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Simon's algorithm | ✅ | oracle two-to-one with period s; circuit distribution exactly uniform on {y : y·s = 0} for every s (n = 2…4); GF(2) solver recovers every s for n = 3…5; classical curve matches the birthday estimate √(π2ⁿ/2) |
 | Hamiltonian simulation: Trotter and qDRIFT | ✅ | qDRIFT channel computed exactly on density matrices equals the mean of 4000 sampled sequences within 4σ and stays under Campbell's bound; convergence ratios 4, 16 and 2 per doubling; single-term Hamiltonian exact for all methods; text numbers read off the computed curves |
 | Adiabatic quantum computing | ✅ | spectrum equals −ΣX at s = 0 and the sorted cost diagonal at s = 1; sudden limit exactly 1/64; large-gap instance > 99% at T = 64; small-gap instance (Δ = 0.048) < 70% at T = 512 but > 95% at T = 2048 |
-| HHL and its caveats | ⬜ | |
+| HHL and its caveats | ✅ | postselected output equals A⁻¹b/‖A⁻¹b‖ to 10⁻¹⁰ and success equals C²‖A⁻¹b‖² for 20 random cases with exactly representable eigenvalues (2–4 clock qubits); off-grid eigenvalues reduce fidelity; larger κ lowers success; fine print cited (Aaronson 2015; Tang 2019; Chia et al. 2020; Costa et al. 2022) |
 | Building a qubit: the transmon | ⬜ | |
 | Pulses, leakage and DRAG | ⬜ | |
 | Randomized benchmarking | ⬜ | |
