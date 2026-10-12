@@ -1,6 +1,7 @@
 # Quantum Physics Lab: the website
 
-39 interactive lessons and tools, from the photoelectric effect to Shor's nine-qubit code. Every
+84 interactive lessons and three tools, from the photoelectric effect to surface-code decoding,
+variational circuits and the lattice Schwinger model. Every
 lesson steps through an idea with a live visual, a Try-it panel, a Present mode for projectors and
 a shareable link.
 
@@ -20,13 +21,15 @@ Then open http://localhost:8765.
 
 ## Tests
 
-72 tests in `tests/*.test.js` (`node --test`, no dependencies) check the physics against
-independent results: exact formulas, a second numerical method, or Python references (dense
-numpy/scipy matrices and the repo's validated Qiskit Schwinger Hamiltonian, stored in
-`tests/reference.json`). `tests/pages.test.js` also guards against id clashes with the lesson frame.
+202 tests in 49 files under `tests/` (`node --test`, no dependencies) check the physics against
+independent results: exact formulas, a second numerical method, or Python references generated
+with numpy, Qiskit, PyMatching and PennyLane and stored as `tests/reference*.json`.
+`tests/pages.test.js` also guards against id clashes with the lesson frame, checks that every lesson
+has teaching notes and that every script compiles, and keeps the [checks page](checks/) current
+(`node tools/make-checks.mjs` regenerates it).
 
 ```bash
-python web/tests/make_reference.py   # regenerate tests/reference.json (needs the repo's .venv)
+python web/tests/make_reference.py [dynamics|entanglement|qec|schwinger|qml]   # needs the repo's .venv
 cd web && npm test                   # Node 20+; no dependencies
 ```
 

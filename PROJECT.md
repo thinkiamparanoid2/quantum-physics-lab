@@ -66,21 +66,27 @@ each section's lessons are numbered from 1.
 | Ket | Section (`id`) | Lessons (`slug`) |
 |---|---|---|
 | \|0000⟩ | The experiments that started it (`experiments`) | `photoelectric`, `compton`, `double-slit`, `mach-zehnder`, `bomb-tester` |
-| \|0001⟩ | Waves and the Schrödinger equation (`waves`) | `wave-packets`, `particle-in-a-box`, `harmonic-oscillator`, `tunnelling`, `shooting-method` |
-| \|0010⟩ | Spin and atoms (`atoms`) | `stern-gerlach`, `magnetic-resonance`, `hydrogen`, `atomic-spectra` |
-| \|0011⟩ | Many particles and approximations (`approx`) | `bands`, `identical-particles`, `perturbation`, `variational`, `wkb` |
+| \|0001⟩ | Waves and the Schrödinger equation (`waves`) | `wave-packets`, `particle-in-a-box`, `particle-on-ring`, `harmonic-oscillator`, `tunnelling`, `probability-current`, `delta-potential`, `shooting-method` |
+| \|0010⟩ | Spin, angular momentum and atoms (`atoms`) | `stern-gerlach`, `angular-momentum`, `adding-angular-momenta`, `magnetic-resonance`, `hydrogen`, `atomic-spectra` |
+| \|0011⟩ | Many particles and approximations (`approx`) | `bands`, `identical-particles`, `quantum-statistics`, `perturbation`, `golden-rule`, `adiabatic`, `variational`, `wkb` |
 | \|0100⟩ | Qubits (`foundations`) | `qubit`, `measurement`, `interference`, `entanglement` |
-| \|0101⟩ | Protocols (`protocols`) | `teleportation`, `superdense-coding`, `bb84` |
-| \|0110⟩ | Algorithms (`algorithms`) | `deutsch-jozsa`, `bernstein-vazirani`, `grover`, `qft`, `phase-estimation`, `shor` |
-| \|0111⟩ | Nonlocality, noise and error correction (`noise`) | `bell-test`, `decoherence`, `error-correction`, `shor-code` |
-| \|1000⟩ | Tools (`tools`) | `sandbox` (circuit sandbox), `schrodinger` (Schrödinger playground), `playground` (Hamiltonian Playground) |
+| \|0101⟩ | Quantum information (`information`) | `entanglement-measures`, `channels`, `state-discrimination`, `no-cloning`, `quantum-walk` |
+| \|0110⟩ | Protocols (`protocols`) | `teleportation`, `superdense-coding`, `bb84` |
+| \|0111⟩ | Algorithms (`algorithms`) | `deutsch-jozsa`, `bernstein-vazirani`, `simon`, `grover`, `qft`, `phase-estimation`, `amplitude-estimation`, `hamiltonian-simulation`, `adiabatic-qc`, `hhl`, `shor` |
+| \|1000⟩ | Nonlocality and noise (`noise`) | `bell-test`, `decoherence` |
+| \|1001⟩ | Quantum error correction (`qec`) | `error-correction`, `shor-code`, `stabilizers`, `steane-code`, `surface-code`, `decoding`, `threshold`, `fault-tolerance`, `magic-states`, `toric-code` |
+| \|1010⟩ | Real quantum hardware (`hardware`) | `transmon`, `drag`, `randomized-benchmarking`, `error-mitigation` |
+| \|1011⟩ | Quantum machine learning (`qml`) | `encoding`, `qml-classifier`, `fourier-models`, `quantum-kernels`, `barren-plateaus`, `vqe-qaoa`, `qml-advantage` |
+| \|1100⟩ | Quantum fields on a lattice (`fields`) | `phonons`, `fock-space`, `jordan-wigner`, `schwinger`, `string-breaking`, `ising-transition`, `area-law`, `fields-hardware` |
+| \|1101⟩ | Tools (`tools`) | `sandbox`, `schrodinger`, `playground` |
 
 Each lesson lives at `web/<slug>/` (`app.js` plus a generated `index.html`), and its URL is
 `/<slug>/` with `#step=N` (1-based) selecting a step. A few lessons also accept `#t=` (a time, for
 lessons with a player) or other parameters (circuit lessons put their Try-it settings in the hash;
 the tools put everything there).
 
-What each lesson shows, briefly:
+What each of the original lessons shows, briefly (the lessons added from October 2026 are
+described, with how each was checked, in [`docs/progress.md`](docs/progress.md)):
 
 - **photoelectric**: a vacuum tube with photons and electrons; 7 metals; wavelength, brightness,
   voltage; current–voltage curve; Millikan plot that fits Planck's constant from recorded points.
@@ -235,7 +241,13 @@ Rule: **every physics result needs an independent check**, whether an exact form
 method or a second framework. No claims of quantum advantage anywhere (at these sizes a laptop is
 exact and instant).
 
-`cd web && npm test` runs 72 tests in 15 files (`node --test`, Node 20+). Highlights:
+`cd web && npm test` runs 202 tests in 49 files (`node --test`, Node 20+). The generated
+[checks page](web/checks/) lists every test by topic, and `docs/progress.md` records, lesson by
+lesson, which independent check was used. Newer engines are checked against PyMatching (surface-code
+decoding, with and without measurement errors), PennyLane (variational circuits, Fourier
+coefficients, kernels, H₂ chemistry, QAOA) and numpy builds written independently in
+`web/tests/make_reference.py`, as well as closed forms and second solvers. Highlights of the
+original suite:
 
 - engine against numpy/scipy and the Qiskit Schwinger Hamiltonian (`reference.json`, regenerated
   by `web/tests/make_reference.py`)
@@ -266,8 +278,8 @@ exact and instant).
   - Stark shift −F²/2, the variational bound, and WKB accuracy
 - page structure (frame-id clashes, duplicate ids)
 
-`.venv/Scripts/python.exe -m pytest tests/ -q` runs the 7 Python tests (engine and Schwinger model
-in Qiskit and PennyLane). CI runs both on every push and pull request.
+`.venv/Scripts/python.exe -m pytest tests/ -q` runs the 8 Python tests (engine and Schwinger model
+in Qiskit and PennyLane; one checks that the bare vacuum is the flux-free ground state). CI runs both on every push and pull request.
 
 ### Visual verification recipes (Windows)
 

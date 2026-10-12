@@ -3,8 +3,9 @@
 # Quantum Physics Lab
 
 **Quantum physics, made visible.**<br>
-Interactive, step-by-step lessons where you watch wave packets tunnel through walls, electron clouds take shape, qubits rotate and algorithms find their answers,
-built for students learning quantum mechanics and for teachers explaining it.
+Interactive, step-by-step lessons where you watch wave packets tunnel through walls, electron clouds take shape, qubits rotate,
+surface codes catch errors, circuits learn and electron–positron pairs appear out of the vacuum:
+built for students learning quantum mechanics and computing, and for teachers explaining them.
 
 ### [**Open the live site → quantum-physics-lab.vercel.app**](https://quantum-physics-lab.vercel.app)
 
@@ -13,7 +14,8 @@ built for students learning quantum mechanics and for teachers explaining it.
 ![Runs in the browser](https://img.shields.io/badge/runs-in_your_browser-2ee6f5)
 [![Live site](https://img.shields.io/badge/live-quantum--physics--lab.vercel.app-2ee6f5)](https://quantum-physics-lab.vercel.app)
 [![MIT license](https://img.shields.io/badge/license-MIT-8b7bff)](LICENSE)
-![Topics](https://img.shields.io/badge/interactive_topics-39-8b7bff)
+![Topics](https://img.shields.io/badge/interactive_topics-84-8b7bff)
+![Physics checks](https://img.shields.io/badge/physics_checks-202-2ee6f5)
 
 <img src="docs/screenshots/home.png" alt="Landing page: 'Quantum physics, made visible.' beside a Bloch sphere rotating under a Hadamard gate" width="900">
 
@@ -29,21 +31,66 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 
 ## What's inside
 
+84 interactive lessons in five tracks: quantum mechanics, quantum computing, noise and error
+correction, quantum machine learning, and quantum fields on a lattice. Every lesson has teacher
+notes (goals, prerequisites, common misconceptions) and a short self-check quiz.
+
 | Section | Topics |
 |---|---|
-| **Experiments** | [Photoelectric effect](web/photoelectric/) · [Compton scattering](web/compton/) · [Double slit, one particle at a time](web/double-slit/) · [Mach–Zehnder interferometer](web/mach-zehnder/) · [Quantum bomb tester](web/bomb-tester/) |
-| **Waves** | [Wave packets and uncertainty](web/wave-packets/) · [Particle in a box](web/particle-in-a-box/) · [Harmonic oscillator](web/harmonic-oscillator/) · [Tunnelling and scattering](web/tunnelling/) · [The shooting method](web/shooting-method/) |
-| **Spin and atoms** | [Stern–Gerlach](web/stern-gerlach/) · [Magnetic resonance](web/magnetic-resonance/) · [The hydrogen atom](web/hydrogen/) · [Atomic spectra](web/atomic-spectra/) |
-| **Many particles and approximations** | [Crystals and energy bands](web/bands/) · [Identical particles](web/identical-particles/) · [Perturbation theory](web/perturbation/) · [The variational method](web/variational/) · [The WKB approximation](web/wkb/) |
+| **The experiments that started it** | [The photoelectric effect](web/photoelectric/) · [Compton scattering](web/compton/) · [The double slit, one particle at a time](web/double-slit/) · [The Mach–Zehnder interferometer](web/mach-zehnder/) · [The quantum bomb tester](web/bomb-tester/) |
+| **Waves and the Schrödinger equation** | [Wave packets and uncertainty](web/wave-packets/) · [Particle in a box](web/particle-in-a-box/) · [A particle on a ring](web/particle-on-ring/) · [The harmonic oscillator](web/harmonic-oscillator/) · [Tunnelling and scattering](web/tunnelling/) · [Probability current](web/probability-current/) · [The delta potential](web/delta-potential/) · [Finding energy levels: the shooting method](web/shooting-method/) |
+| **Spin, angular momentum and atoms** | [Stern–Gerlach: measuring spin](web/stern-gerlach/) · [Angular momentum and ladder operators](web/angular-momentum/) · [Adding angular momenta](web/adding-angular-momenta/) · [Spin precession and magnetic resonance](web/magnetic-resonance/) · [The hydrogen atom](web/hydrogen/) · [Atomic spectra](web/atomic-spectra/) |
+| **Many particles and approximations** | [Crystals and energy bands](web/bands/) · [Identical particles](web/identical-particles/) · [Quantum statistics at finite temperature](web/quantum-statistics/) · [Perturbation theory](web/perturbation/) · [Time-dependent perturbation theory and Fermi’s golden rule](web/golden-rule/) · [The adiabatic theorem and Landau–Zener](web/adiabatic/) · [The variational method](web/variational/) · [The WKB approximation](web/wkb/) |
 | **Qubits** | [The qubit](web/qubit/) · [Measurement](web/measurement/) · [Interference and phase](web/interference/) · [Entanglement](web/entanglement/) |
+| **Quantum information** | [Entanglement, measured](web/entanglement-measures/) · [Density matrices and quantum channels](web/channels/) · [Measurements beyond yes and no](web/state-discrimination/) · [No-cloning and monogamy](web/no-cloning/) · [Quantum walks](web/quantum-walk/) |
 | **Protocols** | [Quantum teleportation](web/teleportation/) · [Superdense coding](web/superdense-coding/) · [BB84 key distribution](web/bb84/) |
-| **Algorithms** | [Deutsch–Jozsa](web/deutsch-jozsa/) · [Bernstein–Vazirani](web/bernstein-vazirani/) · [Grover's search](web/grover/) · [Quantum Fourier transform](web/qft/) · [Phase estimation](web/phase-estimation/) · [Shor's algorithm](web/shor/) |
-| **Nonlocality, noise and error correction** | [Bell's theorem: the CHSH game](web/bell-test/) · [Decoherence and mixed states](web/decoherence/) · [Quantum error correction](web/error-correction/) · [Shor's nine-qubit code](web/shor-code/) |
-| **Tools** | [Schrödinger playground](web/schrodinger/): type or draw any potential, see its levels, watch packets move · [Circuit sandbox](web/sandbox/): drag gates, see the state live · [Hamiltonian Playground](web/playground/): type any Hamiltonian, compare exact and Trotterized dynamics |
+| **Algorithms** | [Deutsch–Jozsa](web/deutsch-jozsa/) · [Bernstein–Vazirani](web/bernstein-vazirani/) · [Simon’s algorithm](web/simon/) · [Grover's search](web/grover/) · [Quantum Fourier transform](web/qft/) · [Phase estimation](web/phase-estimation/) · [Amplitude estimation](web/amplitude-estimation/) · [Hamiltonian simulation: Trotter and qDRIFT](web/hamiltonian-simulation/) · [Adiabatic quantum computing](web/adiabatic-qc/) · [HHL and its caveats](web/hhl/) · [Shor's algorithm](web/shor/) |
+| **Nonlocality and noise** | [Bell’s theorem: the CHSH game](web/bell-test/) · [Decoherence and mixed states](web/decoherence/) |
+| **Quantum error correction** | [Quantum error correction](web/error-correction/) · [Shor’s nine-qubit code](web/shor-code/) · [Stabilizers](web/stabilizers/) · [Steane’s seven-qubit code](web/steane-code/) · [The surface code](web/surface-code/) · [Decoding](web/decoding/) · [The threshold](web/threshold/) · [Fault tolerance: noisy measurements](web/fault-tolerance/) · [Magic states](web/magic-states/) · [Toric code and anyons](web/toric-code/) |
+| **Real quantum hardware** | [Building a qubit: the transmon](web/transmon/) · [Pulses, leakage and DRAG](web/drag/) · [Randomized benchmarking](web/randomized-benchmarking/) · [Error mitigation: readout and zero-noise extrapolation](web/error-mitigation/) |
+| **Quantum machine learning** | [Encoding data](web/encoding/) · [A classifier that trains while you watch](web/qml-classifier/) · [Quantum models are Fourier series](web/fourier-models/) · [Quantum kernels](web/quantum-kernels/) · [Barren plateaus, measured](web/barren-plateaus/) · [VQE and QAOA](web/vqe-qaoa/) · [Is there an advantage?](web/qml-advantage/) |
+| **Quantum fields on a lattice** | [From oscillators to particles](web/phonons/) · [Fock space, bosons and fermions](web/fock-space/) · [Jordan–Wigner: fermions as qubits](web/jordan-wigner/) · [The Schwinger model: pair creation](web/schwinger/) · [Confinement and string breaking](web/string-breaking/) · [The transverse-field Ising model](web/ising-transition/) · [Entanglement area law and MPS](web/area-law/) · [Simulating fields on quantum hardware](web/fields-hardware/) |
+| **Tools** | [Circuit sandbox](web/sandbox/) · [Schrödinger playground](web/schrodinger/) · [Hamiltonian Playground](web/playground/) |
 
 ## A quick tour
 
 <table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/decoding.png" alt="Surface-code decoding: union-find clusters grown around lit checks on a distance-5 patch"><br>
+      <b>Decoding the surface code.</b> Click errors onto a distance-5 patch; matching and union-find find the correction live.</td>
+    <td width="50%"><img src="docs/screenshots/threshold.png" alt="Threshold plot: logical against physical error rate for distances 3, 5 and 7"><br>
+      <b>The threshold.</b> Thousands of simulated memory experiments in a background worker; below threshold bigger codes win.</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/magic.png" alt="15-to-1 distillation: output error against input error with the 35p³ law"><br>
+      <b>Magic states.</b> 15-to-1 distillation: every undetected error pattern, and the 35p³ law it adds up to.</td>
+    <td width="50%"><img src="docs/screenshots/toric.png" alt="Toric code with an e anyon carried around an m anyon"><br>
+      <b>Toric code.</b> Carry an e anyon around an m and the state picks up −1, read off a stabilizer tableau.</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/schwinger.png" alt="Schwinger model: electron and positron densities and electric field after a quench"><br>
+      <b>The Schwinger model.</b> Quench the bare vacuum of 1+1D QED and watch pairs and electric flux appear.</td>
+    <td width="50%"><img src="docs/screenshots/string.png" alt="String breaking: flux string between two static charges and the potential flattening"><br>
+      <b>String breaking.</b> Exact ground states with two static charges: the flux string snaps into a pair.</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/ising.png" alt="Transverse-field Ising model: gap, order and entanglement against field"><br>
+      <b>A quantum phase transition.</b> The gap closes and entanglement grows only at h = J; Kibble–Zurek kinks after a ramp.</td>
+    <td width="50%"><img src="docs/screenshots/arealaw.png" alt="TEBD entanglement growth at several bond dimensions against the exact curve"><br>
+      <b>Tensor networks.</b> Area law, matrix product states, and TEBD running out of bond dimension.</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/classifier.png" alt="Variational classifier decision boundary on circle data after training"><br>
+      <b>A classifier that trains while you watch.</b> Exact parameter-shift gradients, checked against PennyLane.</td>
+    <td width="50%"><img src="docs/screenshots/vqe.png" alt="VQE landscape and the H₂ dissociation curve against Hartree–Fock and exact energies"><br>
+      <b>VQE.</b> The H₂ dissociation curve on PennyLane's Hamiltonians, where Hartree–Fock fails and VQE doesn't.</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/barren.png" alt="Gradient variance against qubits for global and local costs"><br>
+      <b>Barren plateaus, measured.</b> Gradients of a global cost vanish exponentially; a local cost's don't.</td>
+    <td width="50%"><img src="docs/screenshots/drag.png" alt="DRAG scan: gate error and leakage against the DRAG coefficient"><br>
+      <b>Pulses and DRAG.</b> A three-level transmon: leakage, phase errors and the correction that fixes them.</td>
+  </tr>
   <tr>
     <td width="50%"><img src="docs/screenshots/bands.png" alt="Energy bands: levels of chains of 1 to 12 wells falling inside the shaded Kronig-Penney bands, with E(k)"><br>
       <b>Energy bands.</b> Add wells one at a time and watch single levels spread into bands; fill them to get a metal or an insulator.</td>
@@ -116,28 +163,22 @@ rotation you can watch, and every algorithm runs one gate at a time with the exp
 
 ## Is it right?
 
-Every simulation is either exact (statevectors, sums of stationary states) or checked against an
-independent method, and the physics is checked by 79 automated tests:
+Every simulation is either exact (statevectors, density matrices, exact diagonalisation) or checked
+against an independent method, and **202 automated tests** say how. The
+[checks page](https://quantum-physics-lab.vercel.app/checks/) lists every one. Some highlights:
 
-- The JavaScript engine matches **numpy/scipy** and the **Qiskit** Schwinger-model Hamiltonian to 10⁻⁹.
-- The QFT equals the discrete Fourier transform; Grover follows sin²((2k+1)θ); phase estimation reaches ≥ 4/π².
-- Teleportation delivers the exact state for all four measurement outcomes; superdense coding decodes every message.
-- BB84 shows 0% errors without an eavesdropper and about 25% with one. Shor factors 15 = 3 × 5 for every valid base.
-- Every lesson circuit behaves the same after being opened in the sandbox.
-- The wave solver reproduces the box levels n²π²/2L² and the oscillator's n + ½; the shooting method finds them to 10⁻⁷.
-- A free Gaussian spreads as σ√(1 + (t/2σ²)²) with Δx·Δk = ½; a coherent state swings as 3 cos t without spreading.
-- Transmission matches the exact rectangular-barrier formula with T + R = 1, and simulated wave packets agree with it to about 0.2%.
-- The magnetic-resonance solution matches direct numerical integration to 10⁻⁸ and Rabi's formula exactly; spin echoes refocus fully.
-- The Mach–Zehnder formulas equal the same experiment built from qubit gates; the bomb tester gives 1/2 boom, 1/4 dark detector; the Zeno version tends to 1.
-- CHSH: no classical rule beats 75%, simulated Bell pairs win cos²(π/8); a qubit touching N environment qubits keeps coherence cos(θ/2)ᴺ, from an exact partial trace.
-- Kronig–Penney bands contain the levels of a 12-well chain; boson and fermion exchange terms match the analytic result; second-order perturbation theory gives the exact −F²/2 Stark shift; variational energies never undershoot; WKB is exact for the oscillator and converges for |x|.
-- Compton scattering conserves energy and momentum; the shift is h/mc(1 − cos θ).
-- Shor's nine-qubit code, built from gates, returns the message exactly after any X, Y, Z or arbitrary rotation on any one qubit.
-- Double-slit dark fringes sit exactly at (m + ½)λ/d, and marked paths add intensities; stopping voltages fit a line of slope h/e.
-- Hydrogen's radial functions are normalised with ⟨r⟩ = (3n² − l(l+1))/2; solving the radial equation numerically gives −1/2n²; the Balmer lines match NIST to 0.01 nm.
+- **Against other frameworks.** Surface-code matching weights and logical error rates equal **PyMatching**'s, with perfect and with noisy measurements. Classifier outputs and parameter-shift gradients, Fourier coefficients, the ZZ feature-map kernel, the H₂ Hamiltonians and QAOA values equal **PennyLane**'s. The Hamiltonian engine equals **Qiskit** and numpy.
+- **Against closed forms.** Amplitude estimation's outcome distribution equals the Brassard–Høyer–Mosca–Tapp formula; 15-to-1 distillation's weight enumerator equals the MacWilliams transform; transverse-field Ising energies equal free fermions, and the Kibble–Zurek ramp follows Dziarmaga's τ^(−1/2) law; randomized benchmarking recovers the exact twirled decay; the transmon approaches Koch et al.'s asymptotics.
+- **Two independent solvers.** Lanczos against dense diagonalisation and an independent numpy build (string breaking); charge basis against a phase grid (transmon); exact qDRIFT channels against 4000 sampled circuits; the stabilizer tableau against statevectors (toric-code braiding).
+- **Exhaustive cases.** Steane's code against all 21 single-qubit errors; Simon's circuit for every hidden string; both surface-code decoders against every error of weight ≤ (d − 1)/2; HHL's output against A⁻¹b.
+- **The foundations.** Box and oscillator levels, wave-packet spreading, exact barrier transmission, hydrogen against NIST, Rabi oscillations, CHSH's 75% and cos²(π/8), the QFT against the DFT, Grover's sin²((2k+1)θ), teleportation for every outcome.
 
-At these sizes a laptop is exact and instant. The point is to see what the mathematics does, not to
-claim any quantum advantage.
+The review also caught a real bug: the original Schwinger-model Hamiltonian (Python lab and
+playground) had the signs of its mass and charge terms flipped, so its "vacuum" was the most excited
+bare state. It is fixed, and a test now checks that the bare vacuum is the flux-free ground state.
+
+At these sizes a laptop is exact and instant. The point is to see what the mathematics does; no
+lesson claims a quantum advantage, and the QML and HHL lessons spell out the evidence on both sides.
 
 ## Run it locally
 
@@ -150,8 +191,8 @@ python -m http.server 8765 --directory web
 Then open <http://localhost:8765>. (ES modules don't load from `file://`, hence the tiny server.)
 
 ```bash
-cd web && npm test                          # 72 web tests, Node 20+, no dependencies
-pip install -r requirements.txt && pytest   # 7 Python tests
+cd web && npm test                          # 202 web tests, Node 20+, no dependencies
+pip install -r requirements.txt && pytest   # 8 Python tests
 ```
 
 ## Deploy it
@@ -175,14 +216,15 @@ PennyLane animation. Real-hardware runs on IBM Quantum are planned under `hardwa
 ```
 quantum-physics-lab/
 ├── web/                  the website (static HTML/CSS/JS, deployable as-is)
-│   ├── lib/              physics engine: circuits, Bloch geometry, algorithms, protocols, 1D waves, spin, hydrogen, optics, noise, approximations
+│   ├── lib/              physics engines: statevectors, stabilizer tableaux, surface-code decoders,
+│   │                     Lanczos, free fermions, MPS/TEBD, variational circuits, pulses, 1D waves, …
 │   ├── ui/               shared components: lesson frame, circuit diagrams, dials, Bloch spheres
-│   ├── <topic>/          one folder per lesson
+│   ├── <topic>/          one folder per lesson (84)
 │   ├── tools/            page generator and catalog status script
 │   └── tests/            Node tests + Python reference generator
 ├── engine/, modules/     Python lab (Qiskit, PennyLane)
 ├── tests/                Python tests
-├── docs/                 curriculum research and screenshots
+├── docs/                 roadmap, progress tracker, curriculum research, screenshots
 └── PROJECT.md            full handoff: architecture, conventions, how everything is checked
 ```
 
@@ -191,14 +233,14 @@ See [`web/README.md`](web/README.md) for the web code's structure and how to add
 
 ## Roadmap
 
-All five phases from the [curriculum research](docs/curriculum.md) are done: the experiments that started
-quantum mechanics, waves and the Schrödinger equation, spin and atoms, many particles and
-approximations, and quantum information beyond the basics. Still open:
+The [roadmap](docs/roadmap.md) was built from a survey of existing tools and courses; the
+[progress tracker](docs/progress.md) records every lesson and how it was checked. All phases are
+done: a polish and teaching layer, quantum information, the rest of the quantum-mechanics core,
+error correction, quantum machine learning, quantum fields on a lattice, and algorithms and
+hardware. Still open:
 
-- Probability current, the delta potential, and a particle on a ring
-- Angular-momentum operators, ladder algebra and the addition of angular momenta
-- Time-dependent perturbation theory, Fermi's golden rule and the adiabatic theorem
-- Real-hardware runs of the Python lab on IBM Quantum
+- Real-hardware runs on IBM Quantum (they need an IBM Quantum account and credentials)
+- Two-qubit gates and crosstalk in the hardware track; lattice gauge theories in two dimensions
 
 ## Contributing
 

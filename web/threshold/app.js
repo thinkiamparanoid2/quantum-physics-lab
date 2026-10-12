@@ -179,14 +179,14 @@ function calculator(api) {
 const STEPS = [
   {
     title: 'Bigger codes, below a threshold',
-    preset: { noise: 'code-capacity', decoder: 'mwpm', pl: 0.04 },
+    preset: { noise: 'code-capacity', decoder: 'mwpm', pl: 0.04, trials: 8000 },
     focus: ['Logical error rate against physical error rate', 'Suppression Λ'],
     html: `<p>Each point is thousands of simulated memory experiments: random bit flips with probability p on every data qubit, decode, check whether the logical qubit flipped. The three curves are distances 3, 5 and 7.</p>
       <p>On the left, bigger codes are better; on the right, worse. They cross at the <b>threshold</b>, about 10% for bit flips with perfect measurements and matching.</p>`,
   },
   {
     title: 'Below threshold: exponential suppression',
-    preset: { noise: 'code-capacity', decoder: 'mwpm', pl: 0.04 },
+    preset: { noise: 'code-capacity', decoder: 'mwpm', pl: 0.04, trials: 8000 },
     focus: ['Suppression Λ', 'Logical error rate against physical error rate'],
     html: `<p>Well below the threshold, every step d → d + 2 divides the logical error rate by a factor <b>Λ</b>. A failure needs about (d + 1)/2 errors to line up, so P_L ∝ (p/p_th)^((d+1)/2): exponentially small in d.</p>`,
     math: `<span class="eq">P_L(d) ≈ A (p/p_th)^((d+1)/2),  Λ = P_L(d)/P_L(d+2) ≈ p_th/p</span>
@@ -200,7 +200,7 @@ const STEPS = [
   },
   {
     title: 'Above threshold: more is worse',
-    preset: { noise: 'code-capacity', decoder: 'mwpm', pl: 0.16 },
+    preset: { noise: 'code-capacity', decoder: 'mwpm', pl: 0.16, trials: 8000 },
     focus: ['Suppression Λ', 'Logical error rate against physical error rate'],
     html: `<p>At p = 16% the order has flipped: the distance-7 code fails more often than distance 3 (just above the crossing the difference is small and needs many trials to see). Error correction only pays off once the hardware is good enough, which is why "below threshold" was the milestone the field chased for decades.</p>`,
   },
