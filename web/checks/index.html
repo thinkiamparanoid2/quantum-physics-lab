@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How it is checked: Quantum Physics Lab</title>
-  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 105 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
+  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 129 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
   <script>document.documentElement.classList.add('is-loading');try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="../styles/site.css">
@@ -16,7 +16,7 @@
         <p class="eyebrow">Is it right?</p>
         <h1>How it is checked</h1>
         <p class="lede">Every simulation is exact or checked against an independent method: a textbook formula, a second
-          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 105 automated checks (some run once per reference case) run on every change.</p>
+          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 129 automated checks (some run once per reference case) run on every change.</p>
       </div>
     </div>
     <div class="container checks-grid">
@@ -181,52 +181,18 @@
         <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/approx.test.js">web/tests/approx.test.js</a></p>
       </section>
       <section class="panel check-group">
-        <h2>Site structure <span class="muted">5</span></h2>
-        <p class="muted">Lesson pages, teaching notes and this page itself.</p>
+        <h2>Linear algebra <span class="muted">3</span></h2>
+        <p class="muted">The Hermitian eigensolver and the SVD behind the new lessons.</p>
         <ul>
-          <li>no lesson reuses an id owned by the lesson frame</li>
-          <li>no lesson declares the same id twice</li>
-          <li>every lesson has teaching notes with well-formed questions</li>
-          <li>the catalog is consistent with the pages on disk</li>
-          <li>the checks page lists every test (run node web/tools/make-checks.mjs)</li>
+          <li>the Hermitian eigensolver gives A v = λ v with orthonormal v</li>
+          <li>degenerate eigenvalues are found exactly (the 2-qubit identity plus a projector)</li>
+          <li>the SVD reconstructs any real matrix with orthonormal factors</li>
         </ul>
-        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/pages.test.js">web/tests/pages.test.js</a></p>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/linalg.test.js">web/tests/linalg.test.js</a></p>
       </section>
       <section class="panel check-group">
-        <h2>channels <span class="muted">4</span></h2>
-        
-        <ul>
-          <li>every channel is trace preserving: sum of K†K is the identity</li>
-          <li>the Bloch-ball maps have their textbook form</li>
-          <li>each Stinespring circuit, with the environment traced out, reproduces its channel</li>
-          <li>repeated noise flows to the fixed point: the centre, or |0> for amplitude damping</li>
-        </ul>
-        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/channels.test.js">web/tests/channels.test.js</a></p>
-      </section>
-      <section class="panel check-group">
-        <h2>cloning <span class="muted">4</span></h2>
-        
-        <ul>
-          <li>the CNOT copier copies |0> and |1> but gives fidelity (1 + z²)/2 in general</li>
-          <li>the optimal universal cloner gives both copies Bloch vector (2/3) r, fidelity 5/6, for every input</li>
-          <li>CKW monogamy: C²(A,B) + C²(A,C) &lt;= C²(A,BC), with the same three-tangle from every qubit</li>
-          <li>GHZ has three-tangle 1 and no pairwise entanglement; W has tangle 0 and C² = 4/9 per pair</li>
-        </ul>
-        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/cloning.test.js">web/tests/cloning.test.js</a></p>
-      </section>
-      <section class="panel check-group">
-        <h2>discrimination <span class="muted">3</span></h2>
-        
-        <ul>
-          <li>the Helstrom measurement reaches ½(1 + √(1 − 4 q0 q1 s²)) for any priors</li>
-          <li>the unambiguous POVM is never wrong, is conclusive with probability 1 − s, and is a valid POVM</li>
-          <li>Neumark: one projective measurement on qubit + ancilla realises the three-outcome POVM</li>
-        </ul>
-        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/discrimination.test.js">web/tests/discrimination.test.js</a></p>
-      </section>
-      <section class="panel check-group">
-        <h2>entanglement <span class="muted">6</span></h2>
-        
+        <h2>Entanglement measures <span class="muted">6</span></h2>
+        <p class="muted">Entropy, concurrence and negativity against exact values and numpy.</p>
         <ul>
           <li>a Bell pair carries one ebit; a product state none</li>
           <li>cos(t/2)|00> + sin(t/2)|11> has C = sin t and the Schmidt coefficients cos(t/2), sin(t/2)</li>
@@ -238,18 +204,40 @@
         <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/entanglement.test.js">web/tests/entanglement.test.js</a></p>
       </section>
       <section class="panel check-group">
-        <h2>linalg <span class="muted">3</span></h2>
-        
+        <h2>Quantum channels <span class="muted">4</span></h2>
+        <p class="muted">Kraus operators, Bloch-ball maps and Stinespring circuits checked against each other.</p>
         <ul>
-          <li>the Hermitian eigensolver gives A v = λ v with orthonormal v</li>
-          <li>degenerate eigenvalues are found exactly (the 2-qubit identity plus a projector)</li>
-          <li>the SVD reconstructs any real matrix with orthonormal factors</li>
+          <li>every channel is trace preserving: sum of K†K is the identity</li>
+          <li>the Bloch-ball maps have their textbook form</li>
+          <li>each Stinespring circuit, with the environment traced out, reproduces its channel</li>
+          <li>repeated noise flows to the fixed point: the centre, or |0> for amplitude damping</li>
         </ul>
-        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/linalg.test.js">web/tests/linalg.test.js</a></p>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/channels.test.js">web/tests/channels.test.js</a></p>
       </section>
       <section class="panel check-group">
-        <h2>walk <span class="muted">4</span></h2>
-        
+        <h2>State discrimination <span class="muted">3</span></h2>
+        <p class="muted">Helstrom, unambiguous discrimination and the Neumark dilation.</p>
+        <ul>
+          <li>the Helstrom measurement reaches ½(1 + √(1 − 4 q0 q1 s²)) for any priors</li>
+          <li>the unambiguous POVM is never wrong, is conclusive with probability 1 − s, and is a valid POVM</li>
+          <li>Neumark: one projective measurement on qubit + ancilla realises the three-outcome POVM</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/discrimination.test.js">web/tests/discrimination.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>No-cloning and monogamy <span class="muted">4</span></h2>
+        <p class="muted">The copiers’ fidelities and the CKW inequality.</p>
+        <ul>
+          <li>the CNOT copier copies |0> and |1> but gives fidelity (1 + z²)/2 in general</li>
+          <li>the optimal universal cloner gives both copies Bloch vector (2/3) r, fidelity 5/6, for every input</li>
+          <li>CKW monogamy: C²(A,B) + C²(A,C) &lt;= C²(A,BC), with the same three-tangle from every qubit</li>
+          <li>GHZ has three-tangle 1 and no pairwise entanglement; W has tangle 0 and C² = 4/9 per pair</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/cloning.test.js">web/tests/cloning.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Quantum walks <span class="muted">4</span></h2>
+        <p class="muted">Ballistic spreading and the classical limit under noise.</p>
         <ul>
           <li>the quantum walk conserves probability and the symmetric coin gives a symmetric walk</li>
           <li>a quantum walk spreads ballistically: &lt;x²>/t² → 1 − 1/√2, against t for a classical walk</li>
@@ -257,6 +245,91 @@
           <li>the density-matrix walk with no noise matches the pure walk, and stays normalised with noise</li>
         </ul>
         <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/walk.test.js">web/tests/walk.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Probability current <span class="muted">3</span></h2>
+        <p class="muted">Plane waves, packets and the continuity equation.</p>
+        <ul>
+          <li>a plane wave e^{ikx} carries current j = k (ħ = m = 1) and a real wave carries none</li>
+          <li>the total current of a packet is its mean momentum: ∫ j dx = ħk0/m</li>
+          <li>continuity: the probability that crosses a gate equals the time integral of j there</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/current.test.js">web/tests/current.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Delta potentials <span class="muted">3</span></h2>
+        <p class="muted">Bound states and transmission against the grid solvers.</p>
+        <ul>
+          <li>the bound state has E = −α²/2, is normalised and has the derivative jump −2α ψ(0)</li>
+          <li>transmission is k²/(k² + α²) for attractive and repulsive spikes alike</li>
+          <li>the double delta has an even level, and an odd one only when αa > 1/2, matching the grid solver</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/delta.test.js">web/tests/delta.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Particle on a ring <span class="muted">2</span></h2>
+        <p class="muted">Revivals and flux-shifted levels.</p>
+        <ul>
+          <li>a packet on a ring revives exactly at t = 4πR², and at half that time it sits on the far side</li>
+          <li>the ring levels (n − Φ)²/2R² match a finite-difference ring with the flux as a hopping phase</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/ring.test.js">web/tests/ring.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Angular momentum <span class="muted">4</span></h2>
+        <p class="muted">Commutators, Wigner rotations and Clebsch–Gordan coefficients, two ways.</p>
+        <ul>
+          <li>[Jx, Jy] = i Jz and J² = j(j + 1) for every spin</li>
+          <li>the rotation exp(−iβJy) built from eigenvectors equals Wigner’s closed formula</li>
+          <li>Clebsch–Gordan: textbook values and orthonormality</li>
+          <li>diagonalising J² gives the allowed J values and the Clebsch–Gordan states (up to sign)</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/angular.test.js">web/tests/angular.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Fermi’s golden rule <span class="muted">5</span></h2>
+        <p class="muted">First-order theory, exponential decay, recurrences and the Lorentzian line shape.</p>
+        <ul>
+          <li>first-order perturbation theory matches the exact evolution while the level is barely depleted</li>
+          <li>Fermi’s golden rule: the level decays as e^{−Γt} with Γ = 2πV²/δ</li>
+          <li>a finite band gives the probability back at the recurrence time 2π/δ</li>
+          <li>a level far outside the band does not decay</li>
+          <li>after the decay the band holds a Lorentzian of width Γ (shifted by the band’s self-energy)</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/decay.test.js">web/tests/decay.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Adiabatic evolution <span class="muted">3</span></h2>
+        <p class="muted">Landau–Zener transitions and Berry’s phase.</p>
+        <ul>
+          <li>a Landau–Zener sweep jumps diabatically with probability exp(−πΔ²/2α)</li>
+          <li>a slow sweep follows the ground state (adiabatic theorem); a sudden one stays put</li>
+          <li>Berry’s phase: a slow loop adds −Ω/2 on top of the dynamic phase</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/adiabatic.test.js">web/tests/adiabatic.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Quantum statistics <span class="muted">4</span></h2>
+        <p class="muted">Chemical potentials, the Sommerfeld expansion and Bose–Einstein condensation.</p>
+        <ul>
+          <li>the chemical potential reproduces the particle number for all three statistics</li>
+          <li>at high temperature Fermi–Dirac and Bose–Einstein both approach Boltzmann</li>
+          <li>Sommerfeld: fermions in a 3D trap have μ ≈ E_F [1 − (π²/3)(T/E_F)²]</li>
+          <li>Bose–Einstein condensation in a trap: N0/N → 1 − (T/Tc)³</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/statistics.test.js">web/tests/statistics.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Site structure <span class="muted">5</span></h2>
+        <p class="muted">Lesson pages, teaching notes and this page itself.</p>
+        <ul>
+          <li>no lesson reuses an id owned by the lesson frame</li>
+          <li>no lesson declares the same id twice</li>
+          <li>every lesson has teaching notes with well-formed questions</li>
+          <li>the catalog is consistent with the pages on disk</li>
+          <li>the checks page lists every test (run node web/tools/make-checks.mjs)</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/pages.test.js">web/tests/pages.test.js</a></p>
       </section>
       <section class="panel check-group">
         <h2>Python lab: engine <span class="muted">2</span></h2>

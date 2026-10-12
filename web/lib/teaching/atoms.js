@@ -1,6 +1,72 @@
 // Teaching notes for "Spin, angular momentum and atoms".
 
 export const TEACHING = {
+  'adding-angular-momenta': {
+    goals: [
+      'Decompose j₁ ⊗ j₂ into total J = |j₁ − j₂|, …, j₁ + j₂ and check the state count.',
+      'Build the triplet and singlet of two spin-½ particles.',
+      'Read and use a Clebsch–Gordan table.',
+      'Apply L·S = [J² − L² − S²]/2 to fine-structure splitting.',
+    ],
+    prereqs: ['Angular momentum and ladder operators'],
+    misconceptions: [
+      { wrong: '↑↓ is a state of definite total spin.', right: 'It is an equal mix of the triplet M = 0 state and the singlet.' },
+      { wrong: 'Coupling changes the number of states.', right: 'It only changes the basis: (2j₁+1)(2j₂+1) = Σ(2J+1).' },
+    ],
+    questions: [
+      {
+        q: 'Which J values appear in 3/2 ⊗ 1?',
+        options: ['5/2, 3/2, 1/2', '5/2 and 1/2', '2, 1, 0', '3/2 only'],
+        answer: 0,
+        why: 'From |3/2 − 1| = 1/2 to 3/2 + 1 = 5/2 in whole steps.',
+      },
+      {
+        q: 'The singlet of two spin-½ particles is…',
+        options: ['(↑↓ + ↓↑)/√2', '(↑↓ − ↓↑)/√2', '↑↑', '(↑↑ − ↓↓)/√2'],
+        answer: 1,
+        why: 'J = 0 is the antisymmetric combination; the symmetric one is the triplet’s M = 0 state.',
+      },
+      {
+        q: 'For a p electron (l = 1, s = ½), how many states end up with J = 3/2?',
+        options: ['2', '3', '4', '6'],
+        answer: 2,
+        why: '2J + 1 = 4; the remaining 2 have J = ½.',
+      },
+    ],
+  },
+  'angular-momentum': {
+    goals: [
+      'State the commutation relations of angular momentum and what they imply for measurements.',
+      'Use the ladder operators to derive m = −j, …, j and |J| = √(j(j+1))ħ.',
+      'Explain integer (orbital) versus half-integer (spin) j.',
+      'Compute Stern–Gerlach probabilities for spin j along a tilted axis.',
+    ],
+    prereqs: ['Stern–Gerlach', 'Matrices and eigenvalues'],
+    misconceptions: [
+      { wrong: 'In the state m = j the angular momentum points along z.', right: 'Its length √(j(j+1))ħ exceeds jħ; Jx and Jy remain uncertain.' },
+      { wrong: 'The vector model’s precession is a real motion.', right: 'It only pictures the uncertainty of Jx and Jy in a stationary state.' },
+    ],
+    questions: [
+      {
+        q: 'How many values of m does j = 3/2 allow?',
+        options: ['3', '4', '5', '2'],
+        answer: 1,
+        why: '2j + 1 = 4: m = 3/2, 1/2, −1/2, −3/2.',
+      },
+      {
+        q: 'J₊|1, 0⟩ equals…',
+        options: ['|1, 1⟩', '√2 |1, 1⟩', '0', '2|1, 1⟩'],
+        answer: 1,
+        why: '√(j(j+1) − m(m+1)) = √(2 − 0) = √2 (in units of ħ).',
+      },
+      {
+        q: 'A spin-1 particle in |1, 1⟩ meets a magnet tilted by 90°. What is the chance of m′ = 0?',
+        options: ['1/3', '1/4', '1/2', '0'],
+        answer: 2,
+        why: 'P = C(2,1) cos²(45°) sin²(45°) = 2 × ½ × ½ = ½.',
+      },
+    ],
+  },
   'stern-gerlach': {
     goals: [
       'Explain why a beam of silver atoms splits into two spots, never a smear.',

@@ -37,14 +37,14 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Probability current | ⬜ | |
-| The delta potential | ⬜ | |
-| A particle on a ring | ⬜ | |
-| Angular momentum and ladder operators | ⬜ | |
-| Adding angular momenta | ⬜ | |
-| Time-dependent perturbation theory and Fermi's golden rule | ⬜ | |
-| The adiabatic theorem and Landau–Zener | ⬜ | |
-| Quantum statistics at finite temperature | ⬜ | |
+| Probability current | ✅ | j = k for plane waves; ∫j dx = ⟨p⟩; flux through a gate equals the crossed probability (smooth barrier edges; found and documented that sharp edges need dt ≲ 0.002) |
+| The delta potential | ✅ | E = −α²/2, kink condition, T = k²/(k²+α²) and double-delta levels against the grid solvers |
+| A particle on a ring | ✅ | exact revival at 4πR², half revival = shift by π; flux-shifted levels against a finite-difference ring with a Peierls phase |
+| Angular momentum and ladder operators | ✅ | [Jx,Jy] = iJz, J² = j(j+1); exp(−iβJy) from eigenvectors equals Wigner’s formula |
+| Adding angular momenta | ✅ | Racah CG values and orthonormality; diagonalising J² reproduces |CG| and multiplicities |
+| Time-dependent perturbation theory and Fermi's golden rule | ✅ | first order within its depletion error; e^(−Γt) with Γ = 2πV²/δ; recurrence at 2π/δ; Lorentzian line shape with self-energy shift to 2% |
+| The adiabatic theorem and Landau–Zener | ✅ | LZ formula within 0.01 at four rates; adiabatic and sudden limits; Berry phase −Ω/2 at four cone angles |
+| Quantum statistics at finite temperature | ✅ | μ reproduces N; FD/BE → Boltzmann when dilute; Sommerfeld μ(T) in a trap; BEC fraction with finite-N correction |
 
 ## Phase 2: error-correction track (branch `topic/error-correction-track`)
 
@@ -114,3 +114,4 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 - 2026-10-12: roadmap written (`docs/roadmap.md`), tracker created.
 - 2026-10-12: Phase 0 done: UI restructure, learning layer, teacher notes, topics and checks pages, worker helper, citation file. 75 web tests pass.
 - 2026-10-12: Phase 1 done: five quantum-information lessons, `lib/linalg.js` (Hermitian eigensolver, SVD), entanglement view in every multi-qubit circuit lesson and the sandbox. 99 web tests pass.
+- 2026-10-12: Phase F done: eight QM-core lessons. 123 web tests pass.
