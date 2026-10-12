@@ -82,7 +82,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Quantum models are Fourier series | ✅ | coefficients equal qml.fourier.coefficients and vanish above degree L (PennyLane); the quantum fit never beats the least-squares Fourier series of the same degree on its training points (tested every epoch); restricted-coefficient example stated from the computed losses |
 | Quantum kernels | ✅ | ZZ feature-map kernel equals PennyLane's (overlap via adjoint circuit); angle kernel equals the product of cos²; kernel ridge solve satisfies (K + λI)α = y; 2-qubit kernel rank ≤ 16 (Gram matrix of density matrices); accuracy claims read off the computed table |
 | Barren plateaus, measured | ✅ | shallow circuits: global-cost gradient variance falls >100× from 2 to 10 qubits while the local cost stays within 2× (Cerezo et al. 2021); deep circuits flatten the local cost too (>20×); parameter-shift gradient of the ansatz equals a finite difference |
-| VQE and QAOA | ⬜ | |
+| VQE and QAOA | ✅ | H₂ Hamiltonians, HF and FCI energies from PennyLane qchem (10 bond lengths); the one-parameter ansatz reaches FCI to 10⁻⁸ at all of them; FCI equals dense diagonalisation; shipped data equal the reference; QAOA ⟨C⟩ equals PennyLane at four angle pairs; max cut by brute force |
 | Is there an advantage? | ⬜ | |
 
 ## Phase 5: algorithms and hardware (branch `topic/algorithms-hardware`)

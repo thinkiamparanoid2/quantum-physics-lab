@@ -854,6 +854,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M4 36 C10 36 12 12 18 12 C24 12 26 30 32 30 H44 M4 40 H44',
   },
+  {
+    slug: 'vqe-qaoa',
+    section: 'qml',
+    title: 'VQE and QAOA',
+    summary: 'The hydrogen molecule’s dissociation curve with a one-parameter VQE on PennyLane’s Hamiltonians, and MaxCut with QAOA landscapes.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M8 32 C14 10 22 40 28 30 C32 24 38 26 44 26 M8 40 H44',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

@@ -425,3 +425,54 @@ export function gradientVariance({ ns, depth, samples, seed = 7 }, progress) {
   });
   return out;
 }
+
+// ----- MaxCut helpers -----
+
+export function maxCut(n, edges) {
+  let best = 0;
+  for (let b = 0; b < 1 << n; b++) best = Math.max(best, edges.reduce((c, [u, v]) => c + (((b >> u) ^ (b >> v)) & 1), 0));
+  return best;
+}
+
+// Probability of each cut value in a state.
+export function cutDistribution(state, n, edges) {
+  const out = new Array(edges.length + 1).fill(0);
+  for (let b = 0; b < state.dim; b++) {
+    const c = edges.reduce((s, [u, v]) => s + (((b >> u) ^ (b >> v)) & 1), 0);
+    out[c] += state.re[b] ** 2 + state.im[b] ** 2;
+  }
+  return out;
+}
+
+// Best p-layer QAOA angles: a coarse grid for p = 1, then coordinate refinement (deterministic).
+export function optimiseQaoa(n, edges, p) {
+  const value = (g, b) => cutValue(qaoaState(n, edges, g, b), edges);
+  let best = { g: [], b: [], v: -1 };
+  for (let i = 0; i <= 40; i++) {
+    for (let j = 0; j <= 20; j++) {
+      const g = (Math.PI * i) / 40;
+      const b = ((Math.PI / 2) * j) / 20;
+      const v = value(new Array(p).fill(g / p), new Array(p).fill(b));
+      if (v > best.v) best = { g: new Array(p).fill(g / p), b: new Array(p).fill(b), v };
+    }
+  }
+  let step = 0.1;
+  while (step > 1e-6) {
+    let improved = false;
+    for (const key of ['g', 'b']) {
+      for (let k = 0; k < p; k++) {
+        for (const d of [step, -step]) {
+          const t = { g: best.g.slice(), b: best.b.slice() };
+          t[key][k] += d;
+          const v = value(t.g, t.b);
+          if (v > best.v + 1e-12) {
+            best = { ...t, v };
+            improved = true;
+          }
+        }
+      }
+    }
+    if (!improved) step /= 2;
+  }
+  return best;
+}

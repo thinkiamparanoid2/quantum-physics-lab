@@ -1,6 +1,40 @@
 // Teaching notes for the quantum machine learning section.
 
 export const TEACHING = {
+  'vqe-qaoa': {
+    goals: [
+      'Describe the variational quantum eigensolver loop and the variational principle.',
+      'Explain correlation energy and why Hartree–Fock fails as H₂ dissociates.',
+      'Describe QAOA for MaxCut and read its approximation ratio.',
+      'Weigh these algorithms against strong classical methods honestly.',
+    ],
+    prereqs: ['A classifier that trains while you watch'],
+    misconceptions: [
+      { wrong: 'VQE can report an energy below the true ground state if it is lucky.', right: 'Without noise ⟨H⟩ ≥ E₀ for every state; only noise or bugs can go below.' },
+      { wrong: 'Simulating H₂ on a quantum computer shows a quantum advantage for chemistry.', right: 'H₂ in a minimal basis is a 2 × 2 problem; useful chemistry needs far larger, error-corrected machines.' },
+      { wrong: 'QAOA always finds the best cut.', right: 'At small depth it gives an approximation; only as p → ∞ does it become exact.' },
+    ],
+    questions: [
+      {
+        q: 'At equilibrium the H₂ correlation energy is about 21 mHa. Is Hartree–Fock within chemical accuracy (1.6 mHa)?',
+        options: ['Yes', 'No, it is off by more than ten times that', 'Only at large bond lengths', 'Chemical accuracy does not apply'],
+        answer: 1,
+        why: '21 mHa is about 13 times 1.6 mHa.',
+      },
+      {
+        q: 'What does the QAOA approximation ratio measure?',
+        options: ['Circuit depth', 'Expected cut divided by the maximum cut', 'Probability of any cut', 'Number of edges'],
+        answer: 1,
+        why: '⟨C⟩ / C_max: 1 means the maximum cut is always found.',
+      },
+      {
+        q: 'Why does one parameter suffice for H₂ in STO-3G?',
+        options: ['H₂ has only one electron', 'Symmetry limits the ground state to two configurations', 'The basis has one orbital', 'VQE always needs one parameter'],
+        answer: 1,
+        why: 'Particle number and spatial symmetry leave only |1100⟩ and |0011⟩ to mix.',
+      },
+    ],
+  },
   'barren-plateaus': {
     goals: [
       'Define a barren plateau through the variance of gradients over random initialisations.',

@@ -158,3 +158,15 @@ test('barren plateaus: with a shallow circuit the global cost’s gradients vani
   const shift = (d) => f(p.map((v, k) => (k === 0 ? v + d : v)));
   assert.ok(Math.abs((shift(Math.PI / 2) - shift(-Math.PI / 2)) / 2 - (shift(1e-6) - shift(-1e-6)) / 2e-6) < 1e-6);
 });
+
+test('the H₂ data shipped with the site equal the PennyLane reference', async () => {
+  const { H2 } = await import('../lib/h2-data.js');
+  assert.equal(H2.length, ref.h2.length);
+  H2.forEach((h, i) => {
+    const r = ref.h2[i];
+    assert.equal(h.bond, r.bond);
+    assert.equal(h.fci, r.fci);
+    assert.equal(h.hf, r.hf);
+    assert.deepEqual(h.terms, r.terms);
+  });
+});
