@@ -95,7 +95,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Adiabatic quantum computing | ✅ | spectrum equals −ΣX at s = 0 and the sorted cost diagonal at s = 1; sudden limit exactly 1/64; large-gap instance > 99% at T = 64; small-gap instance (Δ = 0.048) < 70% at T = 512 but > 95% at T = 2048 |
 | HHL and its caveats | ✅ | postselected output equals A⁻¹b/‖A⁻¹b‖ to 10⁻¹⁰ and success equals C²‖A⁻¹b‖² for 20 random cases with exactly representable eigenvalues (2–4 clock qubits); off-grid eigenvalues reduce fidelity; larger κ lowers success; fine print cited (Aaronson 2015; Tang 2019; Chia et al. 2020; Costa et al. 2022) |
 | Building a qubit: the transmon | ✅ | charge-basis and twisted phase-grid solvers agree to 5×10⁻⁴; charging parabolas at E_J = 0; Koch et al.'s f₀₁ within 0.5%, anharmonicity → −E_C and charge dispersion within 5% (m = 0) and 15% (m = 1) at E_J/E_C = 100; quoted MHz/kHz values computed |
-| Pulses, leakage and DRAG | ⬜ | |
+| Pulses, leakage and DRAG | ✅ | two-level area theorem exact for 3–40 ns pulses; time step converged; DRAG optima found by scanning (β ≈ 1 for leakage, β ≈ 0.5 for gate error with a virtual Z), matching Gambetta et al. (2011); quoted error and leakage values computed |
 | Randomized benchmarking | ⬜ | |
 | Error mitigation: readout and zero-noise extrapolation | ⬜ | |
 | Real IBM hardware runs | ⏭ | Needs the owner's IBM Quantum account and credentials |

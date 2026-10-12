@@ -934,6 +934,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M6 30 C14 30 16 12 24 12 C32 12 34 30 42 30 M10 26 H38 M13 20 H35',
   },
+  {
+    slug: 'drag',
+    section: 'hardware',
+    title: 'Pulses, leakage and DRAG',
+    summary: 'Shaped microwave pulses flip a transmon; short ones leak into level 2 until a derivative correction (DRAG) cancels it.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M4 32 C12 32 16 10 24 10 C32 10 36 32 44 32 M4 24 C12 24 14 16 18 18 C22 20 26 30 30 30 C34 30 36 24 44 24',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

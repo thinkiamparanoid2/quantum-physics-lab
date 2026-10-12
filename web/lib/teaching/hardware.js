@@ -1,6 +1,40 @@
 // Teaching notes for the hardware section.
 
 export const TEACHING = {
+  drag: {
+    goals: [
+      'Describe single-qubit gates as shaped microwave pulses in the rotating frame.',
+      'Explain leakage to the second excited state of a transmon and why short pulses cause it.',
+      'Describe the DRAG correction and the different optima for leakage and phase error.',
+      'Explain virtual Z gates and the speed–fidelity trade-off.',
+    ],
+    prereqs: ['Building a qubit: the transmon', 'Magnetic resonance and Rabi oscillations'],
+    misconceptions: [
+      { wrong: 'A shorter pulse is always better because of decoherence.', right: 'Short pulses have broad spectra that drive the nearby 1–2 transition and leak out of the qubit.' },
+      { wrong: 'Removing leakage removes the gate error.', right: 'The remaining error is mostly a phase error, minimised at a different DRAG coefficient.' },
+      { wrong: 'Z rotations need a physical pulse.', right: 'They can be applied virtually by shifting the phase of later pulses.' },
+    ],
+    questions: [
+      {
+        q: 'What does DRAG add to the pulse?',
+        options: ['A second Gaussian on X', 'The time derivative of the envelope on the other quadrature', 'A DC offset', 'A pulse on level 2'],
+        answer: 1,
+        why: 'Ω_y = −β Ω̇_x / α cancels the drive’s effect on the 1–2 transition to first order.',
+      },
+      {
+        q: 'In this simulation, which β minimises leakage for an 8 ns pulse?',
+        options: ['0', 'about 0.5', 'about 1', 'about 2'],
+        answer: 2,
+        why: 'Leakage falls from 2 × 10⁻³ to 6 × 10⁻⁶ at β = 1.',
+      },
+      {
+        q: 'Why does a Gaussian π pulse flip a two-level system exactly, regardless of its length?',
+        options: ['It is a coincidence', 'On resonance only the pulse area matters (area theorem)', 'Because of DRAG', 'It does not'],
+        answer: 1,
+        why: 'For a resonant two-level system the rotation angle equals the integrated Rabi frequency.',
+      },
+    ],
+  },
   transmon: {
     goals: [
       'Write the Hamiltonian of a capacitively shunted Josephson junction in terms of E_C and E_J.',
