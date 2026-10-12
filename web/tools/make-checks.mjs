@@ -48,6 +48,7 @@ const GROUPS = [
   ['qml.test.js', 'Quantum machine learning', 'Classifier values and parameter-shift gradients, Fourier coefficients, ZZ kernel, H₂ VQE and QAOA against PennyLane; amplitude encoding.'],
   ['estimation.test.js', 'Amplitude estimation', 'Outcome distribution against the Brassard–Høyer–Mosca–Tapp formula; their error bound; 1/calls against 1/√calls.'],
   ['simon.test.js', 'Simon’s algorithm', 'Two-to-one oracle; outcome distribution uniform on y·s = 0 for every s; GF(2) recovery of s.'],
+  ['hamsim.test.js', 'Trotter and qDRIFT', 'Exact qDRIFT channel against 4000 sampled sequences and Campbell’s bound; convergence orders 1/N², 1/N⁴ and 1/N.'],
   ['toric.test.js', 'Toric code and anyons', 'Checks, ground state and the −1 braiding phase, on the tableau and on an 18-qubit statevector.'],
   ['magic.test.js', 'Magic states', 'Distillation’s weight enumerator against MacWilliams, transversal T on the Reed–Muller code, 35p³ against Monte Carlo, and T injection.'],
   ['pages.test.js', 'Site structure', 'Lesson pages, teaching notes and this page itself.'],

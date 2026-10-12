@@ -1,6 +1,40 @@
 // Teaching notes for "Algorithms".
 
 export const TEACHING = {
+  'hamiltonian-simulation': {
+    goals: [
+      'Explain why e^{−iHt} for a sum of non-commuting Pauli terms needs approximation on a gate-based computer.',
+      'Compare first- and second-order Trotter formulas and their cost per step.',
+      'Describe qDRIFT and why its cost does not depend on the number of terms.',
+      'Choose between methods given the Hamiltonian and the accuracy needed.',
+    ],
+    prereqs: ['Simulating fields on quantum hardware'],
+    misconceptions: [
+      { wrong: 'qDRIFT is always better because it is randomised.', right: 'It is only first order; for few comparable terms or high accuracy, Trotter wins.' },
+      { wrong: 'The Trotter error is given by its commutator bound.', right: 'The bound is often loose; actual errors are frequently much smaller.' },
+      { wrong: 'A single qDRIFT run reproduces e^{−iHt}.', right: 'Only the average over runs (a channel) approximates it; each run is one random circuit.' },
+    ],
+    questions: [
+      {
+        q: 'Doubling the number of qDRIFT samples changes its error bound by…',
+        options: ['×1/4', '×1/2', '×2', 'nothing'],
+        answer: 1,
+        why: 'The bound is 2λ²t²/N.',
+      },
+      {
+        q: 'What does qDRIFT’s cost depend on instead of the number of terms?',
+        options: ['The largest coefficient', 'λ = Σ|h_j|', 'The number of qubits only', 'The commutators'],
+        answer: 1,
+        why: 'The number of samples scales with λ²t²/ε.',
+      },
+      {
+        q: 'Second-order Trotter infidelity falls how fast with the number of steps N?',
+        options: ['1/N', '1/N²', '1/N⁴', 'exponentially'],
+        answer: 2,
+        why: 'The state error is O(t³/N²), so the infidelity is O(1/N⁴).',
+      },
+    ],
+  },
   simon: {
     goals: [
       'State Simon’s problem and its classical query cost.',

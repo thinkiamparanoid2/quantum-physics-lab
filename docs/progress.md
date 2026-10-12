@@ -91,7 +91,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 |---|---|---|
 | Amplitude estimation | ✅ | circuit outcome distribution equals the Brassard–Høyer–Mosca–Tapp closed form to 10⁻¹² (m = 3, 5, 6; four amplitudes); their 8/π²-confidence bound holds for m = 2…10; averaged over a the confident error falls ~8× per 8× calls; sampling √ scaling; the RMS-tail caveat stated |
 | Simon's algorithm | ✅ | oracle two-to-one with period s; circuit distribution exactly uniform on {y : y·s = 0} for every s (n = 2…4); GF(2) solver recovers every s for n = 3…5; classical curve matches the birthday estimate √(π2ⁿ/2) |
-| Hamiltonian simulation: Trotter and qDRIFT | ⬜ | |
+| Hamiltonian simulation: Trotter and qDRIFT | ✅ | qDRIFT channel computed exactly on density matrices equals the mean of 4000 sampled sequences within 4σ and stays under Campbell's bound; convergence ratios 4, 16 and 2 per doubling; single-term Hamiltonian exact for all methods; text numbers read off the computed curves |
 | Adiabatic quantum computing | ⬜ | |
 | HHL and its caveats | ⬜ | |
 | Building a qubit: the transmon | ⬜ | |

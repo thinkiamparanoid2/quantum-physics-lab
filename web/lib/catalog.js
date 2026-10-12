@@ -535,6 +535,16 @@ export const TOPICS = [
     icon: 'M6 40 L42 8 M6 40 C16 20 30 12 42 12 M10 36 V40 M20 26 V40 M30 18 V40',
   },
   {
+    slug: 'hamiltonian-simulation',
+    section: 'algorithms',
+    title: 'Hamiltonian simulation: Trotter and qDRIFT',
+    summary: 'Product formulas against random sampling of terms, compared exactly at equal gate cost on two very different Hamiltonians.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 34 H14 V20 H22 V30 H30 V14 H38 V26 H42',
+  },
+  {
     slug: 'shor',
     section: 'algorithms',
     title: "Shor's algorithm",
