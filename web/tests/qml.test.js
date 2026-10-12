@@ -1,0 +1,119 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import test from 'node:test';
+
+import { seededRandom } from '../lib/circuit.js';
+import { applyOperator } from '../lib/dynamics.js';
+import { hermitianEigen } from '../lib/linalg.js';
+import {
+  angleKernelExact,
+  angleOps,
+  classify,
+  cutValue,
+  energy,
+  fourierCoefficients,
+  fourierModel,
+  h2State,
+  kernel,
+  parameterShift,
+  pauliOperator,
+  qaoaState,
+  zzMapOps,
+} from '../lib/vqc.js';
+
+const ref = JSON.parse(readFileSync(new URL('./reference-qml.json', import.meta.url)));
+
+test('the re-uploading classifier and its parameter-shift gradient equal PennyLane’s', () => {
+  for (const c of ref.classifier) {
+    const params = c.params.flat();
+    const f = (p) => classify(c.layers, p, c.x);
+    assert.ok(Math.abs(f(params) - c.value) < 1e-12);
+    const g = parameterShift(f, params);
+    c.grad.flat().forEach((v, k) => assert.ok(Math.abs(g[k] - v) < 1e-12, `layers ${c.layers}, param ${k}: ${g[k]} vs ${v}`));
+    // and a finite difference agrees too
+    const h = 1e-6;
+    const p = params.slice();
+    p[0] += h;
+    assert.ok(Math.abs((f(p) - f(params)) / h - g[0]) < 1e-5);
+  }
+});
+
+test('a 1-qubit model with L re-uploadings is a Fourier series of degree L, with PennyLane’s coefficients', () => {
+  for (const c of ref.fourier) {
+    const params = c.params.flat();
+    const K = c.layers + 2;
+    const co = fourierCoefficients((x) => fourierModel(c.layers, params, x), K);
+    co.forEach((v, j) => {
+      assert.ok(Math.abs(v.re - c.re[j]) < 1e-12 && Math.abs(v.im - c.im[j]) < 1e-12, `L=${c.layers} k=${v.k}`);
+      if (Math.abs(v.k) > c.layers) assert.ok(Math.hypot(v.re, v.im) < 1e-12, 'no frequency above L');
+    });
+  }
+});
+
+test('kernels: the ZZ feature map matches PennyLane; angle encoding gives the product of cos²', () => {
+  const { points, K } = ref.kernel;
+  const map = zzMapOps();
+  const adj = zzMapOps(true);
+  points.forEach((a, i) => points.forEach((b, j) => assert.ok(Math.abs(kernel(2, map, adj, b, a) - K[i][j]) < 1e-12, `K[${i}][${j}]`)));
+  const rng = seededRandom(9);
+  const inv = (n) => angleOps(n).map((op) => ({ ...op, scale: -1 })).reverse();
+  for (let k = 0; k < 5; k++) {
+    const a = [rng() * 6, rng() * 6, rng() * 6];
+    const b = [rng() * 6, rng() * 6, rng() * 6];
+    assert.ok(Math.abs(kernel(3, angleOps(3), inv(3), a, b) - angleKernelExact(a, b)) < 1e-12);
+  }
+});
+
+test('H₂ (STO-3G, PennyLane Hamiltonians): Hartree–Fock and the one-parameter VQE ansatz reach the HF and FCI energies', () => {
+  for (const h of ref.h2) {
+    const op = pauliOperator(h.terms, 4);
+    assert.ok(Math.abs(energy(op, h2State(0)) - h.hf) < 1e-9, `HF at ${h.bond}`);
+    // golden-section search over θ
+    let lo;
+    let hi;
+    const E = (t) => energy(op, h2State(t));
+    // bracket the minimum on a grid first
+    let best = 0;
+    for (let i = 0; i <= 200; i++) {
+      const t = -Math.PI + (2 * Math.PI * i) / 200;
+      if (E(t) < E(best)) best = t;
+    }
+    [lo, hi] = [best - 0.05, best + 0.05];
+    for (let i = 0; i < 80; i++) {
+      const m1 = lo + (hi - lo) * 0.382;
+      const m2 = lo + (hi - lo) * 0.618;
+      if (E(m1) < E(m2)) hi = m2;
+      else lo = m1;
+    }
+    assert.ok(Math.abs(E((lo + hi) / 2) - h.fci) < 1e-8, `VQE at ${h.bond}: ${E((lo + hi) / 2)} vs ${h.fci}`);
+    // and FCI is the lowest eigenvalue of the 16 × 16 matrix
+    const M = new Float64Array(256);
+    const Mi = new Float64Array(256);
+    const [or, oi] = [new Float64Array(16), new Float64Array(16)];
+    for (let b = 0; b < 16; b++) {
+      const re = new Float64Array(16);
+      re[b] = 1;
+      applyOperator(op, re, new Float64Array(16), or, oi);
+      for (let c = 0; c < 16; c++) [M[c * 16 + b], Mi[c * 16 + b]] = [or[c], oi[c]];
+    }
+    assert.ok(Math.abs(hermitianEigen(M, Mi, 16).values[0] - h.fci) < 1e-9);
+  }
+});
+
+test('QAOA p = 1 MaxCut expectations equal PennyLane’s', () => {
+  const { edges, grid } = ref.qaoa;
+  for (const g of grid) assert.ok(Math.abs(cutValue(qaoaState(5, edges, [g.gamma], [g.beta]), edges) - g.cut) < 1e-12);
+});
+
+
+test('amplitude encoding: the controlled-RY tree prepares exactly the normalised vector', async () => {
+  const { runOps } = await import('../lib/circuit.js');
+  const { amplitudeEncodingOps } = await import('../lib/vqc.js');
+  const rng = seededRandom(4);
+  for (let k = 0; k < 20; k++) {
+    const v = [rng(), rng(), rng(), rng()];
+    const n = Math.hypot(...v);
+    const { state } = runOps(2, amplitudeEncodingOps(v));
+    v.forEach((x, b) => assert.ok(Math.abs(state.re[b] - x / n) < 1e-12 && Math.abs(state.im[b]) < 1e-12));
+  }
+});

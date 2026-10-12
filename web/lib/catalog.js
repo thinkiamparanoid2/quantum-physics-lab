@@ -804,6 +804,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M6 14 H42 M6 24 H42 M6 34 H42 M14 14 V24 M24 24 V34 M34 14 V34',
   },
+  {
+    slug: 'encoding',
+    section: 'qml',
+    title: 'Encoding data',
+    summary: 'Basis, angle and amplitude encoding: the same four numbers loaded three ways, with their costs and the similarity each one induces.',
+    level: 'Intermediate',
+    minutes: 8,
+    status: 'live',
+    icon: 'M6 14 H18 M6 24 H18 M6 34 H18 M22 10 L30 24 L22 38 M34 24 A6 6 0 1 1 34.01 24',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

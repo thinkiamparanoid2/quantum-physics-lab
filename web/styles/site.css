@@ -3330,3 +3330,8 @@ body.present .card-toggle {
   margin: 6px 0;
   overflow-wrap: anywhere;
 }
+
+/* the row for the current choice in a comparison table */
+.tally tr.current td {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}

@@ -77,7 +77,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Encoding data | ⬜ | |
+| Encoding data | ✅ | amplitude-encoding circuit prepares the normalised vector exactly (20 random cases); angle-encoding overlap equals Π cos² against the statevector |
 | A classifier that trains while you watch | ⬜ | |
 | Quantum models are Fourier series | ⬜ | |
 | Quantum kernels | ⬜ | |
