@@ -64,26 +64,26 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| From oscillators to particles | ⬜ | |
-| Fock space, bosons and fermions | ⬜ | |
-| Jordan–Wigner | ⬜ | |
-| The Schwinger model: pair creation | ⬜ | |
-| Confinement and string breaking | ⬜ | |
-| The transverse-field Ising model | ⬜ | |
-| Entanglement area law and MPS | ⬜ | |
-| Simulating fields on quantum hardware | ⬜ | |
+| From oscillators to particles | ✅ | mode frequencies equal a numerical diagonalisation of the spring matrix; modes orthonormal; two coupled quantum oscillators diagonalised in a truncated Fock basis reproduce ω₊(n₊+½) + ω₋(n₋+½) (error falls from 4×10⁻² to 4×10⁻⁵ as the cutoff goes 8 → 14) |
+| Fock space, bosons and fermions | ✅ | [a_i, a†_j] = δ_ij on every state with up to 3 bosons per mode; {c_i, c†_j} = δ_ij and {c_i, c_j} = 0 on all 16 states of 4 modes; exclusion and exchange sign |
+| Jordan–Wigner | ✅ | Z-string operators reproduce every fermion matrix element (4 modes); qubit chain spectrum equals sums of −2t cos(kπ/(N+1)) in every particle-number sector (N = 6); qubit dynamics equal free-fermion orbital densities to 10⁻⁹ |
+| The Schwinger model: pair creation | ✅ | library equals the (corrected) playground preset; bare vacuum flux-free and the unique x = 0 ground state; real-time particle number against Qiskit (reference.json); step claims checked numerically (mass suppression, background-field enhancement) |
+| Confinement and string breaking | ✅ | Lanczos against dense diagonalisation; ground energies and particle numbers with static charges match an independent numpy bit-string build in the neutral sector to 10⁻⁸; slope ≈ g before breaking, about two extra particles after |
+| The transverse-field Ising model | ✅ | free-fermion ground energy and gap equal dense diagonalisation and Lanczos; Kibble–Zurek ramp by free fermions equals the periodic-chain statevector to 10⁻⁸, and 400 spins follow Dziarmaga's τ^(−1/2) law within 10%; half-chain entanglement grows with N only at h = J (steps match (c/6) log₂ N with c = ½) |
+| Entanglement area law and MPS | ✅ | complex SVD rebuilds matrices with orthonormal factors; MPS round trip exact at full χ and truncation infidelity ≤ discarded weight; TEBD error falls 16× when dt halves (second order) with matching entanglement; random state's half-chain entropy equals Page's value (4.29 vs 4.28 on 10 qubits); gapped state flat |
+| Simulating fields on quantum hardware | ✅ | CNOTs per step equal the hand count 4(N − 1) + (N − 1)(N − 2); Trotter infidelity ratios 4 and 16 per halving (orders 1 and 2) from exact simulation; noise model stated as an estimate; no advantage claimed |
 
 ## Phase 3: quantum machine learning (branch `topic/qml`)
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Encoding data | ⬜ | |
-| A classifier that trains while you watch | ⬜ | |
-| Quantum models are Fourier series | ⬜ | |
-| Quantum kernels | ⬜ | |
-| Barren plateaus, measured | ⬜ | |
-| VQE and QAOA | ⬜ | |
-| Is there an advantage? | ⬜ | |
+| Encoding data | ✅ | amplitude-encoding circuit prepares the normalised vector exactly (20 random cases); angle-encoding overlap equals Π cos² against the statevector |
+| A classifier that trains while you watch | ✅ | model output and parameter-shift gradients equal PennyLane (qml.grad) to 10⁻¹² for 1- and 3-layer circuits, and a finite difference; training deterministic per seed; accuracy claims read off the computed curves |
+| Quantum models are Fourier series | ✅ | coefficients equal qml.fourier.coefficients and vanish above degree L (PennyLane); the quantum fit never beats the least-squares Fourier series of the same degree on its training points (tested every epoch); restricted-coefficient example stated from the computed losses |
+| Quantum kernels | ✅ | ZZ feature-map kernel equals PennyLane's (overlap via adjoint circuit); angle kernel equals the product of cos²; kernel ridge solve satisfies (K + λI)α = y; 2-qubit kernel rank ≤ 16 (Gram matrix of density matrices); accuracy claims read off the computed table |
+| Barren plateaus, measured | ✅ | shallow circuits: global-cost gradient variance falls >100× from 2 to 10 qubits while the local cost stays within 2× (Cerezo et al. 2021); deep circuits flatten the local cost too (>20×); parameter-shift gradient of the ansatz equals a finite difference |
+| VQE and QAOA | ✅ | H₂ Hamiltonians, HF and FCI energies from PennyLane qchem (10 bond lengths); the one-parameter ansatz reaches FCI to 10⁻⁸ at all of them; FCI equals dense diagonalisation; shipped data equal the reference; QAOA ⟨C⟩ equals PennyLane at four angle pairs; max cut by brute force |
+| Is there an advantage? | ✅ | classical twin uses exactly the circuit's Fourier features (count and spectrum tested); accuracies read off the computed models; every cited result checked against its paper's title, venue and year |
 
 ## Phase 5: algorithms and hardware (branch `topic/algorithms-hardware`)
 
@@ -117,3 +117,6 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 - 2026-10-12: Phase F done: eight QM-core lessons. 123 web tests pass.
 - 2026-10-12: Phase 2 in progress: tableau simulator, surface-code library with two decoders checked against PyMatching, lessons for stabilizers, Steane code and the surface code. 135 web tests pass. Next: surface-code screenshot check, then decoding, threshold, fault tolerance, magic states, toric code.
 - 2026-10-12: Phase 2 complete: decoding, threshold (Monte Carlo in a worker), fault tolerance (space-time decoding, phenomenological rates checked against PyMatching), magic states (15-to-1, MacWilliams and statevector checks), toric code (braiding phase on tableau and statevector). 149 web tests pass. Next: Phase 4, fields on a lattice.
+- 2026-10-12: Physics review found a sign error in the Schwinger Hamiltonian (Python module, playground preset): with sites numbered from 0, the mass term and the charge in Gauss's law must both flip sign relative to Martinez et al.'s 1-based formulas. The old "bare vacuum" |0101…⟩ had maximal mass energy and flux on alternate links (energy +2.2 against a true minimum of −1.0 for N = 4). Fixed in all three places, references and plots regenerated, and a new test checks that the bare vacuum is the unique flux-free ground state at x = 0.
+- 2026-10-12: Phase 4 complete: eight fields lessons (phonons, Fock space, Jordan–Wigner, Schwinger pair creation, string breaking, transverse-field Ising, area law and MPS, fields on hardware) with Lanczos, free-fermion, TEBD and complex-SVD engines, each checked independently. The physics review also found and fixed the Schwinger sign error (see above) and corrected several step texts against the numbers. 169 web tests pass. Next: Phase 3, QML.
+- 2026-10-12: Phase 3 complete: seven QML lessons on a circuit engine with exact parameter-shift gradients, every model checked against PennyLane (values, gradients, Fourier coefficients, kernels, H₂ qchem Hamiltonians, QAOA). Lesson texts state the honest results (classical baselines often match or win). 180 web tests pass. Next: Phase 5, algorithms and hardware.

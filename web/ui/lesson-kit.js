@@ -12,7 +12,8 @@
 //   ],
 //   cards: [{ id, title, legend?, kind: 'canvas' (default) | 'html', height?, cls?, folded? }],
 //   Any control may add show: (settings) => boolean to appear only when it applies.
-//   steps: [{ title, html, preset?, focus?, math?, predict?, play? }]   html and math may be (api) => string
+//   steps: [{ title, html, preset?, focus?, math?, predict?, play?, at? }]   html and math may be (api) => string;
+//          at = where the play bar starts on this step (default 0)
 //   compute?(settings, previous) -> model     rerun whenever a setting changes
 //   draw(api)                                 redraw everything from api
 //   player?: { duration: (api) => seconds, speed?: number }   a play/scrub bar; api.t is the time
@@ -239,7 +240,7 @@ export function runLesson(def) {
     player?.pause();
     recompute();
     def.onStep?.(i, api);
-    if (player) player.seek(0);
+    if (player) player.seek(Math.min(player.duration, steps[i].at ?? 0));
     else redraw();
     writeHash();
     if (steps[i].play && player) player.play();

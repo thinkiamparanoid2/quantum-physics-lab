@@ -79,9 +79,10 @@ export function schwinger(sites, x = 1, mass = 0.5, coupling = 0.6, background =
   for (let n = 0; n < sites - 1; n++) lines.push([[x / 2, `X${n} X${n + 1}`], [x / 2, `Y${n} Y${n + 1}`]]);
 
   lines.push('staggered mass: electrons live on even sites, positrons on odd sites');
-  lines.push(range(sites, (n) => [(mass / 2) * (n % 2 ? -1 : 1), `Z${n}`]));
+  lines.push(range(sites, (n) => [(-mass / 2) * (n % 2 ? -1 : 1), `Z${n}`]));
 
-  // Electric energy: coupling * sum over links of L^2, L = background + sum_{k<=link} (Z_k + (-1)^k) / 2
+  // Electric energy: coupling * sum over links of L^2, L = background - sum_{k<=link} (Z_k - (-1)^k) / 2
+  // (Martinez et al. 2016 with sites renumbered from 0, so the bare vacuum 0101... carries no flux)
   let constant = 0;
   const single = new Array(sites).fill(0);
   const pair = new Map();
@@ -89,7 +90,7 @@ export function schwinger(sites, x = 1, mass = 0.5, coupling = 0.6, background =
     let c0 = background;
     for (let k = 0; k <= link; k++) c0 += (k % 2 ? -1 : 1) / 2;
     constant += coupling * (c0 * c0 + 0.25 * (link + 1));
-    for (let k = 0; k <= link; k++) single[k] += coupling * c0;
+    for (let k = 0; k <= link; k++) single[k] -= coupling * c0;
     for (let j = 0; j <= link; j++) {
       for (let k = j + 1; k <= link; k++) pair.set(`${j},${k}`, (pair.get(`${j},${k}`) ?? 0) + coupling * 0.5);
     }

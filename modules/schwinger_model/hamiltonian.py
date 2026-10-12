@@ -29,10 +29,15 @@ quantum simulators," New J. Phys. 19, 103020 (2017).
 Hamiltonian (open boundary chain of N sites/qubits, indexed 0..N-1):
 
     H = x * sum_{n=0}^{N-2} (X_n X_{n+1} + Y_n Y_{n+1}) / 2      <- hopping (kinetic energy)
-      + (mass/2) * sum_{n=0}^{N-1} (-1)^n Z_n                     <- staggered mass
+      - (mass/2) * sum_{n=0}^{N-1} (-1)^n Z_n                     <- staggered mass
       + coupling * sum_{n=0}^{N-2} L_n^2                          <- electric field energy
 
-    where L_n = background_field + sum_{k=0}^{n} (Z_k + (-1)^k) / 2
+    where L_n = background_field - sum_{k=0}^{n} (Z_k - (-1)^k) / 2
+
+These are Martinez et al.'s formulas with their sites 1..N renumbered 0..N-1, which flips the
+sign of every (-1)^n. With these signs the bare vacuum |0101...> (vacuum_state below) has
+the lowest mass energy and zero charge on every site, so no electric flux on any link; it is
+the ground state when x = 0.
 
 L_n is the electric field on the link between site n and n+1, after eliminating the gauge
 field via Gauss's law in favor of the fermion occupations to its left. Squaring it produces
@@ -84,7 +89,7 @@ def electric_field_terms(num_sites: int, link: int, background_field: float) -> 
     const = float(background_field)
     for k in range(link + 1):
         const += ((-1) ** k) / 2
-        _add_term(terms, frozenset({k}), 0.5)
+        _add_term(terms, frozenset({k}), -0.5)
     _add_term(terms, frozenset(), const)
     return terms
 
@@ -116,7 +121,7 @@ def schwinger_hamiltonian(
 
     diagonal_terms: dict[frozenset, complex] = {}
     for n in range(num_sites):
-        _add_term(diagonal_terms, frozenset({n}), (mass / 2) * ((-1) ** n))
+        _add_term(diagonal_terms, frozenset({n}), -(mass / 2) * ((-1) ** n))
 
     for link in range(num_sites - 1):
         field_terms = electric_field_terms(num_sites, link, background_field)

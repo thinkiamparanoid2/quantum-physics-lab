@@ -313,10 +313,186 @@ def qec_reference():
     return {"samples": samples, "rates": rates, "phenomenological": phenomenological}
 
 
+# ----- Schwinger model ground states with static charges (web/lib/schwinger.js) -----
+
+
+def schwinger_sector_ground(N, x, mass, g, charges, background=0.0):
+    """Ground state in the neutral sector (N/2 qubits set), built straight from bit strings rather
+    than from Pauli algebra: diagonal = staggered mass + g * sum of squared link fields from Gauss's
+    law, off-diagonal = hopping x between |..01..> and |..10..> on neighbouring sites."""
+    from itertools import combinations
+
+    states = [sum(1 << k for k in ones) for ones in combinations(range(N), N // 2)]
+    index = {b: i for i, b in enumerate(states)}
+    d = len(states)
+    H = np.zeros((d, d))
+    for i, b in enumerate(states):
+        z = [1 - 2 * ((b >> k) & 1) for k in range(N)]
+        diag = -(mass / 2) * sum(((-1) ** k) * z[k] for k in range(N))
+        L = background
+        for n in range(N - 1):
+            L += -(z[n] - (-1) ** n) / 2 + charges[n]
+            diag += g * L * L
+        H[i, i] = diag
+        for k in range(N - 1):
+            if ((b >> k) & 1) != ((b >> (k + 1)) & 1):
+                H[index[b ^ (0b11 << k)], i] += x
+    vals, vecs = np.linalg.eigh(H)
+    psi = vecs[:, 0]
+    zexp = [float(sum(psi[i] ** 2 * (1 - 2 * ((b >> k) & 1)) for i, b in enumerate(states))) for k in range(N)]
+    particles = sum((1 + zexp[k]) / 2 if k % 2 else (1 - zexp[k]) / 2 for k in range(N))
+    return float(vals[0]), float(particles)
+
+
+def schwinger_reference():
+    cases = []
+    N, x, mass, g = 10, 0.5, 0.8, 0.5
+    for length in (0, 1, 3, 5, 7):
+        charges = [0.0] * N
+        if length:
+            a = (N - 1 - length) // 2
+            if a % 2:
+                a -= 1
+            a = max(0, a)
+            charges[a] += 1
+            charges[a + length] -= 1
+        energy, particles = schwinger_sector_ground(N, x, mass, g, charges)
+        cases.append({"N": N, "x": x, "mass": mass, "g": g, "length": length, "charges": charges, "energy": energy, "particles": particles})
+    # a case with a background field and no charges
+    energy, particles = schwinger_sector_ground(8, 1.0, 0.5, 0.6, [0.0] * 8, background=0.7)
+    cases.append({"N": 8, "x": 1.0, "mass": 0.5, "g": 0.6, "background": 0.7, "length": 0, "charges": [0.0] * 8, "energy": energy, "particles": particles})
+    return {"ground": cases}
+
+
+# ----- quantum machine learning (web/lib/vqc.js) -----
+# Every circuit below is written out gate by gate; lib/vqc.js builds the same circuits. PennyLane
+# orders wire 0 first; the expectation values and gradients don't depend on that convention.
+
+
+def classifier_circuit(params, x, layers):
+    """2-qubit data re-uploading classifier: per layer RY(x0) RY(x1), then RZ, RY on each qubit,
+    then CNOT(0, 1). params[l] = [rz0, ry0, rz1, ry1]. Output <Z0>."""
+    for l in range(layers):
+        qml.RY(x[0], wires=0)
+        qml.RY(x[1], wires=1)
+        qml.RZ(params[l][0], wires=0)
+        qml.RY(params[l][1], wires=0)
+        qml.RZ(params[l][2], wires=1)
+        qml.RY(params[l][3], wires=1)
+        qml.CNOT(wires=[0, 1])
+    return qml.expval(qml.PauliZ(0))
+
+
+def fourier_circuit(params, x, layers):
+    """1 qubit: per layer RY(a) RZ(b), then RX(x); a final RY(a) RZ(b). params[l] = [a, b]. <Z>."""
+    for l in range(layers):
+        qml.RY(params[l][0], wires=0)
+        qml.RZ(params[l][1], wires=0)
+        qml.RX(x, wires=0)
+    qml.RY(params[layers][0], wires=0)
+    qml.RZ(params[layers][1], wires=0)
+    return qml.expval(qml.PauliZ(0))
+
+
+def zz_map(x):
+    """Havlicek et al. ZZ feature map on 2 qubits, two repetitions."""
+    for _ in range(2):
+        qml.Hadamard(wires=0)
+        qml.Hadamard(wires=1)
+        qml.RZ(2 * x[0], wires=0)
+        qml.RZ(2 * x[1], wires=1)
+        qml.CNOT(wires=[0, 1])
+        qml.RZ(2 * (np.pi - x[0]) * (np.pi - x[1]), wires=1)
+        qml.CNOT(wires=[0, 1])
+
+
+def qml_reference():
+    import pennylane as qml_mod
+    global qml
+    qml = qml_mod
+    from pennylane import numpy as pnp
+
+    rng = np.random.default_rng(5)
+    out = {}
+    # classifier values and gradients
+    dev2 = qml.device("default.qubit", wires=2)
+    cases = []
+    for layers in (1, 3):
+        node = qml.QNode(lambda p, x: classifier_circuit(p, x, layers), dev2)
+        for _ in range(3):
+            params = pnp.array(rng.uniform(-np.pi, np.pi, (layers, 4)), requires_grad=True)
+            x = rng.uniform(-1.5, 1.5, 2)
+            value = float(node(params, x))
+            grad = qml.grad(node, argnums=0)(params, pnp.array(x, requires_grad=False))
+            cases.append({"layers": layers, "params": params.tolist(), "x": x.tolist(), "value": value, "grad": np.asarray(grad).tolist()})
+    out["classifier"] = cases
+    # Fourier coefficients of the 1-qubit re-uploading model
+    dev1 = qml.device("default.qubit", wires=1)
+    four = []
+    for layers in (1, 2, 3):
+        params = rng.uniform(-np.pi, np.pi, (layers + 1, 2))
+        node = qml.QNode(lambda x: fourier_circuit(params, x, layers), dev1)
+        coeffs = qml.fourier.coefficients(node, 1, layers + 2)
+        four.append({"layers": layers, "params": params.tolist(), "re": np.real(coeffs).tolist(), "im": np.imag(coeffs).tolist()})
+    out["fourier"] = four
+    # ZZ-feature-map kernel matrix
+    pts = rng.uniform(0, 2 * np.pi, (5, 2))
+
+    @qml.qnode(dev2)
+    def overlap(a, b):
+        zz_map(a)
+        qml.adjoint(zz_map)(b)
+        return qml.probs(wires=[0, 1])
+
+    K = [[float(overlap(a, b)[0]) for b in pts] for a in pts]
+    out["kernel"] = {"points": pts.tolist(), "K": K}
+    # H2 in STO-3G across the dissociation curve
+    h2 = []
+    for d in (0.3, 0.45, 0.6, 0.74, 0.9, 1.1, 1.3, 1.6, 2.0, 2.5):
+        coords = pnp.array([0.0, 0.0, 0.0, 0.0, 0.0, d / 0.529177210903], requires_grad=False)
+        H, n = qml.qchem.molecular_hamiltonian(["H", "H"], coords, method="dhf")
+        coeffs, ops = H.terms()
+        terms = []
+        for c, op in zip(coeffs, ops):
+            word = op.pauli_rep
+            for pw, cw in word.items():
+                terms.append({"coeff": float(np.real(c * cw)), "ops": [[int(w), str(p)] for w, p in pw.items()]})
+        M = qml.matrix(H, wire_order=range(4))
+        fci = float(np.linalg.eigvalsh(M)[0])
+        hf_state = np.zeros(16)
+        hf_state[int("1100", 2)] = 1  # wire 0 most significant in qml.matrix
+        hf = float(np.real(hf_state @ M @ hf_state))
+        h2.append({"bond": d, "terms": terms, "fci": fci, "hf": hf})
+    out["h2"] = h2
+    # QAOA p = 1 MaxCut on a 5-node graph: <C> at a few (gamma, beta)
+    edges = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 0), (0, 2)]
+    dev5 = qml.device("default.qubit", wires=5)
+
+    @qml.qnode(dev5)
+    def qaoa(gamma, beta):
+        for w in range(5):
+            qml.Hadamard(wires=w)
+        for a, b in edges:
+            qml.IsingZZ(2 * gamma, wires=[a, b])  # exp(-i gamma Z_a Z_b)
+        for w in range(5):
+            qml.RX(2 * beta, wires=w)
+        return [qml.expval(qml.PauliZ(a) @ qml.PauliZ(b)) for a, b in edges]
+
+    grid = []
+    for gamma, beta in ((0.3, 0.2), (0.6, 0.4), (1.1, 0.9), (2.0, 0.35)):
+        zz = qaoa(gamma, beta)
+        cut = float(sum((1 - z) / 2 for z in zz))
+        grid.append({"gamma": gamma, "beta": beta, "cut": cut})
+    out["qaoa"] = {"edges": edges, "grid": grid}
+    return out
+
+
 TOPICS = {
     "dynamics": ("reference.json", dynamics_reference),
     "entanglement": ("reference-entanglement.json", entanglement_reference),
     "qec": ("reference-qec.json", qec_reference),
+    "schwinger": ("reference-schwinger.json", schwinger_reference),
+    "qml": ("reference-qml.json", qml_reference),
 }
 
 
