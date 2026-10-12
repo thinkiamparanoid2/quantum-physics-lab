@@ -1,6 +1,40 @@
 // Teaching notes for "Algorithms".
 
 export const TEACHING = {
+  'adiabatic-qc': {
+    goals: [
+      'Encode an optimisation problem as the ground state of an Ising Hamiltonian.',
+      'Describe the adiabatic algorithm: interpolate from an easy Hamiltonian to the problem Hamiltonian.',
+      'Relate the required run time to the minimum spectral gap.',
+      'Explain why small gaps make some instances hard, and what is known about quantum annealing.',
+    ],
+    prereqs: ['The adiabatic theorem and Berry phase'],
+    misconceptions: [
+      { wrong: 'Running slowly always guarantees the answer quickly.', right: 'The needed time scales like 1/Δ², which can grow exponentially with problem size.' },
+      { wrong: 'Quantum annealers have shown an exponential speed-up for optimisation.', right: 'No scaling advantage over the best classical heuristics has been established for useful problems.' },
+      { wrong: 'The adiabatic model is weaker than circuits.', right: 'With general Hamiltonians it is polynomially equivalent to the circuit model.' },
+    ],
+    questions: [
+      {
+        q: 'What does a very fast (sudden) anneal on n spins return?',
+        options: ['The answer', 'A uniformly random configuration', 'The highest-energy state', 'Nothing'],
+        answer: 1,
+        why: 'The state is still |+…+⟩, so every configuration has probability 1/2ⁿ.',
+      },
+      {
+        q: 'The minimum gap of an instance is 0.05. Roughly what run time does the rule of thumb suggest?',
+        options: ['20', '400', '0.05', '1'],
+        answer: 1,
+        why: '1/Δ² = 400 (and in practice somewhat more for high success).',
+      },
+      {
+        q: 'Why start from H_B = −ΣX?',
+        options: ['It is diagonal', 'Its ground state |+…+⟩ is easy to prepare and it does not commute with H_P', 'It has no gap', 'It equals H_P'],
+        answer: 1,
+        why: 'A simple known ground state, plus non-commutation so the interpolation can move the state.',
+      },
+    ],
+  },
   'hamiltonian-simulation': {
     goals: [
       'Explain why e^{−iHt} for a sum of non-commuting Pauli terms needs approximation on a gate-based computer.',

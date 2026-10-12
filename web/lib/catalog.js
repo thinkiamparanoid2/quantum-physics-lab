@@ -545,6 +545,16 @@ export const TOPICS = [
     icon: 'M6 34 H14 V20 H22 V30 H30 V14 H38 V26 H42',
   },
   {
+    slug: 'adiabatic-qc',
+    section: 'algorithms',
+    title: 'Adiabatic quantum computing',
+    summary: 'Morph an easy Hamiltonian into a 6-spin optimisation problem: the spectral gap decides how slowly you must go.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 36 C16 36 20 14 30 14 C36 14 40 18 42 18 M6 30 C16 30 20 20 30 22 C36 24 40 30 42 30',
+  },
+  {
     slug: 'shor',
     section: 'algorithms',
     title: "Shor's algorithm",
