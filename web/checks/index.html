@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How it is checked: Quantum Physics Lab</title>
-  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 145 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
+  <meta name="description" content="Every automated check behind Quantum Physics Lab's simulations: 150 checks against exact formulas, second methods, numpy, Qiskit and PennyLane.">
   <script>document.documentElement.classList.add('is-loading');try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="../styles/site.css">
@@ -16,7 +16,7 @@
         <p class="eyebrow">Is it right?</p>
         <h1>How it is checked</h1>
         <p class="lede">Every simulation is exact or checked against an independent method: a textbook formula, a second
-          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 145 automated checks (some run once per reference case) run on every change.</p>
+          numerical method, or numpy, Qiskit and PennyLane in the Python lab. These 150 automated checks (some run once per reference case) run on every change.</p>
       </div>
     </div>
     <div class="container checks-grid">
@@ -333,7 +333,7 @@
       </section>
       <section class="panel check-group">
         <h2>Surface code and decoders <span class="muted">9</span></h2>
-        <p class="muted">Matching weights and logical error rates against PyMatching; threshold behaviour.</p>
+        <p class="muted">Matching weights and logical error rates against PyMatching, with perfect and with noisy measurements; threshold behaviour.</p>
         <ul>
           <li>the rotated surface code has d² − 1 commuting checks and anticommuting logical operators</li>
           <li>both decoders correct every error of weight ≤ (d − 1)/2 (exhaustive for d = 3 and 5)</li>
@@ -355,6 +355,18 @@
           <li>any single X, Y or Z error on any of the 7 qubits is corrected; the message comes back</li>
         </ul>
         <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/steane.test.js">web/tests/steane.test.js</a></p>
+      </section>
+      <section class="panel check-group">
+        <h2>Magic states <span class="muted">5</span></h2>
+        <p class="muted">Distillation’s weight enumerator against MacWilliams, transversal T on the Reed–Muller code, 35p³ against Monte Carlo, and T injection.</p>
+        <ul>
+          <li>the undetected error patterns are the Hamming [15,11] code: weight enumerator by MacWilliams, 35 of weight 3</li>
+          <li>the code states are a valid [[15,1,3]] code, and fifteen T gates act on it as a logical T†</li>
+          <li>15-to-1 distillation: output error → 35p³, acceptance → 1 − 15p, and Monte Carlo agrees</li>
+          <li>distillation helps below a break-even error rate, and two rounds compound</li>
+          <li>T-gate injection: both measurement outcomes leave T|ψ⟩ (after the S fix), without it outcome 1 gives T†|ψ⟩</li>
+        </ul>
+        <p class="check-source"><a href="https://github.com/thinkiamparanoid2/quantum-physics-lab/blob/main/web/tests/magic.test.js">web/tests/magic.test.js</a></p>
       </section>
       <section class="panel check-group">
         <h2>Site structure <span class="muted">5</span></h2>

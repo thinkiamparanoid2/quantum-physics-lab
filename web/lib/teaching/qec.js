@@ -1,6 +1,40 @@
 // Teaching notes for "Quantum error correction".
 
 export const TEACHING = {
+  'magic-states': {
+    goals: [
+      'Explain why Clifford gates alone cannot give a quantum advantage and why T is needed.',
+      'Follow T-gate injection: a magic state, a CNOT, a measurement and a conditional S.',
+      'Explain how 15-to-1 distillation detects errors with four checks and when it fails.',
+      'Derive the 35p³ output error and estimate the cost of several rounds.',
+    ],
+    prereqs: ['Stabilizers', 'Steane’s code'],
+    misconceptions: [
+      { wrong: 'An error-corrected computer can do every gate the same way.', right: 'No code has a universal transversal gate set (Eastin–Knill); the surface code needs magic states for T.' },
+      { wrong: 'Distillation corrects errors in the magic states.', right: 'It only detects them and throws suspicious batches away; outputs are better because failures need three or more aligned errors.' },
+      { wrong: 'Outcome 1 in gate injection means the gate failed.', right: 'It applied T† instead; a Clifford S turns it into T, so both outcomes succeed.' },
+    ],
+    questions: [
+      {
+        q: 'Raw magic states have error 10⁻³. Roughly what error comes out of one round of 15-to-1?',
+        options: ['10⁻⁶', '3.5 × 10⁻⁸', '1.5 × 10⁻⁴', '10⁻¹²'],
+        answer: 1,
+        why: '35p³ = 35 × 10⁻⁹ = 3.5 × 10⁻⁸.',
+      },
+      {
+        q: 'Errors hit inputs 3, 5 and 6. What happens?',
+        options: ['Rejected', 'Accepted and the output is flipped', 'Accepted and fine', 'Rejected only by check 8'],
+        answer: 1,
+        why: '3 ⊕ 5 ⊕ 6 = 0, so no check fires, and three errors is an odd pattern: a logical error.',
+      },
+      {
+        q: 'Why does a single error never get through?',
+        options: ['Single errors are impossible', 'Its label is nonzero, so at least one check fires', 'The code corrects it', 'T gates cancel it'],
+        answer: 1,
+        why: 'The checks read the XOR of the error labels; one label alone is never zero.',
+      },
+    ],
+  },
   'fault-tolerance': {
     goals: [
       'Explain why syndrome measurements must be repeated when the measurements themselves are noisy.',

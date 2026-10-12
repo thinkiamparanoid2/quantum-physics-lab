@@ -57,7 +57,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Decoding (matching, union-find) | ✅ | exact MWPM weights equal PyMatching on 240 samples; both decoders correct all errors up to (d−1)/2; screenshots of the failing three-error case and union-find growth |
 | Threshold in the browser | ✅ | Monte Carlo in a Web Worker; code-capacity rates match PyMatching within 4σ, crossing near 10% (matching) and Λ ≈ 2 at p = 4%; scan reproducible per seed; Λ shown with binomial error bars; noisy checks use union-find (exact matching too slow in a browser) |
 | Fault tolerance: measurement errors | ✅ | repetition code in space-time (flat picture); detection events equal the ends of the fault edges; matching corrects every 1- and 2-fault pattern (exhaustive, d = 5, 5 rounds); logical rates match PyMatching (repetitions mode) within 4σ for repetition d = 3, 5, 7 and surface d = 3, 5 |
-| Magic states and distillation | ⬜ | |
+| Magic states and distillation | ✅ | weight enumerator of the undetected patterns equals the MacWilliams transform of the simplex code (A₃ = 35); 15 T gates act as logical T† on the Reed–Muller code (15-qubit statevector); 35p³ and acceptance 1 − 15p limits; Monte Carlo within 4σ; break-even 14.1%; injection gives T|ψ⟩ for both outcomes |
 | Toric code and anyons | ⬜ | |
 
 ## Phase 4: quantum fields on a lattice (branch `topic/quantum-fields`)

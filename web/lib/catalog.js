@@ -704,6 +704,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M8 8 V40 M20 8 V40 M32 8 V40 M44 8 V40 M8 16 H44 M8 28 H44 M20 16 L32 28',
   },
+  {
+    slug: 'magic-states',
+    section: 'qec',
+    title: 'Magic states',
+    summary: 'The T gate by teleportation, and 15-to-1 distillation: fifteen noisy states in, one far better state out.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M24 6 L28 18 L41 18 L31 26 L35 39 L24 31 L13 39 L17 26 L7 18 L20 18 Z',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be
