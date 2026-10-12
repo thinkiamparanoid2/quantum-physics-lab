@@ -45,7 +45,7 @@ def schwinger_hamiltonian_pennylane(
 
     diagonal_terms: dict[frozenset, complex] = {}
     for n in range(num_sites):
-        _add_term(diagonal_terms, frozenset({n}), (mass / 2) * ((-1) ** n))
+        _add_term(diagonal_terms, frozenset({n}), -(mass / 2) * ((-1) ** n))
 
     for link in range(num_sites - 1):
         field_terms = electric_field_terms(num_sites, link, background_field)
