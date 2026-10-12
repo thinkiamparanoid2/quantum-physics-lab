@@ -89,7 +89,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| Amplitude estimation | ⬜ | |
+| Amplitude estimation | ✅ | circuit outcome distribution equals the Brassard–Høyer–Mosca–Tapp closed form to 10⁻¹² (m = 3, 5, 6; four amplitudes); their 8/π²-confidence bound holds for m = 2…10; averaged over a the confident error falls ~8× per 8× calls; sampling √ scaling; the RMS-tail caveat stated |
 | Simon's algorithm | ⬜ | |
 | Hamiltonian simulation: Trotter and qDRIFT | ⬜ | |
 | Adiabatic quantum computing | ⬜ | |

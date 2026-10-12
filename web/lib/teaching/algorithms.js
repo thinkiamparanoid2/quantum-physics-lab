@@ -1,6 +1,40 @@
 // Teaching notes for "Algorithms".
 
 export const TEACHING = {
+  'amplitude-estimation': {
+    goals: [
+      'State the amplitude estimation problem and the cost of estimating by sampling.',
+      'Explain how the Grover operator turns an amplitude into a phase.',
+      'Read the outcome distribution and the Brassard–Høyer–Mosca–Tapp error bound.',
+      'Explain why the speed-up is quadratic and what limits it in practice.',
+    ],
+    prereqs: ['Phase estimation', 'Grover search'],
+    misconceptions: [
+      { wrong: 'Amplitude estimation gives an exponential speed-up for Monte Carlo.', right: 'It is quadratic: 1/ε calls instead of 1/ε².' },
+      { wrong: 'Its root-mean-square error falls as 1/calls.', right: 'The guarantee is a high-probability bound; the canonical estimator has heavy tails.' },
+      { wrong: 'Any number of counting qubits is cheap.', right: 'Controlled powers of Q make the circuit deep, which noise punishes.' },
+    ],
+    questions: [
+      {
+        q: 'To reach error 10⁻³ by sampling takes about 10⁶ runs. Amplitude estimation needs about…',
+        options: ['10⁶ calls', '10³ calls', '30 calls', '1 call'],
+        answer: 1,
+        why: 'Error ∝ 1/calls instead of 1/√runs: about 10³.',
+      },
+      {
+        q: 'What are the eigenvalues of the Grover operator Q when a = sin²θ?',
+        options: ['±1', 'e^{±iθ}', 'e^{±2iθ}', 'sin θ and cos θ'],
+        answer: 2,
+        why: 'Q rotates by 2θ in the plane of good and bad states.',
+      },
+      {
+        q: 'With what probability does canonical amplitude estimation meet its error bound?',
+        options: ['Always', 'At least 8/π² ≈ 81%', 'About 50%', 'It depends on a only'],
+        answer: 1,
+        why: 'Brassard et al. guarantee success probability ≥ 8/π²; repeating and taking the median boosts it.',
+      },
+    ],
+  },
   'deutsch-jozsa': {
     goals: [
       'Use phase kickback to turn an oracle’s output into a phase.',

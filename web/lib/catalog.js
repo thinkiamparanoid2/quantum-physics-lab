@@ -515,6 +515,16 @@ export const TOPICS = [
     icon: 'M6 38 L14 30 L20 34 L26 12 L32 34 L38 30 L42 34',
   },
   {
+    slug: 'amplitude-estimation',
+    section: 'algorithms',
+    title: 'Amplitude estimation',
+    summary: 'Phase estimation on a Grover operator turns a probability into a phase: error falling as 1/calls instead of 1/√calls.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 40 L42 8 M6 40 C16 20 30 12 42 12 M10 36 V40 M20 26 V40 M30 18 V40',
+  },
+  {
     slug: 'shor',
     section: 'algorithms',
     title: "Shor's algorithm",
