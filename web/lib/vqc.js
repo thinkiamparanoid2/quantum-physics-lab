@@ -376,3 +376,52 @@ export function kernelRidge(train, k, lambda = 0.05) {
   const alpha = solve(A, train.map((p) => p.y));
   return { K, alpha, f: (x) => train.reduce((s, p, i) => s + alpha[i] * k(p.x, x), 0) };
 }
+
+// ----- barren plateaus -----
+
+// Hardware-efficient ansatz: each layer RY then RZ on every qubit, then a CNOT chain.
+export function hardwareEfficientOps(n, layers) {
+  const ops = [];
+  let k = 0;
+  for (let l = 0; l < layers; l++) {
+    for (let q = 0; q < n; q++) ops.push({ gate: 'RY', target: q, param: k++ });
+    for (let q = 0; q < n; q++) ops.push({ gate: 'RZ', target: q, param: k++ });
+    for (let q = 0; q + 1 < n; q++) ops.push({ gate: 'CNOT', control: q, target: q + 1 });
+  }
+  return { ops, count: k };
+}
+
+// Variance over random parameters of ∂C/∂θ₀ (the first RY), for a global cost ⟨Z⊗…⊗Z⟩ and a
+// local one ⟨Z₀⟩ (Web Worker). depth: 'linear' (as many layers as qubits) or a fixed number.
+export function gradientVariance({ ns, depth, samples, seed = 7 }, progress) {
+  let s = seed >>> 0;
+  const rng = () => {
+    s = (s * 1664525 + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+  const out = [];
+  ns.forEach((n, idx) => {
+    const layers = depth === 'linear' ? n : depth;
+    const { ops, count } = hardwareEfficientOps(n, layers);
+    const all = Array.from({ length: n }, (_, q) => q);
+    const g = { global: [], local: [] };
+    for (let k = 0; k < samples; k++) {
+      const params = Array.from({ length: count }, () => 2 * Math.PI * rng());
+      const shifted = (d) => {
+        const p = params.slice();
+        p[0] += d;
+        return run(n, ops, p);
+      };
+      const [up, down] = [shifted(Math.PI / 2), shifted(-Math.PI / 2)];
+      g.global.push((expZs(up, all) - expZs(down, all)) / 2);
+      g.local.push((expZ(up, 0) - expZ(down, 0)) / 2);
+    }
+    const variance = (v) => {
+      const m = v.reduce((a, b) => a + b, 0) / v.length;
+      return v.reduce((a, b) => a + (b - m) ** 2, 0) / (v.length - 1);
+    };
+    out.push({ n, layers, global: variance(g.global), local: variance(g.local), samples, gradients: g });
+    progress?.((idx + 1) / ns.length);
+  });
+  return out;
+}

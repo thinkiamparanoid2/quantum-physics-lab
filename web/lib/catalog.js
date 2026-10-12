@@ -844,6 +844,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M6 6 H42 V42 H6 Z M6 18 H42 M6 30 H42 M18 6 V42 M30 6 V42',
   },
+  {
+    slug: 'barren-plateaus',
+    section: 'qml',
+    title: 'Barren plateaus, measured',
+    summary: 'Sample hundreds of random circuits and watch gradients vanish exponentially, for global costs and deep circuits, but not always.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M4 36 C10 36 12 12 18 12 C24 12 26 30 32 30 H44 M4 40 H44',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

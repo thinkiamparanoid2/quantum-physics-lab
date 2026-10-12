@@ -142,3 +142,19 @@ test('kernel ridge regression solves (K + λI)α = y, and a 2-qubit kernel matri
   const values = symmetricEigen(Float64Array.from(r.K.flat()), 40).values;
   assert.ok(values.filter((v) => v > 1e-9).length <= 16);
 });
+
+test('barren plateaus: with a shallow circuit the global cost’s gradients vanish exponentially, the local cost’s do not', async () => {
+  const { gradientVariance } = await import('../lib/vqc.js');
+  const shallow = gradientVariance({ ns: [2, 6, 10], depth: 2, samples: 200 });
+  assert.ok(shallow[0].global / shallow[2].global > 100, 'global: more than 100× smaller from 2 to 10 qubits');
+  assert.ok(shallow[0].local / shallow[2].local < 2, 'local: about constant');
+  const deep = gradientVariance({ ns: [2, 6, 10], depth: 'linear', samples: 200 });
+  assert.ok(deep[0].local / deep[2].local > 20, 'deep circuits flatten even the local cost');
+  // the parameter-shift gradient of the hardware-efficient circuit agrees with a finite difference
+  const { hardwareEfficientOps, run, expZ } = await import('../lib/vqc.js');
+  const { ops, count } = hardwareEfficientOps(4, 3);
+  const p = Array.from({ length: count }, (_, k) => 0.3 * k);
+  const f = (q) => expZ(run(4, ops, q), 0);
+  const shift = (d) => f(p.map((v, k) => (k === 0 ? v + d : v)));
+  assert.ok(Math.abs((shift(Math.PI / 2) - shift(-Math.PI / 2)) / 2 - (shift(1e-6) - shift(-1e-6)) / 2e-6) < 1e-6);
+});

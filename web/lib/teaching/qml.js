@@ -1,6 +1,40 @@
 // Teaching notes for the quantum machine learning section.
 
 export const TEACHING = {
+  'barren-plateaus': {
+    goals: [
+      'Define a barren plateau through the variance of gradients over random initialisations.',
+      'Show that global costs plateau even in shallow circuits while local costs need not.',
+      'Explain why deep random circuits and hardware noise flatten landscapes.',
+      'Explain the tension between trainability and classical simulability.',
+    ],
+    prereqs: ['A classifier that trains while you watch'],
+    misconceptions: [
+      { wrong: 'A better optimiser fixes a barren plateau.', right: 'The gradients are exponentially small everywhere; estimating them needs exponentially many shots, whatever the optimiser.' },
+      { wrong: 'Barren plateaus depend only on the circuit.', right: 'They also depend on the cost: global observables plateau where local ones stay trainable.' },
+      { wrong: 'Avoiding barren plateaus guarantees a useful quantum model.', right: 'The structure that avoids them often makes the model classically simulable.' },
+    ],
+    questions: [
+      {
+        q: 'Gradient variance falls by about half per added qubit. Going from 10 to 30 qubits divides it by about…',
+        options: ['3', '20', '1000', 'a million'],
+        answer: 3,
+        why: '2²⁰ ≈ 10⁶.',
+      },
+      {
+        q: 'Which cost keeps gradients large for shallow circuits?',
+        options: ['⟨Z⊗Z⊗…⊗Z⟩ on all qubits', '⟨Z₀⟩ on one qubit', 'Both', 'Neither'],
+        answer: 1,
+        why: 'Local costs avoid the plateau at shallow depth (Cerezo et al. 2021).',
+      },
+      {
+        q: 'Roughly how many shots does it take to resolve a gradient of size 0.01?',
+        options: ['10', '100', '10 000', '10⁸'],
+        answer: 2,
+        why: 'Shot noise scales as 1/√shots, so about 1/ε² = 10⁴.',
+      },
+    ],
+  },
   'quantum-kernels': {
     goals: [
       'Define a quantum kernel as the overlap of encoded states and say how hardware estimates it.',
