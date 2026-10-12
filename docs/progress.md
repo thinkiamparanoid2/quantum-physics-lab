@@ -64,7 +64,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 
 | Lesson | Status | Independent check |
 |---|---|---|
-| From oscillators to particles | ⬜ | |
+| From oscillators to particles | ✅ | mode frequencies equal a numerical diagonalisation of the spring matrix; modes orthonormal; two coupled quantum oscillators diagonalised in a truncated Fock basis reproduce ω₊(n₊+½) + ω₋(n₋+½) (error falls from 4×10⁻² to 4×10⁻⁵ as the cutoff goes 8 → 14) |
 | Fock space, bosons and fermions | ⬜ | |
 | Jordan–Wigner | ⬜ | |
 | The Schwinger model: pair creation | ⬜ | |

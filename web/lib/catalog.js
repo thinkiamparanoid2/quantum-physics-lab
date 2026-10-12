@@ -724,6 +724,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M24 12 C10 12 4 18 4 24 C4 30 10 36 24 36 C38 36 44 30 44 24 C44 18 38 12 24 12 Z M16 24 C20 20 28 20 32 24 M18 22 C21 26 27 26 30 22',
   },
+  {
+    slug: 'phonons',
+    section: 'fields',
+    title: 'From oscillators to particles',
+    summary: 'A chain of masses becomes independent normal modes; quantise them and their quanta behave like particles, massive or massless.',
+    level: 'Intermediate',
+    minutes: 10,
+    status: 'live',
+    icon: 'M4 24 H8 L10 20 L14 28 L16 24 H20 M28 24 H32 L34 20 L38 28 L40 24 H44 M24 24 A4 4 0 1 1 24.01 24',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be
