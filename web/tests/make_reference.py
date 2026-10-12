@@ -313,10 +313,62 @@ def qec_reference():
     return {"samples": samples, "rates": rates, "phenomenological": phenomenological}
 
 
+# ----- Schwinger model ground states with static charges (web/lib/schwinger.js) -----
+
+
+def schwinger_sector_ground(N, x, mass, g, charges, background=0.0):
+    """Ground state in the neutral sector (N/2 qubits set), built straight from bit strings rather
+    than from Pauli algebra: diagonal = staggered mass + g * sum of squared link fields from Gauss's
+    law, off-diagonal = hopping x between |..01..> and |..10..> on neighbouring sites."""
+    from itertools import combinations
+
+    states = [sum(1 << k for k in ones) for ones in combinations(range(N), N // 2)]
+    index = {b: i for i, b in enumerate(states)}
+    d = len(states)
+    H = np.zeros((d, d))
+    for i, b in enumerate(states):
+        z = [1 - 2 * ((b >> k) & 1) for k in range(N)]
+        diag = -(mass / 2) * sum(((-1) ** k) * z[k] for k in range(N))
+        L = background
+        for n in range(N - 1):
+            L += -(z[n] - (-1) ** n) / 2 + charges[n]
+            diag += g * L * L
+        H[i, i] = diag
+        for k in range(N - 1):
+            if ((b >> k) & 1) != ((b >> (k + 1)) & 1):
+                H[index[b ^ (0b11 << k)], i] += x
+    vals, vecs = np.linalg.eigh(H)
+    psi = vecs[:, 0]
+    zexp = [float(sum(psi[i] ** 2 * (1 - 2 * ((b >> k) & 1)) for i, b in enumerate(states))) for k in range(N)]
+    particles = sum((1 + zexp[k]) / 2 if k % 2 else (1 - zexp[k]) / 2 for k in range(N))
+    return float(vals[0]), float(particles)
+
+
+def schwinger_reference():
+    cases = []
+    N, x, mass, g = 10, 0.5, 0.8, 0.5
+    for length in (0, 1, 3, 5, 7):
+        charges = [0.0] * N
+        if length:
+            a = (N - 1 - length) // 2
+            if a % 2:
+                a -= 1
+            a = max(0, a)
+            charges[a] += 1
+            charges[a + length] -= 1
+        energy, particles = schwinger_sector_ground(N, x, mass, g, charges)
+        cases.append({"N": N, "x": x, "mass": mass, "g": g, "length": length, "charges": charges, "energy": energy, "particles": particles})
+    # a case with a background field and no charges
+    energy, particles = schwinger_sector_ground(8, 1.0, 0.5, 0.6, [0.0] * 8, background=0.7)
+    cases.append({"N": 8, "x": 1.0, "mass": 0.5, "g": 0.6, "background": 0.7, "length": 0, "charges": [0.0] * 8, "energy": energy, "particles": particles})
+    return {"ground": cases}
+
+
 TOPICS = {
     "dynamics": ("reference.json", dynamics_reference),
     "entanglement": ("reference-entanglement.json", entanglement_reference),
     "qec": ("reference-qec.json", qec_reference),
+    "schwinger": ("reference-schwinger.json", schwinger_reference),
 }
 
 

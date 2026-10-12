@@ -1,6 +1,74 @@
 // Teaching notes for the fields section.
 
 export const TEACHING = {
+  schwinger: {
+    goals: [
+      'Describe the lattice Schwinger model: staggered fermions, Gauss’s law and the qubit Hamiltonian.',
+      'Explain why a quench from the bare vacuum creates particle–antiparticle pairs.',
+      'Relate pair creation to the mass gap and to a background electric field (the Schwinger effect).',
+      'Interpret the vacuum persistence probability measured by Martinez et al. (2016).',
+    ],
+    prereqs: ['Jordan–Wigner: fermions as qubits'],
+    misconceptions: [
+      { wrong: 'The electric field needs its own qubits.', right: 'In one dimension Gauss’s law fixes it from the charges, leaving a long-range interaction between fermion qubits.' },
+      { wrong: 'The bare vacuum is the ground state of the interacting theory.', right: 'Hopping mixes in pairs; the bare vacuum is a high-energy superposition of eigenstates, so it evolves.' },
+      { wrong: 'Pair creation from the vacuum violates energy conservation.', right: 'The quench state already has extra energy; pairs only redistribute it (or draw it from a background field).' },
+    ],
+    questions: [
+      {
+        q: 'In the staggered formulation, where do electrons and positrons live?',
+        options: ['Both on every site', 'Electrons on even sites, positrons on odd sites', 'Electrons on links', 'Positrons only at the ends'],
+        answer: 1,
+        why: 'Kogut–Susskind staggering splits the two components of the Dirac field between alternate sites.',
+      },
+      {
+        q: 'Why does a larger mass suppress pair creation after the quench?',
+        options: ['Particles move slower', 'Each pair costs more energy relative to the hopping that creates it', 'Gauss’s law forbids it', 'The field becomes zero'],
+        answer: 1,
+        why: 'Creating a pair costs about 2m; with a larger gap the hopping can lend that energy only briefly.',
+      },
+      {
+        q: 'Martinez et al. first simulated this model on…',
+        options: ['A classical supercomputer', 'Four trapped-ion qubits', 'A superconducting chip with 1000 qubits', 'A photonic chip'],
+        answer: 1,
+        why: 'Nature 534, 516 (2016): four trapped ions, the first digital quantum simulation of a lattice gauge theory.',
+      },
+    ],
+  },
+  'string-breaking': {
+    goals: [
+      'Explain how static charges create a flux string whose energy grows linearly with length.',
+      'Explain string breaking: pair creation that screens the charges once the string is long enough.',
+      'Read a potential V(ℓ) and identify the confining and broken regimes.',
+      'Connect the picture to quark confinement and meson formation in QCD.',
+    ],
+    prereqs: ['The Schwinger model: pair creation'],
+    misconceptions: [
+      { wrong: 'A linear potential in 1D proves QCD-style confinement.', right: 'In 1D even classical electrostatics is linear; the quantum effect here is the breaking by pair creation.' },
+      { wrong: 'String breaking happens when g ℓ equals exactly 2m.', right: 'The broken state also pays field and hopping energy, so the break comes later than that estimate.' },
+      { wrong: 'After breaking the charges are free.', right: 'Each is bound to a screening partner from the vacuum, like a meson.' },
+    ],
+    questions: [
+      {
+        q: 'Below the breaking distance, how does the energy of two static charges grow with separation ℓ?',
+        options: ['As 1/ℓ', 'About linearly, with slope near g', 'Exponentially', 'Not at all'],
+        answer: 1,
+        why: 'Each link of the flux string carries field energy g L² with L ≈ 1.',
+      },
+      {
+        q: 'What signals string breaking in the ground state?',
+        options: ['The energy jumps up', 'About two extra particles appear and the energy stops rising', 'The field doubles', 'The charges move'],
+        answer: 1,
+        why: 'A pair from the vacuum screens the charges, so the field between them nearly vanishes.',
+      },
+      {
+        q: 'Making the dynamical particles heavier moves the breaking point…',
+        options: ['Closer', 'Farther', 'Nowhere', 'To ℓ = 0'],
+        answer: 1,
+        why: 'The pair costs more, so the string must store more energy before breaking pays off.',
+      },
+    ],
+  },
   'fock-space': {
     goals: [
       'Describe many-particle states by occupation numbers in Fock space.',

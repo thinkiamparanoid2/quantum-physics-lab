@@ -754,6 +754,26 @@ export const TOPICS = [
     status: 'live',
     icon: 'M4 18 H12 V30 H4 Z M14 18 H22 V30 H14 Z M24 18 H32 V30 H24 Z M34 18 H44 V30 H34 Z',
   },
+  {
+    slug: 'schwinger',
+    section: 'fields',
+    title: 'The Schwinger model: pair creation',
+    summary: 'QED on a line of qubits: quench the bare vacuum and watch electron–positron pairs and electric flux appear, as on trapped ions in 2016.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M6 24 H42 M14 24 A4 4 0 1 1 14.01 24 M34 24 A4 4 0 1 1 34.01 24 M18 16 H30 M26 12 L30 16 L26 20',
+  },
+  {
+    slug: 'string-breaking',
+    section: 'fields',
+    title: 'Confinement and string breaking',
+    summary: 'Two static charges joined by a flux string whose energy grows with length, until a pair from the vacuum snaps it.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M8 24 A4 4 0 1 1 8.01 24 M40 24 A4 4 0 1 1 40.01 24 M12 24 H20 M28 24 H36 M20 20 L24 28 L28 20',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be
