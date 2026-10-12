@@ -13,7 +13,7 @@ function comparison(box) {
   const bob = new BlochView(b, { title: "Bob's qubit now", labels: 'poles' });
   const note = box.querySelector('p');
   return {
-    draw({ params, shownState, step, theme }) {
+    draw({ params, shownState, step, theme, bits }) {
       const m = messageVector(params.theta, params.phi);
       const v = blochVector(shownState, 2);
       message.vector = m;
@@ -21,10 +21,20 @@ function comparison(box) {
       message.draw(theme);
       bob.draw(theme);
       const fidelity = (1 + m[0] * v[0] + m[1] * v[1] + m[2] * v[2]) / 2;
-      note.innerHTML =
-        step.until >= TELEPORT.corrected
-          ? `Fidelity <b>${percent(fidelity)}</b>: Bob now holds exactly the state Alice started with.`
-          : `Fidelity ${percent(fidelity)}. ${Math.hypot(...v) < 0.02 ? "Bob's qubit on its own has no direction at all yet." : 'Not the message yet.'}`;
+      let text;
+      if (step.until >= TELEPORT.corrected) {
+        text = `Fidelity <b>${percent(fidelity)}</b>: Bob now holds exactly the state Alice started with.`;
+      } else if (Math.hypot(...v) < 0.02) {
+        text = `Fidelity ${percent(fidelity)}. Bob's qubit on its own has no direction at all yet.`;
+      } else if (fidelity > 0.9999) {
+        // Outcome 00 needs no correction (and some messages are unchanged by the fix), so Bob may
+        // already hold the message. He can't know that until the bits arrive.
+        const why = bits[0] === 0 && bits[1] === 0 ? 'With outcome 00 no fix is needed, so' : 'For this message the fix happens to change nothing, so';
+        text = `Fidelity ${percent(fidelity)}. ${why} Bob's qubit already is the message, but he can't know that until Alice's two bits arrive.`;
+      } else {
+        text = `Fidelity ${percent(fidelity)}. Not the message yet: it still needs the fix Alice's bits will tell Bob to apply.`;
+      }
+      note.innerHTML = text;
     },
   };
 }

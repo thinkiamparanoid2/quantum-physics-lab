@@ -1,38 +1,55 @@
 import { rotateVector, rotationOf } from './lib/bloch.js';
-import { SECTIONS, TOPICS } from './lib/catalog.js';
+import { SECTIONS, TOPICS, topicsIn, usedSections, usedTracks } from './lib/catalog.js';
 import { GATES, rx, ry } from './lib/circuit.js';
 import { BlochView } from './ui/bloch.js';
 import { href, mountShell } from './ui/shell.js';
 
 mountShell();
 
-function topicCard(t, index) {
-  const live = t.status === 'live';
-  const tag = live ? '' : '<span class="tag">Coming soon</span>';
-  const minutes = t.minutes ? `<span>${t.minutes} min</span>` : '';
-  const body = `
-    <span class="topic-num">${String(index + 1).padStart(2, '0')}</span>
-    <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="${t.icon}"/></svg>
-    <h4>${t.title}</h4>
-    <p>${t.summary}</p>
-    <div class="meta"><span class="tag${live ? ' live' : ''}">${t.level}</span>${minutes}${tag}</div>`;
-  return live
-    ? `<a class="topic-card" href="${href(t.slug)}">${body}</a>`
-    : `<div class="topic-card soon" aria-disabled="true">${body}</div>`;
+const live = (t) => t.status === 'live';
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+
+function renderTracks() {
+  document.getElementById('track-list').innerHTML = usedTracks()
+    .map((tr) => {
+      const sections = tr.sections.map((id) => SECTIONS.find((s) => s.id === id)).filter((s) => topicsIn(s.id).length);
+      const lessons = sections.flatMap((s) => topicsIn(s.id)).filter(live);
+      const first = lessons[0];
+      const chips = sections.map((s) => `<li><span class="ket">${s.ket}</span>${s.title}</li>`).join('');
+      return `<article class="panel track-card">
+        <h3>${tr.title}</h3>
+        <p>${tr.blurb}</p>
+        <ul class="track-sections">${chips}</ul>
+        <div class="track-foot">
+          <span class="muted">${plural(lessons.length, 'lesson')}</span>
+          <a class="btn" href="topics/#track=${tr.id}">See all</a>
+          ${first ? `<a class="btn btn-primary" href="${href(first.slug)}">Start</a>` : ''}
+        </div>
+      </article>`;
+    })
+    .join('');
 }
 
-function renderPath() {
-  document.getElementById('path-list').innerHTML = SECTIONS.map((s) => {
-    const cards = TOPICS.filter((t) => t.section === s.id).map(topicCard).join('');
-    return `<div class="path-section">
-      <div class="path-head"><span class="ket">${s.ket}</span><h3>${s.title}</h3><p>${s.blurb}</p></div>
-      <div class="topic-grid">${cards}</div>
-    </div>`;
-  }).join('');
-  const live = TOPICS.filter((t) => t.status === 'live');
-  document.getElementById('live-count').textContent = String(live.length);
-  const first = live.find((t) => t.section !== 'tools') ?? live[0];
-  if (first) document.getElementById('start').href = href(first.slug);
+function renderSections() {
+  document.getElementById('path-list').innerHTML = usedSections()
+    .map((s) => {
+      const items = topicsIn(s.id)
+        .map((t) =>
+          live(t)
+            ? `<li><a href="${href(t.slug)}">${t.title}</a></li>`
+            : `<li class="soon">${t.title} <span class="tag">Soon</span></li>`,
+        )
+        .join('');
+      return `<article class="panel section-tile">
+        <div class="section-tile-head"><span class="ket">${s.ket}</span><h3>${s.title}</h3></div>
+        <ol>${items}</ol>
+      </article>`;
+    })
+    .join('');
+  const lessons = TOPICS.filter(live);
+  document.getElementById('live-count').textContent = String(lessons.length);
+  const first = lessons.find((t) => t.section !== 'tools') ?? lessons[0];
+  if (first) document.getElementById('start').dataset.first = href(first.slug);
 }
 
 const AXIS_NAMES = [
@@ -117,5 +134,6 @@ function animateHero() {
   requestAnimationFrame(frame);
 }
 
-renderPath();
+renderTracks();
+renderSections();
 animateHero();

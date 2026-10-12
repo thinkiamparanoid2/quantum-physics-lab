@@ -21,7 +21,7 @@
             Built for students learning it and for teachers explaining it.
           </p>
           <div class="hero-cta">
-            <a id="start" class="btn btn-primary btn-lg" href="#path">Start learning
+            <a id="start" class="btn btn-primary btn-lg" href="#tracks">Start learning
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             <a class="btn btn-lg" href="#intro">New to quantum? Read the primer</a>
           </div>
@@ -36,6 +36,15 @@
           <div class="hero-gate" id="hero-gate" aria-live="off">Applying <b>H</b></div>
         </div>
       </div>
+    </section>
+
+    <section class="section container" id="tracks" aria-labelledby="tracks-title">
+      <div class="section-head">
+        <span class="eyebrow">Choose a path</span>
+        <h2 id="tracks-title">Learning tracks, from first principles to research topics</h2>
+        <p>Each track is ordered the way courses teach it. Every lesson also stands on its own.</p>
+      </div>
+      <div class="track-grid" id="track-list"></div>
     </section>
 
     <section class="section container" id="intro" aria-labelledby="intro-title">
@@ -63,37 +72,17 @@
       </div>
     </section>
 
-    <section class="section container" aria-labelledby="how-title">
-      <div class="section-head">
-        <span class="eyebrow">How the lessons work</span>
-        <h2 id="how-title">Follow the physics one step at a time</h2>
-      </div>
-      <div class="how-grid">
-        <article class="panel how-card">
-          <div class="num">01</div>
-          <h3>Step through it</h3>
-          <p>Every lesson moves one idea at a time: a gate of a circuit, or a new fact about a wave. Go back, jump ahead, or change the input and watch everything update.</p>
-        </article>
-        <article class="panel how-card">
-          <div class="num">02</div>
-          <h3>See the invisible</h3>
-          <p>Wavefunctions are coloured by their phase. Amplitudes are drawn as dials: the size is the probability and the hand points along the phase. Each qubit is an arrow on the Bloch sphere.</p>
-        </article>
-        <article class="panel how-card">
-          <div class="num">03</div>
-          <h3>Try it yourself</h3>
-          <p>Each lesson has knobs to turn. Wave lessons play out in time; circuit lessons have a Measure button that samples real outcomes and a link into the sandbox.</p>
-        </article>
-      </div>
-    </section>
 
     <section class="section container" id="path" aria-labelledby="path-title">
-      <div class="section-head">
-        <span class="eyebrow">Learning path</span>
-        <h2 id="path-title">From the photoelectric effect to Shor's algorithm</h2>
-        <p>Topics are ordered the way most courses teach them. Each one stands on its own too.</p>
+      <div class="section-head section-head-row">
+        <div>
+          <span class="eyebrow">Everything on the site</span>
+          <h2 id="path-title">All topics at a glance</h2>
+        </div>
+        <a class="btn" href="topics/">Search and filter all topics
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
-      <div id="path-list"></div>
+      <div class="section-tiles" id="path-list"></div>
     </section>
 
     <section class="section container" id="teachers" aria-labelledby="teachers-title">
@@ -102,13 +91,15 @@
           <span class="eyebrow">For teachers</span>
           <h2 id="teachers-title">Made for the front of a classroom</h2>
           <p class="muted" style="margin-top: 10px">Open a topic and put it on the projector: no accounts, nothing to install, nothing to prepare.</p>
-          <div class="hero-cta"><a id="present-demo" class="btn btn-primary" href="grover/">Try Present mode on Grover's search</a></div>
+          <div class="hero-cta"><a id="present-demo" class="btn btn-primary" href="grover/">Try Present mode on Grover's search</a>
+            <a class="btn" href="teach/">Teacher notes and questions</a></div>
         </div>
         <ul>
           <li><span class="check">&#x2713;</span><span><b>Present mode.</b> One click hides everything except the visual and a large caption. Step with the arrow keys or a presentation clicker.</span></li>
           <li><span class="check">&#x2713;</span><span><b>Links to an exact moment.</b> Every lesson step has its own link (and in the tools, every setting), so you can prepare it before class.</span></li>
           <li><span class="check">&#x2713;</span><span><b>Dark or light.</b> Switch with the Dark / Light buttons at the top right. Light usually reads better on a projector, and your choice is remembered on every page.</span></li>
-          <li><span class="check">&#x2713;</span><span><b>Honest numbers.</b> Every simulation is checked against textbook results or a second, independent method in automated tests.</span></li>
+          <li><span class="check">&#x2713;</span><span><b>Ready-made questions.</b> Every lesson has learning goals, common misconceptions and multiple-choice questions with explanations, printable from the teacher notes.</span></li>
+          <li><span class="check">&#x2713;</span><span><b>Honest numbers.</b> Every simulation is checked against textbook results or a second, independent method in automated tests, listed on the <a href="checks/">checks page</a>.</span></li>
         </ul>
       </div>
     </section>

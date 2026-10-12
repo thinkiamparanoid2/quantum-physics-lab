@@ -1,7 +1,7 @@
 // Site chrome shared by every page: navigation with the topics menu, theme toggle, footer.
 // Pages set <html data-root="../"> (path back to the site root) and data-page="<slug>".
 
-import { SECTIONS, TOPICS } from '../lib/catalog.js';
+import { topicsIn, usedSections } from '../lib/catalog.js';
 
 const REPO = 'https://github.com/thinkiamparanoid2/quantum-physics-lab';
 const SUN = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
@@ -27,16 +27,18 @@ function setTheme(theme) {
 }
 
 function megaMenu() {
-  return SECTIONS.map((s) => {
-    const links = TOPICS.filter((t) => t.section === s.id)
-      .map((t) =>
-        t.status === 'live'
-          ? `<a href="${href(t.slug)}"${t.slug === page ? ' aria-current="page"' : ''}>${t.title}</a>`
-          : `<span class="soon-link">${t.title}<span class="tag">Soon</span></span>`,
-      )
-      .join('');
-    return `<div><h3><span class="ket">${s.ket}</span>${s.title}</h3>${links}</div>`;
-  }).join('');
+  return usedSections()
+    .map((s) => {
+      const links = topicsIn(s.id)
+        .map((t) =>
+          t.status === 'live'
+            ? `<a href="${href(t.slug)}"${t.slug === page ? ' aria-current="page"' : ''}>${t.title}</a>`
+            : `<span class="soon-link">${t.title}<span class="tag">Soon</span></span>`,
+        )
+        .join('');
+      return `<div><h3><span class="ket">${s.ket}</span>${s.title}</h3>${links}</div>`;
+    })
+    .join('');
 }
 
 function renderNav() {
@@ -49,7 +51,7 @@ function renderNav() {
         <button class="nav-menu-btn" type="button" aria-expanded="false" aria-controls="mega">Topics ▾</button>
         <a href="${href('sandbox')}"${page === 'sandbox' ? ' aria-current="page"' : ''}>Sandbox</a>
         <a href="${href('playground')}"${page === 'playground' ? ' aria-current="page"' : ''}>Playground</a>
-        <a href="${root || './'}#teachers">For teachers</a>
+        <a href="${href('teach')}"${page === 'teach' ? ' aria-current="page"' : ''}>For teachers</a>
       </nav>
       <div class="nav-actions">
         <div class="theme-switch" role="group" aria-label="Colour theme">
@@ -58,7 +60,8 @@ function renderNav() {
         </div>
       </div>
     </div>
-    <div class="mega" id="mega" hidden><div class="container mega-grid">${megaMenu()}</div></div>`;
+    <div class="mega" id="mega" hidden><div class="container mega-top"><a class="btn" href="${href('topics')}">Search all topics</a></div>
+      <div class="container mega-grid">${megaMenu()}</div></div>`;
   document.body.prepend(nav);
 
   const menuBtn = nav.querySelector('.nav-menu-btn');
@@ -99,7 +102,9 @@ function renderFooter() {
       <p>Every simulation runs on a classical computer, in your browser. At these sizes that is exact and instant.
          The point is to see what the mathematics does; real quantum hardware matters at scales far beyond this.</p>
       <div class="footer-links">
-        <a href="${root || './'}#path">All topics</a>
+        <a href="${href('topics')}">All topics</a>
+        <a href="${href('teach')}">Teacher notes</a>
+        <a href="${href('checks')}">How it is checked</a>
         <a href="${REPO}">Source on GitHub</a>
       </div>
     </div>`;

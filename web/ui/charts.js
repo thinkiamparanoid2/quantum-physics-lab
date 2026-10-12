@@ -20,6 +20,7 @@ export function theme() {
     grid: v('--grid'),
     axis: v('--axis'),
     surface: v('--surface'),
+    surfaceSolid: v('--surface-solid'),
     exact: v('--exact'),
     trotter: v('--trotter'),
     cursor: v('--cursor'),

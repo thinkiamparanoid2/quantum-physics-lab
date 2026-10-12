@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="topics">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All topics: Quantum Physics Lab</title>
+  <meta name="description" content="Every interactive lesson and tool on Quantum Physics Lab, searchable and filtered by track and level.">
+  <script>document.documentElement.classList.add('is-loading');try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../styles/site.css">
+</head>
+<body>
+  <main>
+    <div class="container lesson-head">
+      <div>
+        <p class="eyebrow">Browse</p>
+        <h1>All topics</h1>
+        <p class="lede">Search every lesson and tool, or narrow the list to one learning track or level.</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="topics-tools">
+        <input id="topic-search" type="search" placeholder="Search, e.g. tunnelling, Bell, surface code" aria-label="Search topics">
+        <div class="chip-group" id="track-chips" role="group" aria-label="Track"></div>
+        <div class="chip-group" id="level-chips" role="group" aria-label="Level"></div>
+      </div>
+      <div id="topic-results"></div>
+    </div>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

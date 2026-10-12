@@ -87,8 +87,9 @@ function threshold(canvas, { theme: th }) {
     }
     ctx.stroke();
     ctx.setLineDash([]);
-    // label each curve where it crosses 10^-4 (the uncoded line where it crosses 3%)
-    const level = d === 1 ? 0.03 : 1e-4;
+    // Label each curve at its own height (the curves bunch together at any one height), on a halo
+    // so a neighbouring curve can't run through the text.
+    const level = { 1: 0.03, 3: 1e-2, 5: 1e-3, 7: 1e-4, 9: 1e-5 }[d];
     let a = 0;
     let c = 0.5;
     for (let it = 0; it < 50; it++) {
@@ -96,10 +97,15 @@ function threshold(canvas, { theme: th }) {
       if (repetitionFailure(d, mid) < level) a = mid;
       else c = mid;
     }
-    ctx.fillStyle = colors[k];
+    const label = d === 1 ? 'no code' : `${d} qubits`;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText(d === 1 ? 'no code' : `${d} qubits`, X(a) + 8, Y(level));
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = th.surfaceSolid;
+    ctx.strokeText(label, X(a) + 8, Y(level));
+    ctx.fillStyle = colors[k];
+    ctx.fillText(label, X(a) + 8, Y(level));
   });
   ctx.fillStyle = th.muted;
   ctx.textAlign = 'center';

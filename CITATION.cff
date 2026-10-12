@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use Quantum Physics Lab in teaching or research, please cite it as below."
+title: "Quantum Physics Lab: interactive, independently checked simulations of quantum mechanics and quantum computing"
+type: software
+authors:
+  - family-names: Bhuiyan
+    given-names: Ishmam Rashid
+repository-code: "https://github.com/thinkiamparanoid2/quantum-physics-lab"
+url: "https://quantum-physics-lab.vercel.app"
+license: MIT
+keywords:
+  - quantum mechanics
+  - quantum computing
+  - quantum error correction
+  - quantum machine learning
+  - lattice field theory
+  - physics education
+  - interactive simulation
