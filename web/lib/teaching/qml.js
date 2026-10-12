@@ -1,6 +1,40 @@
 // Teaching notes for the quantum machine learning section.
 
 export const TEACHING = {
+  'quantum-kernels': {
+    goals: [
+      'Define a quantum kernel as the overlap of encoded states and say how hardware estimates it.',
+      'Train a kernel classifier by solving a linear system (kernel ridge regression).',
+      'Explain the role of bandwidth and the problem of kernel concentration.',
+      'Compare quantum kernels with classical baselines honestly.',
+    ],
+    prereqs: ['Encoding data'],
+    misconceptions: [
+      { wrong: 'Any kernel computed on a quantum computer is hard to compute classically.', right: 'Product-state encodings give classical product formulas; hardness needs more, and is not guaranteed.' },
+      { wrong: 'Quantum kernels beat classical ones on typical data.', right: 'Benchmarks find classical kernels usually match or beat them; proven advantages use special structured problems.' },
+      { wrong: 'Training a kernel model suffers from barren plateaus.', right: 'The training step is a convex linear-algebra problem; the difficulty moves to estimating the kernel values.' },
+    ],
+    questions: [
+      {
+        q: 'How is k(x, x′) estimated on a quantum computer?',
+        options: ['By measuring ⟨Z⟩ once', 'Run U(x), then U(x′)†, and estimate the probability of returning to |0…0⟩', 'By tomography of both states', 'It cannot be'],
+        answer: 1,
+        why: 'That probability is |⟨0|U(x′)†U(x)|0⟩|² = |⟨φ(x′)|φ(x)⟩|².',
+      },
+      {
+        q: 'What happens to a kernel matrix when overlaps concentrate near zero?',
+        options: ['It becomes all ones', 'It approaches the identity and the model cannot generalise', 'Training becomes faster', 'Nothing important'],
+        answer: 1,
+        why: 'Every point looks unrelated to every other, so the model just memorises the training labels.',
+      },
+      {
+        q: 'Why does angle encoding not give a hard-to-compute kernel?',
+        options: ['It uses too few qubits', 'Its states are products, so the overlap is a product of single-qubit overlaps', 'It is not normalised', 'It uses RY gates'],
+        answer: 1,
+        why: 'k = Π cos²((xᵢ − x′ᵢ)/2) up to scaling, which is a classical formula.',
+      },
+    ],
+  },
   'fourier-models': {
     goals: [
       'Show that a re-uploading quantum model is a Fourier series in its input.',

@@ -834,6 +834,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M4 24 C8 12 12 12 16 24 C20 36 24 36 28 24 C32 12 36 12 40 24 C42 30 44 32 46 30',
   },
+  {
+    slug: 'quantum-kernels',
+    section: 'qml',
+    title: 'Quantum kernels',
+    summary: 'Overlaps of encoded states as a similarity measure, a classifier by linear algebra, the bandwidth problem, and a fair classical baseline.',
+    level: 'Advanced',
+    minutes: 10,
+    status: 'live',
+    icon: 'M6 6 H42 V42 H6 Z M6 18 H42 M6 30 H42 M18 6 V42 M30 6 V42',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

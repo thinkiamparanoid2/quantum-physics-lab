@@ -80,7 +80,7 @@ Legend: ✅ done · 🔨 in progress · ⬜ not started · ⏭ deferred (with th
 | Encoding data | ✅ | amplitude-encoding circuit prepares the normalised vector exactly (20 random cases); angle-encoding overlap equals Π cos² against the statevector |
 | A classifier that trains while you watch | ✅ | model output and parameter-shift gradients equal PennyLane (qml.grad) to 10⁻¹² for 1- and 3-layer circuits, and a finite difference; training deterministic per seed; accuracy claims read off the computed curves |
 | Quantum models are Fourier series | ✅ | coefficients equal qml.fourier.coefficients and vanish above degree L (PennyLane); the quantum fit never beats the least-squares Fourier series of the same degree on its training points (tested every epoch); restricted-coefficient example stated from the computed losses |
-| Quantum kernels | ⬜ | |
+| Quantum kernels | ✅ | ZZ feature-map kernel equals PennyLane's (overlap via adjoint circuit); angle kernel equals the product of cos²; kernel ridge solve satisfies (K + λI)α = y; 2-qubit kernel rank ≤ 16 (Gram matrix of density matrices); accuracy claims read off the computed table |
 | Barren plateaus, measured | ⬜ | |
 | VQE and QAOA | ⬜ | |
 | Is there an advantage? | ⬜ | |

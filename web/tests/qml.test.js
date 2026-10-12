@@ -129,3 +129,16 @@ test('on its training points a degree-L quantum model never beats the least-squa
     for (const h of r.history) assert.ok(h.loss >= r.classicalLoss - 1e-12, `${target} L=${layers}`);
   }
 });
+
+test('kernel ridge regression solves (K + λI)α = y, and a 2-qubit kernel matrix has rank at most 16', async () => {
+  const { dataset, KERNELS, kernelRidge } = await import('../lib/vqc.js');
+  const { symmetricEigen } = await import('../lib/linalg.js');
+  const train = dataset('circle', 40, 1);
+  const lambda = 0.05;
+  const r = kernelRidge(train, (a, b) => KERNELS.zz(a, b, 0.5), lambda);
+  r.K.forEach((row, i) => row.forEach((v, j) => assert.ok(Math.abs(v - r.K[j][i]) < 1e-12 && (i !== j || Math.abs(v - 1) < 1e-12))));
+  train.forEach((p, i) => assert.ok(Math.abs(r.K[i].reduce((s, v, j) => s + v * r.alpha[j], 0) + lambda * r.alpha[i] - p.y) < 1e-9));
+  // k = Tr(ρσ) for pure 2-qubit states: a Gram matrix of 4 × 4 Hermitian matrices, so rank ≤ 16
+  const values = symmetricEigen(Float64Array.from(r.K.flat()), 40).values;
+  assert.ok(values.filter((v) => v > 1e-9).length <= 16);
+});

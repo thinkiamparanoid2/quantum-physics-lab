@@ -356,3 +356,23 @@ export function fitFourier({ target, layers, epochs, lr = 0.08, seed = 2, sample
   progress?.(1);
   return { xs, ys, history, classicalW: classical.w, classicalLoss };
 }
+
+// ----- kernel methods -----
+
+// Kernel functions on 2D points (coordinates in about [−1.5, 1.5]); `scale` is the bandwidth: how
+// strongly the data are multiplied before encoding.
+const ZZ_MAP = zzMapOps();
+const ZZ_ADJ = zzMapOps(true);
+export const KERNELS = {
+  zz: (a, b, scale) => kernel(2, ZZ_MAP, ZZ_ADJ, [scale * a[0], scale * a[1]], [scale * b[0], scale * b[1]]),
+  angle: (a, b, scale) => angleKernelExact([scale * a[0], scale * a[1]], [scale * b[0], scale * b[1]]),
+  rbf: (a, b, scale) => Math.exp(-(scale ** 2) * ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)),
+};
+
+// Kernel ridge regression: α = (K + λI)⁻¹ y, prediction f(x) = Σ α_i k(x_i, x).
+export function kernelRidge(train, k, lambda = 0.05) {
+  const K = train.map((p) => train.map((q) => k(p.x, q.x)));
+  const A = K.map((row, i) => row.map((v, j) => v + (i === j ? lambda : 0)));
+  const alpha = solve(A, train.map((p) => p.y));
+  return { K, alpha, f: (x) => train.reduce((s, p, i) => s + alpha[i] * k(p.x, x), 0) };
+}
