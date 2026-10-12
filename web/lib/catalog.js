@@ -674,6 +674,16 @@ export const TOPICS = [
     status: 'live',
     icon: 'M8 8 H40 V40 H8 Z M24 8 V40 M8 24 H40 M16 16 A2 2 0 1 1 16.01 16 M32 32 A2 2 0 1 1 32.01 32',
   },
+  {
+    slug: 'decoding',
+    section: 'qec',
+    title: 'Decoding',
+    summary: 'From lit checks back to a correction: minimum-weight matching, union-find clusters, and the error patterns that fool them.',
+    level: 'Advanced',
+    minutes: 12,
+    status: 'live',
+    icon: 'M10 10 A3 3 0 1 1 10.01 10 M38 38 A3 3 0 1 1 38.01 38 M10 10 C20 10 28 38 38 38 M38 10 A3 3 0 1 1 38.01 10 M38 10 H44',
+  },
 ];
 
 // Site order is section order, then the order of entries within a section, so a new lesson can be

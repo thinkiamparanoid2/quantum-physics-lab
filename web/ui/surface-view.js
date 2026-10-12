@@ -7,7 +7,9 @@ import { withAlpha } from './bloch.js';
 import { FONT, MONO, prep } from './charts.js';
 
 export function drawSurface(canvas, opts) {
-  const { theme: th, code, errX = null, errZ = null, lit = new Set(), correction = null, pairs = [], logical = null, grown = null, graph = null, label = null } = opts;
+  // pairSets: [{ graph, pairs }] matched defect pairs; grownSets: [{ graph, support }] union-find
+  // edge growth (0, 1 = half grown, 2 = fully grown) for one or both matching graphs.
+  const { theme: th, code, errX = null, errZ = null, lit = new Set(), correction = null, pairSets = [], grownSets = [], logical = null, label = null } = opts;
   const { ctx, w, h } = prep(canvas);
   const d = code.d;
   const s = Math.min((w - 60) / d, (h - 50) / d);
@@ -40,52 +42,53 @@ export function drawSurface(canvas, opts) {
     ctx.stroke();
   });
 
-  // union-find clusters: grown edges drawn between their checks
-  if (grown && graph) {
-    ctx.strokeStyle = withAlpha(th.marked, 0.55);
-    ctx.lineWidth = Math.max(3, s * 0.18);
+  const centre = (graph, node) => {
+    if (node === graph.boundary) return null;
+    const c = graph.checks[node];
+    return P(c.i - 0.5, c.j - 0.5);
+  };
+
+  // union-find clusters: each grown edge drawn from its check(s) to its data qubit
+  for (const { graph, support } of grownSets) {
     ctx.lineCap = 'round';
-    const centre = (node) => {
-      if (node === graph.boundary) return null;
-      const c = graph.checks[node];
-      return P(c.i - 0.5, c.j - 0.5);
-    };
-    for (const k of grown) {
-      const e = graph.edges[k];
-      const [qi, qj] = [Math.floor(e.q / d), e.q % d];
-      const q = P(qi, qj);
+    graph.edges.forEach((e, k) => {
+      if (!support[k]) return;
+      ctx.strokeStyle = withAlpha(th.marked, support[k] === 2 ? 0.6 : 0.3);
+      ctx.lineWidth = Math.max(3, s * (support[k] === 2 ? 0.18 : 0.08));
+      const q = P(Math.floor(e.q / d), e.q % d);
       for (const node of [e.a, e.b]) {
-        const c = centre(node);
+        const c = centre(graph, node);
         if (!c) continue;
+        // half-grown edges reach only halfway from the check that grew them
+        const end = support[k] === 2 ? q : [(c[0] + q[0]) / 2, (c[1] + q[1]) / 2];
         ctx.beginPath();
         ctx.moveTo(...c);
-        ctx.lineTo(...q);
+        ctx.lineTo(...end);
         ctx.stroke();
       }
-    }
+    });
   }
 
   // matched pairs: a line from each lit check to its partner, or to the nearest edge where its
   // kind of error chain can end (top/bottom for X errors seen by Z checks, left/right for Z errors)
-  for (const [a, b] of pairs) {
-    const A = graph.checks[a];
-    const pa = P(A.i - 0.5, A.j - 0.5);
-    let pb;
-    if (b === graph.boundary) {
-      if (A.type === 'Z') pb = P(A.i - 0.5 < (d - 1) / 2 ? -0.75 : d - 0.25, A.j - 0.5);
-      else pb = P(A.i - 0.5, A.j - 0.5 < (d - 1) / 2 ? -0.75 : d - 0.25);
-    } else {
-      const B = graph.checks[b];
-      pb = P(B.i - 0.5, B.j - 0.5);
+  for (const { graph, pairs } of pairSets) {
+    for (const [a, b] of pairs) {
+      const A = graph.checks[a];
+      const pa = centre(graph, a);
+      let pb;
+      if (b === graph.boundary) {
+        if (A.type === 'Z') pb = P(A.i - 0.5 < (d - 1) / 2 ? -0.75 : d - 0.25, A.j - 0.5);
+        else pb = P(A.i - 0.5, A.j - 0.5 < (d - 1) / 2 ? -0.75 : d - 0.25);
+      } else pb = centre(graph, b);
+      ctx.strokeStyle = th.text;
+      ctx.setLineDash([5, 4]);
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(...pa);
+      ctx.lineTo(...pb);
+      ctx.stroke();
+      ctx.setLineDash([]);
     }
-    ctx.strokeStyle = th.text;
-    ctx.setLineDash([5, 4]);
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(...pa);
-    ctx.lineTo(...pb);
-    ctx.stroke();
-    ctx.setLineDash([]);
   }
 
   // logical operator

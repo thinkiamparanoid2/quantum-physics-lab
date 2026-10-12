@@ -1,6 +1,39 @@
 // Teaching notes for "Quantum error correction".
 
 export const TEACHING = {
+  decoding: {
+    goals: [
+      'Explain why a decoder sees only the syndrome and must infer a likely error.',
+      'Describe minimum-weight perfect matching and why fewest errors is most likely.',
+      'Explain why a correction only needs to be right up to stabilizers.',
+      'Describe the union-find decoder and why decoding speed matters.',
+    ],
+    prereqs: ['The surface code'],
+    misconceptions: [
+      { wrong: 'A good decoder always undoes exactly the errors that happened.', right: 'It only needs error × correction to be a stabilizer; many corrections are equally good.' },
+      { wrong: 'Decoding can wait until the computation ends.', right: 'Syndromes arrive every microsecond; decoders must keep up in real time or a backlog grows.' },
+    ],
+    questions: [
+      {
+        q: 'Why does matching prefer the explanation with the fewest errors?',
+        options: ['It is fastest to compute', 'For small p, a pattern of w errors has probability about pʷ', 'Errors always come alone', 'The checks force it'],
+        answer: 1,
+        why: 'Each extra error multiplies the probability by about p, so fewer errors are exponentially more likely.',
+      },
+      {
+        q: 'Error and correction together form a chain from the top edge to the bottom edge. The result is…',
+        options: ['success', 'a logical X error', 'a new syndrome', 'a Z error'],
+        answer: 1,
+        why: 'A top-to-bottom X chain is the logical X̄: it lights no checks and flips the encoded bit.',
+      },
+      {
+        q: 'What is the main advantage of union-find over exact matching?',
+        options: ['It always finds a lighter correction', 'It runs in almost linear time', 'It needs no syndrome', 'It corrects more errors'],
+        answer: 1,
+        why: 'Union-find is a little less accurate but much faster, which matters for real-time decoding.',
+      },
+    ],
+  },
   'surface-code': {
     goals: [
       'Describe the rotated surface code: data qubits, local X and Z checks, one logical qubit.',
