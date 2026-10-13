@@ -6,6 +6,8 @@ import { TOPICS } from '../lib/catalog.js';
 
 const CUSTOM_PAGES = new Set(['grover', 'playground', 'sandbox', 'schrodinger']);
 
+const SITE = 'https://quantum-physics-lab.vercel.app/';
+
 const escape = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
 const page = (t) => `<!doctype html>
@@ -15,6 +17,17 @@ const page = (t) => `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escape(t.title)}: Quantum Physics Lab</title>
   <meta name="description" content="${escape(t.summary)}">
+  <link rel="canonical" href="${SITE}${t.slug}/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Quantum Physics Lab">
+  <meta property="og:title" content="${escape(t.title)}: Quantum Physics Lab">
+  <meta property="og:description" content="${escape(t.summary)}">
+  <meta property="og:url" content="${SITE}${t.slug}/">
+  <meta property="og:image" content="${SITE}og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Quantum Physics Lab: a qubit drawn on the Bloch sphere">
+  <meta name="twitter:card" content="summary_large_image">
   <script>document.documentElement.classList.add('is-loading');try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238b7bff'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='13' font-weight='700' text-anchor='middle' fill='%23080915'%3E%7C%CF%88%E2%9F%A9%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="../styles/site.css">
