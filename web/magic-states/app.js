@@ -69,6 +69,7 @@ function drawBatch(api) {
   const X = (k) => left + (k + 0.5) * colW;
   const yQ = 40;
   const rowY = (j) => 92 + j * 30;
+  if (colW <= 2) return; // hidden (folded card)
   const r = Math.min(13, colW * 0.4);
   ctx.font = MONO;
   ctx.textAlign = 'right';

@@ -67,11 +67,11 @@ export function mountLesson({ slug, onNavigate, sandbox = false }) {
       <p class="lede">${t.summary}</p>
     </div>
     <div class="lesson-actions">
-      <button id="present" class="btn" type="button" title="Full screen with large captions (Esc to exit)">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Present</button>
-      ${sandbox ? `<a id="open-sandbox" class="btn" href="${href('sandbox')}" hidden title="Edit this circuit yourself">Open in sandbox</a>` : ''}
-      ${teaching ? `<a class="btn" href="${href('teach')}#${slug}" title="Goals, misconceptions and questions for this lesson">Teacher notes</a>` : ''}
-      <button id="share" class="btn" type="button">Copy link</button>
+      <button id="present" class="btn btn-quiet" type="button" title="Full screen with large captions (Esc to exit)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="btn-label">Present</span></button>
+      ${sandbox ? `<a id="open-sandbox" class="btn btn-quiet" href="${href('sandbox')}" hidden title="Edit this circuit yourself"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"/></svg><span class="btn-label">Sandbox</span></a>` : ''}
+      ${teaching ? `<a class="btn btn-quiet" href="${href('teach')}#${slug}" title="Goals, misconceptions and questions for this lesson"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z"/><path d="M8 9h6M8 13h6"/></svg><span class="btn-label">Teacher notes</span></a>` : ''}
+      <button id="share" class="btn btn-quiet" type="button" title="Copy a link to this exact step"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg><span class="btn-label">Copy link</span></button>
     </div>`;
 
   const next = nextTopic(slug);
@@ -80,17 +80,17 @@ export function mountLesson({ slug, onNavigate, sandbox = false }) {
     const quiz = document.createElement('section');
     quiz.className = 'container check-yourself';
     quiz.setAttribute('aria-labelledby', 'check-title');
-    quiz.innerHTML = `<div class="panel check-panel">
-        <div class="check-head"><h2 id="check-title">Check yourself</h2>
-          <span class="muted">${teaching.questions.length} questions · <span class="check-score"></span></span></div>
+    quiz.innerHTML = `<details class="panel check-panel">
+        <summary class="check-head"><h2 id="check-title">Check yourself</h2>
+          <span class="muted">${teaching.questions.length} questions · <span class="check-score"></span></span>${CHEVRON}</summary>
         <ol class="quiz">${quizHtml(teaching.questions, { idPrefix: 'check' })}</ol>
-      </div>`;
+      </details>`;
     nextBox.before(quiz);
     const score = quiz.querySelector('.check-score');
     const results = new Map();
     const paint = () => {
       const right = [...results.values()].filter(Boolean).length;
-      score.textContent = results.size ? `${right} of ${results.size} right so far` : 'answer to see the explanation';
+      score.textContent = results.size ? `${right} of ${results.size} right so far` : 'open to test yourself';
     };
     paint();
     bindQuiz(quiz, teaching.questions, (i, ok) => {
@@ -148,6 +148,23 @@ export function mountLesson({ slug, onNavigate, sandbox = false }) {
 
   const list = $('steps');
   const count = $('count');
+  // the current step is shown in full; the list of every title folds away under "All steps"
+  const guideCard = list.closest('.guide-card') ?? list.parentElement;
+  const bar = document.createElement('div');
+  bar.className = 'step-bar';
+  bar.innerHTML = `<button type="button" class="step-arrow" data-move="-1" aria-label="Previous step">‹</button>
+    <nav class="step-dots" aria-label="Steps"></nav>
+    <button type="button" class="step-arrow" data-move="1" aria-label="Next step">›</button>`;
+  const dots = bar.querySelector('.step-dots');
+  const arrows = bar.querySelectorAll('.step-arrow');
+  const now = document.createElement('div');
+  now.className = 'step-now';
+  now.setAttribute('aria-live', 'polite');
+  const outline = document.createElement('details');
+  outline.className = 'step-outline';
+  outline.innerHTML = '<summary>All steps</summary>';
+  list.before(bar, now, outline);
+  outline.append(list);
   const fill = document.querySelector('.progress-fill');
   const back = $('back');
   const forward = $('next');
@@ -170,10 +187,15 @@ export function mountLesson({ slug, onNavigate, sandbox = false }) {
     render(lastSteps, current);
     return true;
   };
-  list.addEventListener('click', (e) => {
+  guideCard.addEventListener('click', (e) => {
     if (onPredict(e)) return;
+    const arrow = e.target.closest('[data-move]');
+    if (arrow) return go(current + Number(arrow.dataset.move));
     const item = e.target.closest('[data-step]');
-    if (item) go(Number(item.dataset.step));
+    if (item) {
+      go(Number(item.dataset.step));
+      outline.open = false;
+    }
   });
   caption?.addEventListener('click', (e) => {
     if (onPredict(e)) return;
@@ -207,37 +229,38 @@ export function mountLesson({ slug, onNavigate, sandbox = false }) {
     const key = steps.map((s) => s.title).join('\u0000');
     if (key !== titlesKey) {
       titlesKey = key;
+      dots.innerHTML = steps
+        .map((s, i) => `<button type="button" class="step-dot" data-step="${i}" title="${i + 1}. ${s.title.replace(/"/g, '&quot;')}">${i + 1}</button>`)
+        .join('');
       list.innerHTML = steps
         .map(
           (s, i) => `<li class="step" data-index="${i}">
-            <button class="step-head" type="button" data-step="${i}"><span class="step-num">${i + 1}</span><span>${s.title}</span></button>
-            <div class="step-text"></div></li>`,
+            <button class="step-head" type="button" data-step="${i}"><span class="step-num">${i + 1}</span><span>${s.title}</span></button></li>`,
         )
         .join('');
     }
     const body = stepBody(steps[index], index);
+    dots.querySelectorAll('.step-dot').forEach((d, i) => {
+      d.classList.toggle('current', i === index);
+      d.classList.toggle('done', i < index);
+      if (i === index) d.setAttribute('aria-current', 'step');
+      else d.removeAttribute('aria-current');
+    });
     list.querySelectorAll('.step').forEach((li, i) => {
       li.classList.toggle('current', i === index);
       li.classList.toggle('done', i < index);
-      const head = li.querySelector('.step-head');
-      if (i === index) head.setAttribute('aria-current', 'step');
-      else head.removeAttribute('aria-current');
-      const text = li.querySelector('.step-text');
-      const html = i === index ? body : '';
-      if (text.dataset.html !== html) {
-        text.dataset.html = html;
-        text.innerHTML = html;
-      }
     });
-    const currentItem = list.querySelector('.step.current');
-    if (currentItem) {
-      const top = currentItem.offsetTop - list.offsetTop;
-      if (top < list.scrollTop || top > list.scrollTop + list.clientHeight - 60) list.scrollTop = Math.max(0, top - 20);
+    const nowHtml = `<h2 class="step-title">${steps[index].title}</h2><div class="step-text">${body}</div>`;
+    if (now.dataset.html !== nowHtml) {
+      now.dataset.html = nowHtml;
+      now.innerHTML = nowHtml;
     }
     count.textContent = `Step ${index + 1} of ${total}`;
     fill.style.width = `${((index + 1) / total) * 100}%`;
     back.disabled = index === 0;
     forward.disabled = index === total - 1;
+    arrows[0].disabled = back.disabled;
+    arrows[1].disabled = forward.disabled;
     if (caption) {
       const html = `<div class="caption-text"><h2>${steps[index].title}</h2>${body}</div>
         <div class="caption-nav"><button class="btn" type="button" data-nav="-1"${index === 0 ? ' disabled' : ''}>Back</button>

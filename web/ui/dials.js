@@ -77,6 +77,7 @@ export function drawPhaseWheel(canvas) {
   const cx = w / 2;
   const cy = h / 2;
   const r = Math.min(w, h) / 2 - 1;
+  if (r <= 0) return; // hidden (folded card)
   for (let a = 0; a < 360; a += 3) {
     const t0 = (a * Math.PI) / 180;
     const t1 = ((a + 4) * Math.PI) / 180;
