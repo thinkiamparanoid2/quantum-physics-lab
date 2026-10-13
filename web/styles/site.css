@@ -3679,3 +3679,281 @@ a.section-tile .muted {
     gap: 8px;
   }
 }
+
+/* ======================================================================
+   Readability pass (October 2026): larger base type, larger small text,
+   and the home page's learning tracks as full-width rows.
+   ====================================================================== */
+
+body {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.muted,
+.legend,
+.hint,
+.lesson-actions .btn,
+.track-foot .muted,
+.section-tile .muted {
+  font-size: 14px;
+}
+
+.section {
+  padding-top: 72px;
+}
+
+.section-head {
+  max-width: 760px;
+  margin-bottom: 30px;
+}
+
+.section-head h2 {
+  font-size: clamp(28px, 3.2vw, 38px);
+  white-space: normal;
+}
+
+.section-head p {
+  font-size: 17.5px;
+  line-height: 1.6;
+}
+
+/* learning tracks: one readable row per track */
+.track-list {
+  display: grid;
+  gap: 18px;
+}
+
+.track-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 230px;
+  gap: 8px 32px;
+  align-items: start;
+  padding: 30px 34px;
+  transition: border-color 0.2s ease;
+}
+
+.track-row:hover {
+  border-color: var(--border-strong);
+}
+
+.track-num {
+  font: 600 40px/1 var(--mono);
+  color: var(--accent-2);
+  opacity: 0.85;
+  padding-top: 2px;
+}
+
+.track-main h3 {
+  font-size: 27px;
+  white-space: normal;
+  margin-bottom: 8px;
+}
+
+.track-main > p {
+  color: var(--muted);
+  font-size: 17.5px;
+  line-height: 1.6;
+  max-width: 62ch;
+}
+
+.track-chips {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.track-chips a {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.track-chips a:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.track-side {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.track-side .btn {
+  justify-content: center;
+  font-size: 15px;
+  padding: 11px 16px;
+}
+
+.track-count {
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.track-count b {
+  display: block;
+  font: 600 40px/1.05 var(--font-display);
+  color: var(--text);
+}
+
+/* primer cards and the teacher band read at the same size */
+.primer-card h3,
+.how-card h3 {
+  font-size: 21px;
+  white-space: normal;
+}
+
+.primer-card p,
+.how-card p,
+.teacher-band li,
+.teacher-band p {
+  font-size: 16.5px;
+  line-height: 1.65;
+}
+
+.hero p,
+.hero .lede {
+  font-size: 19px;
+}
+
+/* lesson pages: larger reading text and labels */
+.step-now .step-title {
+  font-size: 20px;
+  white-space: normal;
+}
+
+.step-now .step-text,
+.step-text {
+  font-size: 16.5px;
+  line-height: 1.7;
+}
+
+.card-head h2 {
+  font-size: 17px;
+}
+
+.try-card label,
+.try-card .control-label,
+.try-card h3 {
+  font-size: 15px;
+}
+
+.check-head h2 {
+  font-size: 19px;
+}
+
+.quiz-option,
+.quiz-option span,
+.check-panel .quiz p {
+  font-size: 15.5px;
+}
+
+/* topics page cards */
+.topic-card h4 {
+  font-size: 18px;
+}
+
+.topic-card p {
+  font-size: 15.5px;
+}
+
+@media (max-width: 1080px) {
+  .track-row {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 24px;
+  }
+
+  .track-side {
+    grid-column: 2;
+    grid-template-columns: auto 1fr 1fr;
+    align-items: center;
+  }
+
+  .track-count {
+    margin: 0;
+  }
+
+  .track-count b {
+    display: inline;
+    font-size: 26px;
+    margin-right: 4px;
+  }
+}
+
+@media (max-width: 640px) {
+  .track-row {
+    grid-template-columns: 1fr;
+    padding: 22px 20px;
+  }
+
+  .track-num {
+    font-size: 26px;
+  }
+
+  .track-side {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+  }
+
+  .track-main h3 {
+    font-size: 23px;
+  }
+
+  .track-main > p,
+  .section-head p {
+    font-size: 16.5px;
+  }
+}
+
+/* navigation at reading size */
+.nav-links a,
+.nav-links button,
+.nav-topics {
+  font-size: 15.5px;
+}
+
+.brand {
+  font-size: 18.5px;
+}
+
+.theme-switch button {
+  font-size: 14px;
+}
+
+/* wide screens get more room; small captions read at 14px */
+:root {
+  --maxw: 1440px;
+}
+
+.stat span,
+.readout-grid .stat span {
+  font-size: 14px;
+}
+
+.stat b {
+  font-size: 22px;
+}
+
+.step-dot,
+.step-arrow {
+  width: 30px;
+  height: 30px;
+  font-size: 12.5px;
+}
+
+.step-outline > summary,
+.guide-nav .count {
+  font-size: 14px;
+}

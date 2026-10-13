@@ -1,8 +1,8 @@
 // Small canvas chart helpers: line chart, space-time heatmap, bar chart.
 // Colors come from CSS custom properties so charts follow the page's light/dark theme.
 
-export const FONT = '12px Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
-export const MONO = '11px "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace';
+export const FONT = '13px Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+export const MONO = '12px "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace';
 
 function hexToRgb(hex) {
   let h = hex.replace('#', '');

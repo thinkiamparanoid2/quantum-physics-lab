@@ -1,5 +1,5 @@
 import { rotateVector, rotationOf } from './lib/bloch.js';
-import { SECTIONS, TOPICS, topicsIn, usedSections, usedTracks } from './lib/catalog.js';
+import { SECTIONS, TOPICS, topicsIn, usedTracks } from './lib/catalog.js';
 import { GATES, rx, ry } from './lib/circuit.js';
 import { BlochView } from './ui/bloch.js';
 import { href, mountShell } from './ui/shell.js';
@@ -7,39 +7,32 @@ import { href, mountShell } from './ui/shell.js';
 mountShell();
 
 const live = (t) => t.status === 'live';
-const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
 function renderTracks() {
   document.getElementById('track-list').innerHTML = usedTracks()
-    .map((tr) => {
+    .map((tr, i) => {
       const sections = tr.sections.map((id) => SECTIONS.find((s) => s.id === id)).filter((s) => topicsIn(s.id).length);
       const lessons = sections.flatMap((s) => topicsIn(s.id)).filter(live);
       const first = lessons[0];
-      const chips = sections.map((s) => `<li><span class="ket">${s.ket}</span>${s.title}</li>`).join('');
-      return `<article class="panel track-card">
-        <h3>${tr.title}</h3>
-        <p>${tr.blurb}</p>
-        <ul class="track-sections">${chips}</ul>
-        <div class="track-foot">
-          <span class="muted">${plural(lessons.length, 'lesson')}</span>
-          <a class="btn" href="topics/#track=${tr.id}">See all</a>
-          ${first ? `<a class="btn btn-primary" href="${href(first.slug)}">Start</a>` : ''}
+      const chips = sections.map((s) => `<li><a href="topics/#section=${s.id}">${s.title}</a></li>`).join('');
+      return `<article class="panel track-row">
+        <span class="track-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+        <div class="track-main">
+          <h3>${tr.title}</h3>
+          <p>${tr.blurb}</p>
+          <ul class="track-chips" aria-label="Sections in ${tr.title}">${chips}</ul>
+        </div>
+        <div class="track-side">
+          <p class="track-count"><b>${lessons.length}</b> ${lessons.length === 1 ? 'lesson' : 'lessons'}</p>
+          ${first ? `<a class="btn btn-primary" href="${href(first.slug)}">Start with lesson 1</a>` : ''}
+          <a class="btn" href="topics/#track=${tr.id}">Browse the track</a>
         </div>
       </article>`;
     })
     .join('');
 }
 
-function renderSections() {
-  document.getElementById('path-list').innerHTML = usedSections()
-    .map((s) => {
-      const n = topicsIn(s.id).filter(live).length;
-      return `<a class="panel section-tile" href="topics/#section=${s.id}">
-        <span class="ket">${s.ket}</span><span class="section-tile-title">${s.title}</span>
-        <span class="muted">${plural(n, s.id === 'tools' ? 'tool' : 'lesson')}</span>
-      </a>`;
-    })
-    .join('');
+function renderStats() {
   const lessons = TOPICS.filter(live);
   document.getElementById('live-count').textContent = String(lessons.length);
   const first = lessons.find((t) => t.section !== 'tools') ?? lessons[0];
@@ -129,5 +122,5 @@ function animateHero() {
 }
 
 renderTracks();
-renderSections();
+renderStats();
 animateHero();
