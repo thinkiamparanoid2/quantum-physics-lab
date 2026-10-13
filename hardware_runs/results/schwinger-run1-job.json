@@ -1,0 +1,133 @@
+{
+ "experiment": "schwinger",
+ "job_id": "db6ncpclf4us73c5kmqg",
+ "device": "ibm_kingston",
+ "layout": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "circuits": 23,
+ "max_two_qubit_gates": 474,
+ "max_depth": 789,
+ "shots": 4000,
+ "meta": [
+  {
+   "kind": "schwinger",
+   "t": 0.0,
+   "scale": 1
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.0,
+   "scale": 2
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.0,
+   "scale": 3
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.25,
+   "scale": 1
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.25,
+   "scale": 2
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.25,
+   "scale": 3
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.5,
+   "scale": 1
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.5,
+   "scale": 2
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.5,
+   "scale": 3
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.75,
+   "scale": 1
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.75,
+   "scale": 2
+  },
+  {
+   "kind": "schwinger",
+   "t": 0.75,
+   "scale": 3
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.0,
+   "scale": 1
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.0,
+   "scale": 2
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.0,
+   "scale": 3
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.25,
+   "scale": 1
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.25,
+   "scale": 2
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.25,
+   "scale": 3
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.5,
+   "scale": 1
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.5,
+   "scale": 2
+  },
+  {
+   "kind": "schwinger",
+   "t": 1.5,
+   "scale": 3
+  },
+  {
+   "kind": "readout",
+   "prepared": 0,
+   "scale": 1
+  },
+  {
+   "kind": "readout",
+   "prepared": 1,
+   "scale": 1
+  }
+ ],
+ "submitted": "2026-10-13T00:08:06.139341+00:00"
+}

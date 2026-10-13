@@ -3,6 +3,7 @@ import { zExpectations } from '../lib/manybody.js';
 import { observables, schwingerModel } from '../lib/schwinger.js';
 import { withAlpha } from '../ui/bloch.js';
 import { FONT, MONO, prep, xAxis } from '../ui/charts.js';
+import { drawHardware, hardwareLegend, hardwareTitle } from '../ui/hardware-card.js';
 import { fmt, runLesson } from '../ui/lesson-kit.js';
 
 // The lattice Schwinger model: pair creation after a quench from the bare vacuum, the experiment of
@@ -216,6 +217,13 @@ const STEPS = [
       <p>One correction came out of this review: an earlier version of this site and of the Python lab had the signs of the mass and charge terms flipped (Martinez et al. number sites from 1, here from 0), so the "vacuum" was the most excited bare state. The tests now check that the bare vacuum is the flux-free ground state at x = 0.</p>`,
   },
   {
+    title: 'On a real quantum computer',
+    preset: { N: 4, mass: 0.5, g: 0.6, eps: 0, T: 6 },
+    focus: ['Measured on ibm_kingston'],
+    html: `<p>This site ran the 4-site quench on IBM's <b>ibm_kingston</b>, a 156-qubit superconducting processor, the same experiment Martinez et al. did with trapped ions. Each point is 4000 shots of a Trotter circuit with up to 158 two-qubit gates.</p>
+      <p>Raw counts are corrected in two stages: readout errors are calibrated and inverted, then the gate noise is amplified on purpose (each CZ replaced by CZ·CZ·CZ) and extrapolated back to zero. Up to t = 1, where pair creation peaks, the hardware agrees with the exact answer within its error bars. Beyond that the circuits are too deep, and the noise has pushed the state close to fully scrambled. Raw data, code and job ids are in the repository's <code>hardware_runs/</code>.</p>`,
+  },
+  {
     title: 'Your turn',
     preset: { N: 8, mass: 0.5, g: 0.6, eps: 0, T: 10 },
     html: `<p>Change the mass, the coupling and the background field. When does the field get screened completely? What does a larger coupling g do to the oscillations?</p>`,
@@ -234,6 +242,7 @@ runLesson({
   ],
   cards: [
     { id: 'lattice', title: 'The lattice', legend: 'pink = electron sites · blue = positron sites · bars = electric field', height: 300 },
+    { id: 'hardware', title: hardwareTitle, legend: hardwareLegend, kind: 'html', folded: true },
     { id: 'curves', title: 'Particles and the vacuum over time', legend: 'exact statevector evolution, hopping x = 1', height: 260 },
   ],
   steps: STEPS,
@@ -242,5 +251,6 @@ runLesson({
   draw(api) {
     drawLattice(api);
     drawCurves(api);
+    drawHardware(api.el('hardware'), 'schwinger', api.theme);
   },
 });

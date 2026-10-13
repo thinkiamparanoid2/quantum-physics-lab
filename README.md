@@ -15,7 +15,8 @@ built for students learning quantum mechanics and computing, and for teachers ex
 [![Live site](https://img.shields.io/badge/live-quantum--physics--lab.vercel.app-2ee6f5)](https://quantum-physics-lab.vercel.app)
 [![MIT license](https://img.shields.io/badge/license-MIT-8b7bff)](LICENSE)
 ![Topics](https://img.shields.io/badge/interactive_topics-84-8b7bff)
-![Physics checks](https://img.shields.io/badge/physics_checks-202-2ee6f5)
+![Physics checks](https://img.shields.io/badge/physics_checks-214-2ee6f5)
+![Real hardware](https://img.shields.io/badge/run_on-IBM_Quantum-8b7bff)
 
 <img src="docs/screenshots/home.png" alt="Landing page: 'Quantum physics, made visible.' beside a Bloch sphere rotating under a Hadamard gate" width="900">
 
@@ -164,7 +165,7 @@ notes (goals, prerequisites, common misconceptions) and a short self-check quiz.
 ## Is it right?
 
 Every simulation is either exact (statevectors, density matrices, exact diagonalisation) or checked
-against an independent method, and **202 automated tests** say how. The
+against an independent method, and **204 web tests and 10 Python tests** say how. The
 [checks page](https://quantum-physics-lab.vercel.app/checks/) lists every one. Some highlights:
 
 - **Against other frameworks.** Surface-code matching weights and logical error rates equal **PyMatching**'s, with perfect and with noisy measurements. Classifier outputs and parameter-shift gradients, Fourier coefficients, the ZZ feature-map kernel, the H₂ Hamiltonians and QAOA values equal **PennyLane**'s. The Hamiltonian engine equals **Qiskit** and numpy.
@@ -191,8 +192,8 @@ python -m http.server 8765 --directory web
 Then open <http://localhost:8765>. (ES modules don't load from `file://`, hence the tiny server.)
 
 ```bash
-cd web && npm test                          # 202 web tests, Node 20+, no dependencies
-pip install -r requirements.txt && pytest   # 8 Python tests
+cd web && npm test                          # 204 web tests, Node 20+, no dependencies
+pip install -r requirements.txt && pytest   # 10 Python tests
 ```
 
 ## Deploy it
@@ -209,7 +210,15 @@ the preset to "Other", leave the build command empty, and deploy.
 Alongside the website, `engine/` and `modules/` hold Qiskit and PennyLane simulations validated against
 exact diagonalization. The first module simulates **pair production from the vacuum** in the lattice
 [Schwinger model](modules/schwinger_model/README.md) (1+1D quantum electrodynamics), with a real-time
-PennyLane animation. Real-hardware runs on IBM Quantum are planned under `hardware_runs/`.
+PennyLane animation.
+
+**On real quantum hardware.** [`hardware_runs/`](hardware_runs/README.md) holds three experiments run
+on IBM's 156-qubit **ibm_kingston**: a Bell test (S = 2.754 ± 0.023, classical limit 2),
+randomized benchmarking (error per Clifford 1.7 × 10⁻⁴), and Schwinger-model pair production with
+readout mitigation and zero-noise extrapolation, matching the exact curve within errors up to
+t = 1. Raw counts, job ids and analysis code are included, and the results appear on the
+[Bell test](web/bell-test/), [Schwinger](web/schwinger/) and
+[randomized benchmarking](web/randomized-benchmarking/) lessons.
 
 ## Project layout
 
@@ -223,6 +232,7 @@ quantum-physics-lab/
 │   ├── tools/            page generator and catalog status script
 │   └── tests/            Node tests + Python reference generator
 ├── engine/, modules/     Python lab (Qiskit, PennyLane)
+├── hardware_runs/        experiments on IBM Quantum hardware: code, raw counts, analysis, plots
 ├── tests/                Python tests
 ├── docs/                 roadmap, progress tracker, curriculum research, screenshots
 └── PROJECT.md            full handoff: architecture, conventions, how everything is checked
@@ -239,7 +249,7 @@ done: a polish and teaching layer, quantum information, the rest of the quantum-
 error correction, quantum machine learning, quantum fields on a lattice, and algorithms and
 hardware. Still open:
 
-- Real-hardware runs on IBM Quantum (they need an IBM Quantum account and credentials)
+- More hardware experiments: two-qubit benchmarking, longer Schwinger chains with better error mitigation
 - Two-qubit gates and crosstalk in the hardware track; lattice gauge theories in two dimensions
 
 ## Contributing

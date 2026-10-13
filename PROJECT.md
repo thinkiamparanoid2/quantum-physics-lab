@@ -361,8 +361,12 @@ in Qiskit and PennyLane; one checks that the bare vacuum is the flux-free ground
   PennyLane, `run.py`, `animate.py` (PennyLane animation), plots in `plots/`.
 - `modules/README.md` defines the module convention (README with physics, Hamiltonian, validation,
   hardware run, limitations).
-- Real-hardware runs on IBM Quantum were planned under `hardware_runs/` (not created yet;
-  credentials files are git-ignored). The website's Hamiltonian Playground grew out of this lab.
+- `hardware_runs/`: experiments on IBM Quantum hardware (ibm_kingston, October 2026): CHSH,
+  single-qubit randomized benchmarking, and Schwinger pair production with readout mitigation and
+  zero-noise extrapolation. `run.py` simulates (Aer with the device noise model) or submits and
+  fetches; `analyze.py`, `plot.py` and `export_web.py` turn raw counts into results, plots and
+  `web/lib/hardware-data.js`. The IBM key lives only in the user's `~/.qiskit/`. The website's
+  Hamiltonian Playground grew out of this lab.
 
 ---
 
@@ -383,7 +387,6 @@ Content still open (from `docs/curriculum.md`):
 - angular-momentum operators, ladder algebra, addition of angular momenta
 - time-dependent perturbation theory, Fermi's golden rule, the adiabatic theorem
 - finite-temperature Fermi–Dirac and Bose–Einstein statistics
-- real-hardware runs of the Python lab
 
 Ideas that would help teachers further: printable worksheets per lesson, a teacher's page with
 learning goals per lesson, translations, and accessibility review (keyboard use of canvases,
