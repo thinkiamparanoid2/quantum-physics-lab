@@ -3,6 +3,7 @@ import { percent } from '../lib/format.js';
 import { chshS, classicalStrategies, correlation, gameWin, quantumRound } from '../lib/noise.js';
 import { withAlpha } from '../ui/bloch.js';
 import { FONT, MONO, prep, theme, xAxis, yAxis } from '../ui/charts.js';
+import { drawHardware, hardwareCardHtml } from '../ui/hardware-card.js';
 import { mountLesson } from '../ui/lesson.js';
 
 // The CHSH game. A referee sends random bits x to Alice and y to Bob; they answer a and b without
@@ -49,6 +50,7 @@ const STEPS = [
     title: 'Done for real',
     preset: { mode: 'quantum', angles: BEST, play: 4000 },
     html: `<p>Clauser (1972) and Aspect (1982) ran this test with entangled photons and found S &gt; 2. In 2015 three groups closed the remaining loopholes (Delft, Vienna and NIST), and the 2022 Nobel Prize went to Aspect, Clauser and Zeilinger.</p>
+      <p>This site ran it too, on two superconducting qubits of IBM's ibm_kingston: <b>S = 2.754 ± 0.023</b>, well above 2 (card at the bottom). A chip is not a loophole-free test, since the qubits sit millimetres apart, but it shows the correlations are real and close to the quantum maximum.</p>
       <p>The conclusion: nature cannot be described by particles carrying local hidden instructions.</p>`,
   },
   {
@@ -84,7 +86,8 @@ stage.insertAdjacentHTML(
   <figure class="panel card">
     <figcaption class="card-head"><h2>Correlations</h2><span class="legend">E = P(same) − P(different), for each question pair</span></figcaption>
     <div id="table"></div>
-  </figure>`,
+  </figure>
+  ${hardwareCardHtml('hardware')}`,
 );
 
 document.getElementById('try-slot').innerHTML = `
@@ -308,6 +311,7 @@ function render() {
   drawRate(th);
   drawAngles(th);
   drawTable();
+  drawHardware(document.getElementById('hardware'), 'chsh', th);
   const S = settings.mode === 'quantum' ? chshS(radians()) : sClassical();
   const ctx = { ...settings, S, marginal: history.length ? aliceZeros / history.length : 0.5, win: settings.mode === 'quantum' ? gameWin(radians()) : 0.75 };
   lesson.render(

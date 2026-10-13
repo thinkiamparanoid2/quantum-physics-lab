@@ -1,6 +1,7 @@
 import { cliffords, fitDecay, NOISE, runRB, twirledF } from '../lib/rb.js';
 import { withAlpha } from '../ui/bloch.js';
 import { FONT, MONO, prep } from '../ui/charts.js';
+import { drawHardware, hardwareLegend, hardwareTitle } from '../ui/hardware-card.js';
 import { fmt, runLesson } from '../ui/lesson-kit.js';
 
 // Single-qubit randomized benchmarking on density matrices (lib/rb.js): random Clifford sequences
@@ -135,6 +136,13 @@ const STEPS = [
     html: `<p>Energy relaxation (amplitude damping) is not unital, so B moves away from ½, but the fitted f still matches the exact twirl. Today's best single-qubit gates reach errors per Clifford around 10⁻⁴. Caveats: gate-dependent noise and leakage make the interpretation subtler (Proctor et al. 2017), and two-qubit RB needs the much larger two-qubit Clifford group.</p>`,
   },
   {
+    title: 'A real qubit',
+    preset: { noise: 'depolarizing', strength: 0.005, samples: 100, spam: false, seed: 1 },
+    focus: ['Measured on ibm_kingston'],
+    html: `<p>The same protocol, run by this site on qubit 48 of IBM's <b>ibm_kingston</b>: sequences up to 3500 Cliffords long, eight random sequences per length. The decay gives an error per Clifford of about 1.7 × 10⁻⁴, an average gate fidelity of 99.98%.</p>
+      <p>Note how long the sequences had to be: at 600 Cliffords the qubit still returned to |0⟩ 91% of the time, too little decay to separate f from the baseline B. Good qubits need long experiments.</p>`,
+  },
+  {
     title: 'Your turn',
     preset: { noise: 'depolarizing', strength: 0.01, samples: 30, spam: true, seed: 2 },
     html: `<p>With only 30 sequences per length, how far is the fit from the exact value? Change the seed to see the scatter, then increase the number of sequences.</p>`,
@@ -155,6 +163,7 @@ runLesson({
     { id: 'sequence', title: 'A random sequence', kind: 'html' },
     { id: 'decay', title: 'Survival against sequence length', height: 290 },
     { id: 'readout', title: 'Numbers', kind: 'html' },
+    { id: 'hardware', title: hardwareTitle, legend: hardwareLegend, kind: 'html', folded: true },
   ],
   steps: STEPS,
   compute,
@@ -162,5 +171,6 @@ runLesson({
     sequenceHtml(api);
     drawDecay(api);
     readout(api);
+    drawHardware(api.el('hardware'), 'rb', api.theme);
   },
 });

@@ -1,0 +1,47 @@
+{
+ "experiment": "rb",
+ "source": "Aer with ibm_kingston noise model",
+ "device_layout": [
+  0
+ ],
+ "shots": 500,
+ "quantum_seconds": null,
+ "calibration": null,
+ "job_id": null,
+ "points": [
+  {
+   "m": 1,
+   "survival": 0.9854999999999999,
+   "sem": 0.0018027756377319959
+  },
+  {
+   "m": 25,
+   "survival": 0.9835,
+   "sem": 0.001762708954179011
+  },
+  {
+   "m": 75,
+   "survival": 0.97075,
+   "sem": 0.002476676921083689
+  },
+  {
+   "m": 150,
+   "survival": 0.9585,
+   "sem": 0.003087995188745329
+  },
+  {
+   "m": 300,
+   "survival": 0.9275,
+   "sem": 0.0049821108549919346
+  },
+  {
+   "m": 600,
+   "survival": 0.878,
+   "sem": 0.006023762469230866
+  }
+ ],
+ "f": 0.999534,
+ "A": 0.4480066753447797,
+ "B": 0.5390855262285935,
+ "error_per_clifford": 0.00023299999999998322
+}
