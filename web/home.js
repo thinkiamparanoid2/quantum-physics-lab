@@ -33,17 +33,11 @@ function renderTracks() {
 function renderSections() {
   document.getElementById('path-list').innerHTML = usedSections()
     .map((s) => {
-      const items = topicsIn(s.id)
-        .map((t) =>
-          live(t)
-            ? `<li><a href="${href(t.slug)}">${t.title}</a></li>`
-            : `<li class="soon">${t.title} <span class="tag">Soon</span></li>`,
-        )
-        .join('');
-      return `<article class="panel section-tile">
-        <div class="section-tile-head"><span class="ket">${s.ket}</span><h3>${s.title}</h3></div>
-        <ol>${items}</ol>
-      </article>`;
+      const n = topicsIn(s.id).filter(live).length;
+      return `<a class="panel section-tile" href="topics/#section=${s.id}">
+        <span class="ket">${s.ket}</span><span class="section-tile-title">${s.title}</span>
+        <span class="muted">${plural(n, s.id === 'tools' ? 'tool' : 'lesson')}</span>
+      </a>`;
     })
     .join('');
   const lessons = TOPICS.filter(live);

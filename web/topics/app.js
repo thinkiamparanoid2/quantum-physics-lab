@@ -5,13 +5,14 @@ mountShell();
 
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 const $ = (id) => document.getElementById(id);
-const state = { q: '', track: 'all', level: 'all' };
+const state = { q: '', track: 'all', level: 'all', section: null };
 
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
   state.q = p.get('q') ?? '';
   state.track = TRACKS.some((t) => t.id === p.get('track')) ? p.get('track') : 'all';
   state.level = LEVELS.includes(p.get('level')) ? p.get('level') : 'all';
+  state.section = usedSections().some((s) => s.id === p.get('section')) ? p.get('section') : null;
 }
 
 function writeHash() {
@@ -19,6 +20,7 @@ function writeHash() {
   if (state.q) p.set('q', state.q);
   if (state.track !== 'all') p.set('track', state.track);
   if (state.level !== 'all') p.set('level', state.level);
+  if (state.section) p.set('section', state.section);
   history.replaceState(null, '', p.toString() ? `#${p}` : location.pathname);
 }
 
@@ -38,6 +40,7 @@ function card(t, index) {
 }
 
 const matches = (t) => {
+  if (state.section && t.section !== state.section) return false;
   if (state.level !== 'all' && t.level !== state.level) return false;
   if (state.track !== 'all' && trackOf(t.section)?.id !== state.track) return false;
   const q = state.q.trim().toLowerCase();
@@ -60,7 +63,8 @@ function render() {
       </div>`;
     })
     .join('');
-  $('topic-results').innerHTML = shown ? html : '<p class="topics-empty">No topic matches. Try another word or clear the filters.</p>';
+  const only = state.section ? `<p class="section-filter">Showing one section. <button type="button" class="link-button" data-clear-section>Show all sections</button></p>` : '';
+  $('topic-results').innerHTML = only + (shown ? html : '<p class="topics-empty">No topic matches. Try another word or clear the filters.</p>');
   writeHash();
 }
 
@@ -73,6 +77,11 @@ document.querySelector('.topics-tools').addEventListener('click', (e) => {
   if (!b) return;
   if (b.dataset.track) state.track = b.dataset.track;
   if (b.dataset.level) state.level = b.dataset.level;
+  render();
+});
+$('topic-results').addEventListener('click', (e) => {
+  if (!e.target.closest('[data-clear-section]')) return;
+  state.section = null;
   render();
 });
 window.addEventListener('hashchange', () => {
