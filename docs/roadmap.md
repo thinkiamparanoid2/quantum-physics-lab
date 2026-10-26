@@ -69,17 +69,28 @@ the sandbox and the playground at 1440 px.
    content, which would not have scaled to the 80+ topics planned below. The home page now
    shows five track rows, each carrying its sections and its lesson count, with per-topic
    browsing moved to `topics/`.
-2. **Lesson stages are tall stacks of equal cards.** Teleportation step 5 stacks circuit, state,
+2. **Lesson stages were tall stacks of equal cards — resolved 2026-10-13.** Teleportation step 5 stacks circuit, state,
    three 250 px Bloch spheres and two more spheres. The step text sits in a narrow left column,
    and the visual it describes is often a screen away. On a phone this becomes a very long scroll.
-3. **Everything is visible at once.** Each card has a legend, a hint and small mono labels.
+3. **Everything is visible at once — partly addressed 2026-10-13.** Each card has a legend, a hint and small mono labels.
    That is fine for an expert, but noisy for a student and hard to read on a projector.
-4. **Small visual bugs:**
+4. **Small visual bugs — all three fixed.**
    - On Shor's code, the threshold chart's curve labels overlap ("3 qubits", "9 qubits" and so on
      print on top of each other).
    - In the sandbox, the Bloch note "no direction of its own" collides with the |1⟩ label.
    - Teleportation step 5 says "Fidelity 100%. Not the message yet." whenever Alice measures 00.
      The note checks the step, not the fidelity (`web/teleportation/app.js`, `comparison`).
+
+**What changed.** The lesson panel now shows one step at a time with numbered dots and
+previous/next arrows, the step text runs full width above the visuals instead of in a narrow
+column, and every panel folds, so diagnosis 2 is closed. Diagnosis 3 is only half closed: the
+quiz folds into a single bar until opened and card legends are hidden on phones, but on a desktop
+every legend and hint is still shown by default. The three bugs are gone — the threshold
+chart places each curve's label at its own height with a halo stroke, `BlochView` reserves a strip
+at the bottom so the note cannot sit on the |1⟩ label, and the fidelity note now branches on
+the fidelity itself, naming the outcome-00 case where Bob already holds the message.
+
+*Re-checked against the live site on 2026-10-26.*
 
 ### Design direction: one idea, one main visual
 
