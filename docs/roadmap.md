@@ -4,6 +4,12 @@ Written 2026-10-12. This roadmap builds on [`curriculum.md`](curriculum.md), who
 It covers three things: what the research says is still missing, how to fix the cluttered UI, and
 how to sequence the work so the site earns attention from instructors and professors.
 
+> **Status note, 2026-10-26.** Written when the site had 39 lessons; the catalog now holds 84,
+> all live, which is the "80+ topics planned below" this document anticipated. The home-page
+> redesign it asks for landed on 2026-10-13, so diagnosis 1 in section 2 is resolved and is
+> marked as such. The remaining diagnoses have not been re-checked against the current site, so
+> read them as the state on 2026-10-12 rather than as today's.
+
 ---
 
 ## 1. Where the site stands
@@ -58,9 +64,11 @@ the sandbox and the playground at 1440 px.
 
 ### Diagnosis
 
-1. **The home page is one 39-card wall.** Every section gets the same weight, rows of four
-   leave single orphan cards, and three explainer blocks come before the content. This will not
-   scale to the 80+ topics planned below.
+1. **The home page was one 39-card wall — resolved 2026-10-13.** Every section got the same
+   weight, rows of four left single orphan cards, and three explainer blocks came before the
+   content, which would not have scaled to the 80+ topics planned below. The home page now
+   shows five track rows, each carrying its sections and its lesson count, with per-topic
+   browsing moved to `topics/`.
 2. **Lesson stages are tall stacks of equal cards.** Teleportation step 5 stacks circuit, state,
    three 250 px Bloch spheres and two more spheres. The step text sits in a narrow left column,
    and the visual it describes is often a screen away. On a phone this becomes a very long scroll.
